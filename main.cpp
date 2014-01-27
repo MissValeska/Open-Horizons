@@ -1,7 +1,7 @@
 #include <irrlicht.h>
 #include <cstdlib>
-#include "ExperimentalGame/inisetup.hpp"
-#include "ExperimentalGame/bimap.hpp" // http://collabedit.com/sn782
+#include "inisetup.hpp"
+#include "bimap.hpp" // http://collabedit.com/sn782
 //#include "ExperimentalGame/keybinds.hpp"
 
 using namespace std;
@@ -83,10 +83,15 @@ void displaysoftwareselect() {
     cout << "y axis:";
     cin >> screenheight;
 
-    inisetup::IniSetup ini("config.ini");
-    screenwidth = ini.set_number("screenwidth", screenwidth);
+    std::string sohaiyush;
+
+    //cin >> sohaiyush;
+
+    //inisetup::IniSetup ini("config.ini");
+    //sohaiyush = ini.set_string("herropeoplez", sohaiyush);
+    /*screenwidth = ini.set_number("screenwidth", screenwidth);
     screenheight = ini.set_number("screenheight", screenheight);
-    displaysoftwarestring = ini.set_string("displayrender", displaysoftwarestring);
+    displaysoftwarestring = ini.set_string("displayrender", displaysoftwarestring);*/
 }
 
 void optionsselect(){
@@ -120,11 +125,6 @@ int main(int argc, char ** argv) // The options here define an argument count ap
                 fullscreendefine, shadowsdefine, vsyncdefine, 0);
     if (!device ) return 1;
 
-     //This defines a string of text to be the window caption, The Irrlicht engine apparently uses
-    //something called "wide character strings" when displaying text by the way.
-    device->setWindowCaption(L"Yet to be Named Game - Irrlicht Engine");
-    if (!device ) return 1;
-
     //Get the Scene Manager from the device.
     ISceneManager * smgr = device->getSceneManager();
     if (!smgr) return 1;
@@ -134,16 +134,26 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     if (!driver) return 1;
 
     //Add a Cube to the Scene.
-    ISceneNode * node = smgr->addCubeSceneNode();
+    ISceneNode * n = smgr->addCubeSceneNode();
+
+        //An animated cube.
+
+    if (n)
+    {
+    //Add texture to the cube.
+    n->setMaterialTexture(0,driver->getTexture("/home/missvaleska/IMG_1457.JPG"));
 
     //Needed to make the object's texture visible without a light source.
-    node->setMaterialFlag(EMF_LIGHTING, false);
-
-    //Add texture to the cube.
-    node->setMaterialTexture(0,driver->getTexture("/home/missvaleska/IMG_1457.JPG"));
-
-    //Set cube 100 units further in forward direction (Z axis).
-    node->setPosition(vector3df(0,0,100));
+    n->setMaterialFlag(EMF_LIGHTING, false);
+        //Set cube 100 units further in forward direction (Z axis).
+        scene::ISceneNodeAnimator* anim =
+            smgr->createFlyCircleAnimator(core::vector3df(0,0,100), 20.0f);
+        if (anim)
+        {
+            n->addAnimator(anim);
+            anim->drop();
+        }
+    }
 
     //Currently non-functional test of the animation/rendering capabilities of irrlicht
     //from here http://irrlicht.sourceforge.net/docu/example001.html
@@ -160,9 +170,16 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     //Add FPS Camera to allow movement using Keyboard and Mouse.
     smgr->addCameraSceneNodeFPS();
 
+    //Changes cursor visibility.
+    device->getCursorControl()->setVisible(false);
+
     //Run simulation
     while(device->run())
     {
+
+        if(receiver.IsKeyDown(irr::KEY_KEY_W))
+            break;
+
         //Begin Scene with a gray backdrop #rgb(125,125,125)
         driver->beginScene(true,true,SColor(0,125,125,125));
 
@@ -173,6 +190,20 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         driver->endScene();
 
         //Logic to update the scene will go here.
+
+        int fps = driver->getFPS();
+        {
+    //This defines a string of text to be the window caption, The Irrlicht engine apparently uses
+    //something called "wide character strings" when displaying text by the way.
+    core::stringw str = L"Yet to be Named Game - Irrlicht Engine [";
+
+        str += driver->getName();
+        str += "] FPS:";
+        str += fps;
+        device->setWindowCaption(str.c_str());
+    if (!device ) return 1;
+        }
     }
+    device->drop();
     return 0;
 }
