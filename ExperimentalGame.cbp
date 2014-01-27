@@ -44,10 +44,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="../IrrlichtPromisingStuff.cpp" />
-		<Unit filename="bimap.hpp" />
-		<Unit filename="inisetup.hpp" />
-		<Unit filename="keybinds.hpp" />
+		<Unit filename="Yet-to-be-Named/bimap.hpp" />
+		<Unit filename="Yet-to-be-Named/inisetup.hpp" />
+		<Unit filename="Yet-to-be-Named/main.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
