@@ -39,10 +39,6 @@ irr::video::E_DRIVER_TYPE displaysoftware; //This defines a string basically (It
 //Some kind of complicated go to this function, run this, then return, and please don't fail.
 void optionalconfig() {
 
-    IrrDriversBimap drivers;
-    displaysoftware = drivers.from[displaysoftwarestring];
-    displaysoftwarestring = drivers.to[displaysoftware];
-
     inisetup::IniSetup ini("config.ini");
 
     screenwidth = ini.get_number("screenwidth");
@@ -50,6 +46,9 @@ void optionalconfig() {
     displaysoftwarestring = ini.get_string("displayrender");
 // this gets back the value from the config file and saves to a variable
 
+        IrrDriversBimap drivers;
+    displaysoftware = drivers.from[displaysoftwarestring];
+    displaysoftwarestring = drivers.to[displaysoftware];
 
 }
 
@@ -87,6 +86,10 @@ void displaysoftwareselect() {
     inisetup::IniSetup ini("config.ini");
     ini.set_number("screenwidth", screenwidth);
     ini.set_number("screenheight", screenheight);
+
+        IrrDriversBimap drivers;
+    displaysoftwarestring = drivers.to[displaysoftware];
+
     ini.set_string("displayrender", displaysoftwarestring);
 }
 
@@ -153,7 +156,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
     //Currently non-functional test of the animation/rendering capabilities of irrlicht
     //from here http://irrlicht.sourceforge.net/docu/example001.html
-    IAnimatedMesh* mesh = smgr->getMesh("/home/missvaleska/Documents/Blender/testcubeforirrlicht.x");
+    /*IAnimatedMesh* mesh = smgr->getMesh("/home/missvaleska/Documents/Blender/sun.obj");
     if (!mesh)
     {
         device->drop();
@@ -162,6 +165,18 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     IAnimatedMeshSceneNode* nodestuff = smgr->addAnimatedMeshSceneNode( mesh );
 
     nodestuff->setPosition(vector3df(0,10,100));
+
+    nodestuff->setMaterialFlag(video::EMF_LIGHTING, false);
+
+    irr::scene::ISceneManager::addLightSceneNode(
+
+		nodestuff,
+
+		core::vector3df(0,0,0),
+
+		video::SColorf(1.0f, 0.5f, 1.0f),
+
+		800.0f);*/
 
     //Add FPS Camera to allow movement using Keyboard and Mouse.
     smgr->addCameraSceneNodeFPS();
@@ -173,8 +188,8 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     while(device->run())
     {
 
-        if(receiver.IsKeyDown(irr::KEY_KEY_W))
-            break;
+      //  if(receiver.IsKeyDown(irr::KEY_KEY_W))
+         //   break;
 
         //Begin Scene with a gray backdrop #rgb(125,125,125)
         driver->beginScene(true,true,SColor(0,125,125,125));
