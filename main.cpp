@@ -83,10 +83,11 @@ void displaysoftwareselect() {
     cout << "y axis:";
     cin >> screenheight;
 
+    // Save configuration
     inisetup::IniSetup ini("config.ini");
-    screenwidth = ini.set_number("screenwidth", screenwidth);
-    screenheight = ini.set_number("screenheight", screenheight);
-    displaysoftwarestring = ini.set_string("displayrender", displaysoftwarestring);
+    ini.set_number("screenwidth", screenwidth);
+    ini.set_number("screenheight", screenheight);
+    ini.set_string("displayrender", displaysoftwarestring);
 }
 
 void optionsselect(){
