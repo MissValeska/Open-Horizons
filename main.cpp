@@ -3,6 +3,7 @@
 #include "inisetup.hpp"
 #include "bimap.hpp" // http://collabedit.com/sn782
 //#include "ExperimentalGame/keybinds.hpp"
+#include "EventReceiver.hpp"
 
 using namespace std;
 using namespace irr;
@@ -119,18 +120,20 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
   optionsselect();
 
+    EventReceiver receiver;
+
     //Create an Irrlicht Device.
     IrrlichtDevice * device = irr::createDevice(displaysoftware,dimension2d<u32>(screenwidth,screenheight), colourbits,
-                fullscreendefine, shadowsdefine, vsyncdefine, 0);
+                fullscreendefine, shadowsdefine, vsyncdefine, &receiver);
     if (!device ) return 1;
-
-    //Get the Scene Manager from the device.
-    ISceneManager * smgr = device->getSceneManager();
-    if (!smgr) return 1;
 
     //Get the Video Driver from the device.
     IVideoDriver * driver = device->getVideoDriver();
     if (!driver) return 1;
+
+    //Get the Scene Manager from the device.
+    ISceneManager * smgr = device->getSceneManager();
+    if (!smgr) return 1;
 
     //Add a Cube to the Scene.
     ISceneNode * n = smgr->addCubeSceneNode();
@@ -153,6 +156,10 @@ int main(int argc, char ** argv) // The options here define an argument count ap
             anim->drop();
         }
     }
+
+
+    //IAnimatedMesh* irr::scene::ISceneManager::addHillPlaneMesh(nodehill, 10.0f, 10.0f, "/home/missvaleska/Documents/Blender/textures/greenhillsmalljg0.jpg", 5.0f, 2.0f, 2.0f);
+
 
     //Currently non-functional test of the animation/rendering capabilities of irrlicht
     //from here http://irrlicht.sourceforge.net/docu/example001.html
@@ -184,12 +191,15 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     //Changes cursor visibility.
     device->getCursorControl()->setVisible(false);
 
+    // create event handler
+   // PressedKeysMonitor receiver;
+
     //Run simulation
     while(device->run())
     {
 
-      //  if(receiver.IsKeyDown(irr::KEY_KEY_W))
-         //   break;
+        if(receiver.IsKeyDown(irr::KEY_ESCAPE))
+           break;
 
         //Begin Scene with a gray backdrop #rgb(125,125,125)
         driver->beginScene(true,true,SColor(0,125,125,125));

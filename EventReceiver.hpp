@@ -1,8 +1,15 @@
 #ifndef EVENTRECEIVER_HPP_INCLUDED
 #define EVENTRECEIVER_HPP_INCLUDED
 
-class MyEventReceiver : public IEventReceiver
+#include <irrlicht.h>
+#include "driverChoice.h"
+
+using namespace irr;
+
+class EventReceiver : public IEventReceiver
 {
+
+
 public:
     // This is the one method that we have to implement
     virtual bool OnEvent(const SEvent& event)
@@ -20,7 +27,7 @@ public:
         return KeyIsDown[keyCode];
     }
 
-    MyEventReceiver()
+    EventReceiver()
     {
         for (u32 i=0; i<KEY_KEY_CODES_COUNT; ++i)
             KeyIsDown[i] = false;
