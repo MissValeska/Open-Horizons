@@ -1,9 +1,6 @@
 #ifndef DRIVERCHOICE_HPP_INCLUDED
 #define DRIVERCHOICE_HPP_INCLUDED
 #include "inisetup.hpp"
-#include <irrlicht.h>
-
-using namespace std;
 
 int chooseswitchstuff;
 
@@ -156,7 +153,6 @@ void displaysoftwareselect() {
         std::cout <<"\nYour selection is invalid." << std::endl;
     }
  } while(chooseswitchstuff == 0);
-}
         // Save the standard configuration.
     inisetup::IniSetup ini("config.ini");
     ini.set_number("screenwidth", screenwidth);
