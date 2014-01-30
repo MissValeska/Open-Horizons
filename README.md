@@ -1,4 +1,4 @@
-Yet-to-be-Named
+Open-Horizons
 ===============
 
 A game of realism and simulation!
