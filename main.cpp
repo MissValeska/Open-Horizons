@@ -59,15 +59,15 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     }
 
 
-        //scene::IAnimatedMeshSceneNode* nodecharacter = smgr->addAnimatedMeshSceneNode
-        //(smgr->getMesh("Models/ninja.b3d"));
+        scene::IAnimatedMeshSceneNode* anms =
+        smgr->addAnimatedMeshSceneNode(smgr->getMesh("/home/missvaleska/Documents/C++/Games/Our_Game_Project/ExperimentalGame/Open-Horizons/Models/Female_Model_BaseMesh.obj"));
 
-    /*if(mesh2)
-{
-    nodecharacter = smgr->addOctreeSceneNode(mesh2->getMesh(0), 0, 0, 0);
-    //nodecharacter = smgr->addMeshSceneNode(mesh2->getMesh(0));
-    nodecharacter->setMaterialFlag(EMF_LIGHTING,false);
-}*/
+        anms->setPosition(core::vector3df(0,0,120));
+
+
+    anms->setMaterialFlag(EMF_LIGHTING,false);
+  anms->setMaterialFlag(video::EMF_LIGHTING, false);
+    //anms->setMaterialTexture(0, driver->getTexture("../../media/sydney.bmp"))
 
     //IAnimatedMesh* irr::scene::ISceneManager::addHillPlaneMesh(nodehill, 10.0f, 10.0f, "/home/missvaleska/Documents/Blender/textures/greenhillsmalljg0.jpg", 5.0f, 2.0f, 2.0f);
 

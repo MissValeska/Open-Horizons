@@ -26,6 +26,9 @@ void optionalconfig() {
     screenwidth = ini.get_number("screenwidth");
     screenheight = ini.get_number("screenheight");
     displaysoftwarestring = ini.get_string("displayrender");
+    colourbits = ini.get_number("colourbits");
+    shadowsdefine = ini.get_bool("shadows");
+    vsyncdefine = ini.get_bool("vsync");
 // this gets back the value from the config file and saves to a variable
 
         IrrDriversBimap drivers;
