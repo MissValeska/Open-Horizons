@@ -2,7 +2,6 @@
 #define EVENTRECEIVER_HPP_INCLUDED
 
 #include <irrlicht.h>
-#include "driverChoice.h"
 
 using namespace irr;
 

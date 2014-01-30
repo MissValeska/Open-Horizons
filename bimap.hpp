@@ -19,4 +19,16 @@ template <typename X, typename Y> struct Bimap {
     }
   };
 };
+
+// Specialized bimap type (E_DRIVER_TYPE <-> string)
+struct IrrDriversBimap : Bimap<irr::video::E_DRIVER_TYPE, std::string> {
+  IrrDriversBimap() {
+    to[irr::video::E_DRIVER_TYPE::EDT_OPENGL]     = "OpenGL";
+    to[irr::video::E_DRIVER_TYPE::EDT_DIRECT3D9]  = "Direct3D9";
+    to[irr::video::E_DRIVER_TYPE::EDT_DIRECT3D8]  = "Direct3D8";
+    to[irr::video::E_DRIVER_TYPE::EDT_SOFTWARE]   = "Software";
+    update_from_map();
+  };
+};
+
 #endif // BIMAP_HPP_INCLUDED
