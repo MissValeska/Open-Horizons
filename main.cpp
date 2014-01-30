@@ -46,27 +46,29 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
     //Needed to make the object's texture visible without a light source.
     n->setMaterialFlag(EMF_LIGHTING, false);
-        //Set cube 100 units further in forward direction (Z axis).
-        scene::ISceneNodeAnimator* anim =
+
+    n->setPosition(core::vector3df(0,0,100));
+        //Set cube 100 units further in forward direction (Z axis), And animate it.
+        /*scene::ISceneNodeAnimator* anim =
             smgr->createFlyCircleAnimator(core::vector3df(0,0,100), 20.0f);
         if (anim)
         {
             n->addAnimator(anim);
             anim->drop();
-        }
+        }*/
     }
 
 
-        /*IAnimatedMesh* mesh2 = smgr->getMesh("ninja.b3d");
-    ISceneNode* nodecharacter = 0;
+        //scene::IAnimatedMeshSceneNode* nodecharacter = smgr->addAnimatedMeshSceneNode
+        //(smgr->getMesh("Models/ninja.b3d"));
 
-    if(mesh2)
+    /*if(mesh2)
 {
     nodecharacter = smgr->addOctreeSceneNode(mesh2->getMesh(0), 0, 0, 0);
     //nodecharacter = smgr->addMeshSceneNode(mesh2->getMesh(0));
     nodecharacter->setMaterialFlag(EMF_LIGHTING,false);
-}
-*/
+}*/
+
     //IAnimatedMesh* irr::scene::ISceneManager::addHillPlaneMesh(nodehill, 10.0f, 10.0f, "/home/missvaleska/Documents/Blender/textures/greenhillsmalljg0.jpg", 5.0f, 2.0f, 2.0f);
 
 
@@ -94,8 +96,29 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
 		800.0f);*/
 
+             SKeyMap keyMap[8];
+         keyMap[0].Action = EKA_MOVE_FORWARD;
+         keyMap[0].KeyCode = KEY_UP;
+         keyMap[1].Action = EKA_MOVE_FORWARD;
+         keyMap[1].KeyCode = KEY_KEY_W;
+
+         keyMap[2].Action = EKA_MOVE_BACKWARD;
+         keyMap[2].KeyCode = KEY_DOWN;
+         keyMap[3].Action = EKA_MOVE_BACKWARD;
+         keyMap[3].KeyCode = KEY_KEY_S;
+
+         keyMap[4].Action = EKA_STRAFE_LEFT;
+         keyMap[4].KeyCode = KEY_LEFT;
+         keyMap[5].Action = EKA_STRAFE_LEFT;
+         keyMap[5].KeyCode = KEY_KEY_A;
+
+         keyMap[6].Action = EKA_STRAFE_RIGHT;
+         keyMap[6].KeyCode = KEY_RIGHT;
+         keyMap[7].Action = EKA_STRAFE_RIGHT;
+         keyMap[7].KeyCode = KEY_KEY_D;
+
     //Add FPS Camera to allow movement using Keyboard and Mouse.
-    smgr->addCameraSceneNodeFPS();
+    smgr->addCameraSceneNodeFPS(0, 100, 0.07, -1, keyMap, 8);
 
     //Changes cursor visibility.
     device->getCursorControl()->setVisible(false);
@@ -136,7 +159,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 		then = now;
 
         //Character Model Movement here.
-       /* core::vector3df nodePosition = nodecharacter->getPosition();
+        core::vector3df nodePosition = n->getPosition();
 
         if(receiver.IsKeyDown(irr::KEY_KEY_W))
             nodePosition.Y += MOVEMENT_SPEED * frameDeltaTime;
@@ -148,7 +171,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         else if(receiver.IsKeyDown(irr::KEY_KEY_D))
             nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
 
-        nodecharacter->setPosition(nodePosition);*/
+        n->setPosition(nodePosition);
 
 
         //Detects and displays FPS dynamically.
