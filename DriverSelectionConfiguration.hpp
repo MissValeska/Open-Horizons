@@ -1,5 +1,9 @@
 #ifndef DRIVERCHOICE_HPP_INCLUDED
 #define DRIVERCHOICE_HPP_INCLUDED
+#include "inisetup.hpp"
+#include <irrlicht.h>
+
+using namespace std;
 
 int chooseswitchstuff;
 
@@ -30,6 +34,27 @@ void optionalconfig() {
         IrrDriversBimap drivers;
     displaysoftware = drivers.from[displaysoftwarestring];
     displaysoftwarestring = drivers.to[displaysoftware];
+
+}
+
+bool PlayNow(){
+
+    std::cout << "Do you want to play now?" << std::endl;
+    std::cout << "(1) Yes" << std::endl;
+    std::cout << "(2) No" << std::endl;
+
+           do {
+    std::cout << ">";
+    std::cin >> chooseswitchstuff;
+
+    switch (chooseswitchstuff){
+    case 1:; break;
+    case 2: return 0; break;
+    default:
+        chooseswitchstuff = 0;
+        std::cout <<"\nYour selection is invalid." << std::endl;
+    }
+ } while(chooseswitchstuff == 0);
 
 }
 
@@ -81,6 +106,7 @@ void AdvancedOptions() {
     ini.set_bool("shadows", shadowsdefine);
     ini.set_bool("vsync", vsyncdefine);
 
+    PlayNow();
 
 }
 
@@ -131,11 +157,6 @@ void displaysoftwareselect() {
     }
  } while(chooseswitchstuff == 0);
 }
-
-    std::cout << "Do you want to configure the advanced options?" << std::endl;
-    std::cout << "(1) Yes" << std::endl;
-    std::cout << "(2) No" << std::endl;
-
         // Save the standard configuration.
     inisetup::IniSetup ini("config.ini");
     ini.set_number("screenwidth", screenwidth);
@@ -146,6 +167,10 @@ void displaysoftwareselect() {
     displaysoftwarestring = drivers.to[displaysoftware];
 
     ini.set_string("displayrender", displaysoftwarestring);
+
+    std::cout << "Do you want to configure the advanced options?" << std::endl;
+    std::cout << "(1) Yes" << std::endl;
+    std::cout << "(2) No" << std::endl;
 
   do {
     std::cout << ">";
@@ -159,6 +184,7 @@ void displaysoftwareselect() {
         std::cout <<"\nYour selection is invalid." << std::endl;
     }
  } while(chooseswitchstuff == 0);
+    PlayNow();
 }
 
 void optionsselect(){

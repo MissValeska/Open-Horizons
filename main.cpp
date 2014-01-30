@@ -2,9 +2,9 @@
 #include <cstdlib>
 #include "inisetup.hpp"
 #include "bimap.hpp" // http://collabedit.com/sn782
-//#include "ExperimentalGame/keybinds.hpp"
+//#include "keybinds.hpp"
 #include "EventReceiver.hpp"
-#include "DriverChoice.hpp"
+#include "DriverSelectionConfiguration.hpp"
 
 using namespace std;
 using namespace irr;
