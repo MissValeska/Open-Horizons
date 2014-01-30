@@ -44,9 +44,11 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="Yet-to-be-Named/bimap.hpp" />
-		<Unit filename="Yet-to-be-Named/inisetup.hpp" />
-		<Unit filename="Yet-to-be-Named/main.cpp" />
+		<Unit filename="Open-Horizons/DriverSelectionConfiguration.hpp" />
+		<Unit filename="Open-Horizons/EventReceiver.hpp" />
+		<Unit filename="Open-Horizons/bimap.hpp" />
+		<Unit filename="Open-Horizons/inisetup.hpp" />
+		<Unit filename="Open-Horizons/main.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
