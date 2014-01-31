@@ -45,7 +45,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     n->setMaterialTexture(0,driver->getTexture("/home/missvaleska/IMG_1457.JPG"));
 
     //Needed to make the object's texture visible without a light source.
-    n->setMaterialFlag(EMF_LIGHTING, false);
+    //n->setMaterialFlag(EMF_LIGHTING, false);
 
     n->setPosition(core::vector3df(0,0,100));
         //Set cube 100 units further in forward direction (Z axis), And animate it.
@@ -58,16 +58,37 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         }*/
     }
 
+       // create light
+    scene::ISceneNode* node = 0;
 
-        scene::IAnimatedMeshSceneNode* anms =
-        smgr->addAnimatedMeshSceneNode(smgr->getMesh("/home/missvaleska/Documents/C++/Games/Our_Game_Project/ExperimentalGame/Open-Horizons/Models/Female_Model_BaseMesh.obj"));
+    node = smgr->addLightSceneNode(0, core::vector3df(0,0,0),
+        video::SColorf(1.0f, 0.6f, 0.7f, 1.0f), 800.0f);
+    scene::ISceneNodeAnimator* anim = 0;
+    anim = smgr->createFlyCircleAnimator (core::vector3df(0,150,0),250.0f);
+    node->addAnimator(anim);
+    anim->drop();
 
-        anms->setPosition(core::vector3df(0,0,120));
+    // attach billboard to light
+
+    scene::IAnimatedMeshSceneNode* sunstuff =
+    smgr->addAnimatedMeshSceneNode(smgr->getMesh
+    ("/home/missvaleska/Documents/C++/Games/Our_Game_Project/ExperimentalGame/Open-Horizons/Models/sun.obj"));
+
+    sunstuff->setPosition(core::dimension2d(50,50));
+
+    node->setMaterialFlag(video::EMF_LIGHTING, false);
+    node->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+
+        scene::IAnimatedMeshSceneNode* characternode =
+        smgr->addAnimatedMeshSceneNode(smgr->getMesh
+        ("/home/missvaleska/Documents/C++/Games/Our_Game_Project/ExperimentalGame/Open-Horizons/Models/Female_Model_BaseMesh.obj"));
+
+        characternode->setPosition(core::vector3df(0,0,120));
 
 
-    anms->setMaterialFlag(EMF_LIGHTING,false);
-  anms->setMaterialFlag(video::EMF_LIGHTING, false);
-    //anms->setMaterialTexture(0, driver->getTexture("../../media/sydney.bmp"))
+    //characternode->setMaterialFlag(EMF_LIGHTING,false);
+  //characternode->setMaterialFlag(video::EMF_LIGHTING, false);
+    //characternode->setMaterialTexture(0, driver->getTexture("../../media/sydney.bmp"))
 
     //IAnimatedMesh* irr::scene::ISceneManager::addHillPlaneMesh(nodehill, 10.0f, 10.0f, "/home/missvaleska/Documents/Blender/textures/greenhillsmalljg0.jpg", 5.0f, 2.0f, 2.0f);
 
