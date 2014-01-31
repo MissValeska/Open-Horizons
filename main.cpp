@@ -58,7 +58,8 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         }*/
     }
 
-       // create light
+    // create light
+
     scene::ISceneNode* node = 0;
 
     node = smgr->addLightSceneNode(0, core::vector3df(0,0,0),
@@ -70,24 +71,21 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
     // attach billboard to light
 
-    scene::IAnimatedMeshSceneNode* sunstuff =
-    smgr->addAnimatedMeshSceneNode(smgr->getMesh
-    ("/home/missvaleska/Documents/C++/Games/Our_Game_Project/ExperimentalGame/Open-Horizons/Models/sun.obj"));
-
-    sunstuff->setPosition(core::dimension2d(50,50));
-
+    node = smgr->addBillboardSceneNode(node, core::dimension2d<f32>(50, 50));
     node->setMaterialFlag(video::EMF_LIGHTING, false);
     node->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+    node->setMaterialTexture(0, driver->getTexture
+    ("/home/missvaleska/Documents/C++/Games/Our_Game_Project/ExperimentalGame/Open-Horizons/Textures/particlewhite.bmp"));
 
+
+        //Add CharacterNode
         scene::IAnimatedMeshSceneNode* characternode =
         smgr->addAnimatedMeshSceneNode(smgr->getMesh
         ("/home/missvaleska/Documents/C++/Games/Our_Game_Project/ExperimentalGame/Open-Horizons/Models/Female_Model_BaseMesh.obj"));
 
-        characternode->setPosition(core::vector3df(0,0,120));
+        characternode->setPosition(core::vector3df(-20,0,0));
+        characternode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
 
-
-    //characternode->setMaterialFlag(EMF_LIGHTING,false);
-  //characternode->setMaterialFlag(video::EMF_LIGHTING, false);
     //characternode->setMaterialTexture(0, driver->getTexture("../../media/sydney.bmp"))
 
     //IAnimatedMesh* irr::scene::ISceneManager::addHillPlaneMesh(nodehill, 10.0f, 10.0f, "/home/missvaleska/Documents/Blender/textures/greenhillsmalljg0.jpg", 5.0f, 2.0f, 2.0f);
@@ -154,7 +152,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 	u32 then = device->getTimer()->getTime();
 
     // This is the movement speed in units per second.
-	const f32 MOVEMENT_SPEED = 5.f;
+	const f32 MOVEMENT_SPEED = 1.f;
 
     //Run simulation
     while(device->run())
@@ -180,19 +178,19 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 		then = now;
 
         //Character Model Movement here.
-        core::vector3df nodePosition = n->getPosition();
+        core::vector3df nodePosition = characternode->getPosition();
 
         if(receiver.IsKeyDown(irr::KEY_KEY_W))
-            nodePosition.Y += MOVEMENT_SPEED * frameDeltaTime;
+            nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
         else if(receiver.IsKeyDown(irr::KEY_KEY_S))
-            nodePosition.Y -= MOVEMENT_SPEED * frameDeltaTime;
+            nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
 
         if(receiver.IsKeyDown(irr::KEY_KEY_A))
             nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
         else if(receiver.IsKeyDown(irr::KEY_KEY_D))
             nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
 
-        n->setPosition(nodePosition);
+        characternode->setPosition(nodePosition);
 
 
         //Detects and displays FPS dynamically.
