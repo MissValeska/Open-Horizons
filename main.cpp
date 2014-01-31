@@ -42,7 +42,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     if (n)
     {
     //Add texture to the cube.
-    n->setMaterialTexture(0,driver->getTexture("/home/missvaleska/IMG_1457.JPG"));
+    n->setMaterialTexture(0,driver->getTexture("Textures/IMG_1457.JPG"));
 
     //Needed to make the object's texture visible without a light source.
     //n->setMaterialFlag(EMF_LIGHTING, false);
@@ -75,13 +75,13 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     node->setMaterialFlag(video::EMF_LIGHTING, false);
     node->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
     node->setMaterialTexture(0, driver->getTexture
-    ("/home/missvaleska/Documents/C++/Games/Our_Game_Project/ExperimentalGame/Open-Horizons/Textures/particlewhite.bmp"));
+    ("Textures/particlewhite.bmp"));
 
 
         //Add CharacterNode
         scene::IAnimatedMeshSceneNode* characternode =
         smgr->addAnimatedMeshSceneNode(smgr->getMesh
-        ("/home/missvaleska/Documents/C++/Games/Our_Game_Project/ExperimentalGame/Open-Horizons/Models/Female_Model_BaseMesh.obj"));
+        ("Models/Female_Model_BaseMesh.obj"));
 
         characternode->setPosition(core::vector3df(-20,0,0));
         characternode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
