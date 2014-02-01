@@ -12,6 +12,7 @@ using namespace core;
 using namespace scene;
 using namespace video;
 using namespace io;
+using namespace gui;
 
 int main(int argc, char ** argv) // The options here define an argument count apparently, I don't fully understand it.
 //http://collabedit.com/sab53 A friend explained here if it is still up next you check.
@@ -83,7 +84,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         smgr->addAnimatedMeshSceneNode(smgr->getMesh
         ("Models/Female_Model_BaseMesh.obj"));
 
-        characternode->setPosition(core::vector3df(-20,0,0));
+        characternode->setPosition(core::vector3df(0,-7,0));
         characternode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
 
     //characternode->setMaterialTexture(0, driver->getTexture("../../media/sydney.bmp"))
@@ -91,29 +92,45 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     //IAnimatedMesh* irr::scene::ISceneManager::addHillPlaneMesh(nodehill, 10.0f, 10.0f, "/home/missvaleska/Documents/Blender/textures/greenhillsmalljg0.jpg", 5.0f, 2.0f, 2.0f);
 
 
-    //Currently non-functional test of the animation/rendering capabilities of irrlicht
-    //from here http://irrlicht.sourceforge.net/docu/example001.html
-    /*IAnimatedMesh* mesh = smgr->getMesh("/home/missvaleska/Documents/Blender/sun.obj");
-    if (!mesh)
+            //Adding a Room
+            scene::IAnimatedMesh* roomMesh = smgr->getMesh("Structures/room.3ds");
+        scene::ISceneNode* room = 0;
+        scene::ISceneNode* earth = 0;
+
+    if (roomMesh)
     {
-        device->drop();
-        return 1;
+        // The Room mesh doesn't have proper Texture Mapping on the
+        // floor, so we can recreate them on runtime
+        smgr->getMeshManipulator()->makePlanarTextureMapping(
+                roomMesh->getMesh(0), 0.003f);
+
+                video::ITexture* normalMap =
+            driver->getTexture("Textures/rockwall_height.bmp");
+
+        if (normalMap)
+            driver->makeNormalMapTexture(normalMap, 9.0f);
+        scene::IMesh* tangentMesh = smgr->getMeshManipulator()->
+                createMeshWithTangents(roomMesh->getMesh(0));
+
+        room = smgr->addMeshSceneNode(tangentMesh);
+        room->setMaterialTexture(0,
+                driver->getTexture("Textures/rockwall.jpg"));
+        room->setMaterialTexture(1, normalMap);
+
+        room->setPosition(core::vector3df(0,-60,0));
+
+        // Stones don't glitter..
+        room->getMaterial(0).SpecularColor.set(0,0,0,0);
+        room->getMaterial(0).Shininess = 0.f;
+
+        room->setMaterialType(video::EMT_PARALLAX_MAP_SOLID);
+        // adjust height for parallax effect
+        room->getMaterial(0).MaterialTypeParam = 1.f / 64.f;
+
+        // drop mesh because we created it with a create.. call.
+        tangentMesh->drop();
     }
-    IAnimatedMeshSceneNode* nodestuff = smgr->addAnimatedMeshSceneNode( mesh );
 
-    nodestuff->setPosition(vector3df(0,10,100));
-
-    nodestuff->setMaterialFlag(video::EMF_LIGHTING, false);
-
-    irr::scene::ISceneManager::addLightSceneNode(
-
-		nodestuff,
-
-		core::vector3df(0,0,0),
-
-		video::SColorf(1.0f, 0.5f, 1.0f),
-
-		800.0f);*/
 
              SKeyMap keyMap[8];
          keyMap[0].Action = EKA_MOVE_FORWARD;
@@ -152,7 +169,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 	u32 then = device->getTimer()->getTime();
 
     // This is the movement speed in units per second.
-	const f32 MOVEMENT_SPEED = 1.f;
+	const f32 MOVEMENT_SPEED = 70.f;
 
     //Run simulation
     while(device->run())

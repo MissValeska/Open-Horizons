@@ -19,24 +19,6 @@ irr::video::E_DRIVER_TYPE displaysoftware; //This defines a string basically (It
 
 std::string displaysoftwarestring;
 
-void optionalconfig() {
-
-    inisetup::IniSetup ini("config.ini");
-
-    screenwidth = ini.get_number("screenwidth");
-    screenheight = ini.get_number("screenheight");
-    displaysoftwarestring = ini.get_string("displayrender");
-    colourbits = ini.get_number("colourbits");
-    shadowsdefine = ini.get_bool("shadows");
-    vsyncdefine = ini.get_bool("vsync");
-// this gets back the value from the config file and saves to a variable
-
-        IrrDriversBimap drivers;
-    displaysoftware = drivers.from[displaysoftwarestring];
-    displaysoftwarestring = drivers.to[displaysoftware];
-
-}
-
 bool PlayNow(){
 
     std::cout << "Do you want to play now?" << std::endl;
@@ -177,13 +159,36 @@ void displaysoftwareselect() {
 
     switch (chooseswitchstuff){
     case 1: AdvancedOptions(); break;
-    case 2: break;
+    case 2:PlayNow(); break;
     default:
         chooseswitchstuff = 0;
         std::cout <<"\nYour selection is invalid." << std::endl;
     }
  } while(chooseswitchstuff == 0);
-    PlayNow();
+
+}
+
+void optionalconfig() {
+
+    inisetup::IniSetup ini("config.ini");
+
+    screenwidth = ini.get_number("screenwidth");
+    screenheight = ini.get_number("screenheight");
+    displaysoftwarestring = ini.get_string("displayrender");
+    colourbits = ini.get_number("colourbits");
+    shadowsdefine = ini.get_bool("shadows");
+    vsyncdefine = ini.get_bool("vsync");
+// this gets back the value from the config file and saves to a variable
+
+        IrrDriversBimap drivers;
+    displaysoftware = drivers.from[displaysoftwarestring];
+    displaysoftwarestring = drivers.to[displaysoftware];
+
+        if(displaysoftwarestring == ""){
+            std::cout << "Error: config.ini does not exist." << std::endl;
+            std::cout << "You cannot load a non-existent file. Please set one up by doing this." << std::endl << std::endl;
+        displaysoftwareselect();
+    }
 }
 
 void optionsselect(){
@@ -191,7 +196,7 @@ void optionsselect(){
 
     std::cout << "Do you want to load the configurations file?" << std::endl;
     std::cout << "(1) Yes" << std::endl;
-    std::cout << "(2) No" << std::endl;
+    std::cout << "(2) No (Recommended if you haven't run this game before, Or deleted the configurations file.)" << std::endl;
         do {//This is connected to the while statement a bit later.
         std::cout << ">";
         std::cin >> chooseswitchstuff;
