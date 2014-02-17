@@ -5,6 +5,7 @@
 //#include "keybinds.hpp"
 #include "EventReceiver.hpp"
 #include "DriverSelectionConfiguration.hpp"
+#include <thread>
 
 using namespace std;
 using namespace irr;
@@ -18,22 +19,28 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 //http://collabedit.com/sab53 A friend explained here if it is still up next you check.
 {
 
-  optionsselect();
+  options_select();
 
     EventReceiver receiver;
 
+    if(!display_software)
+        fatal("Fatal Error: The Renderer was not correctly specified!", 1);
+        else if(display_software == 0)
+            fatal("Fatal Error: The Renderer was not correctly specified!", 1);
+
     //Create an Irrlicht Device.
-    IrrlichtDevice * device = irr::createDevice(displaysoftware,dimension2d<u32>(screenwidth,screenheight), colourbits,
-                fullscreendefine, shadowsdefine, vsyncdefine, &receiver);
-    if (!device ) return 1;
+    IrrlichtDevice * device = irr::createDevice(display_software,dimension2d<u32>(screen_width,screen_height), colour_bits,
+                fullscreen_define, shadows_define, vsync_define, &receiver);
+   //Exclamation means negation
+    if (!device ) fatal("Fatal Error: The Irrlicht Device could not be created!", 2);
 
     //Get the Video Driver from the device.
     IVideoDriver * driver = device->getVideoDriver();
-    if (!driver) return 1;
+    if (!driver) fatal("Fatal Error: Could not get Video Driver from the Irrlicht Device.", 3);
 
     //Get the Scene Manager from the device.
     ISceneManager * smgr = device->getSceneManager();
-    if (!smgr) return 1;
+    if (!smgr) fatal("Fatal Error: Could not get Scene Manager from the Irrlicht Device.", 4);
 
     //Add a Cube to the Scene.
     ISceneNode * n = smgr->addCubeSceneNode();
@@ -171,13 +178,14 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     // This is the movement speed in units per second.
 	const f32 MOVEMENT_SPEED = 70.f;
 
-    //Run simulation
+ //Run simulation
     while(device->run())
     {
 
         if(receiver.IsKeyDown(irr::KEY_ESCAPE))
            break;
 
+        std::thread beginrender([&]{
         //Begin Scene with a gray backdrop #rgb(125,125,125)
         driver->beginScene(true,true,SColor(0,125,125,125));
 
@@ -186,14 +194,16 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
         //End the scene
         driver->endScene();
+    });
 
         //Logic to update the scene will go here.
 
-		// Work out a frame delta time.
-		const u32 now = device->getTimer()->getTime();
-		const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
-		then = now;
+                // Work out a frame delta time.
+                const u32 now = device->getTimer()->getTime();
+                const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
+                then = now;
 
+        std::thread charactermovement([&](){
         //Character Model Movement here.
         core::vector3df nodePosition = characternode->getPosition();
 
@@ -208,8 +218,9 @@ int main(int argc, char ** argv) // The options here define an argument count ap
             nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
 
         characternode->setPosition(nodePosition);
+    });
 
-
+        std::thread fpsdetection([&](){
         //Detects and displays FPS dynamically.
         int fps = driver->getFPS();
     if (lastFPS != fps)
@@ -223,9 +234,14 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         str += fps;
         device->setWindowCaption(str.c_str());
         lastFPS = fps;
-    if (!device ) return 1;
         }
-    }
+    });
+
+        beginrender.join();
+        charactermovement.join();
+        fpsdetection.join();
+
+  }
     device->drop();
     return 0;
 }
