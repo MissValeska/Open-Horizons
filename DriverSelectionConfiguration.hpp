@@ -2,6 +2,7 @@
 #define DRIVERCHOICE_HPP_INCLUDED
 #include "inisetup.hpp"
 #include <limits>
+#include <ctype.h>
 
 char choose_switch_stuff;
 
@@ -32,11 +33,12 @@ void Play_Now(){
     std::cout << "(1) Yes" << std::endl;
     std::cout << "(2) No" << std::endl;
 
-           do {
     std::cout << ">";
     std::cin >> choose_switch_stuff;
 
     std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+
+    do {
 
     switch (choose_switch_stuff){
     case '1':; break;
@@ -45,14 +47,14 @@ void Play_Now(){
     std::cout << "\nYour selection is invalid, Please correct it.\n" << ">";
     std::cin >> choose_switch_stuff;
         }
-    }while(true);
+    }while(isalpha(choose_switch_stuff));
 
 }
 
 void Advanced_Options() {
 
 
-    std::cout << "Enter colour_bits Between 16 and 32 (32 is recommended)" << std::endl;
+    std::cout << "Enter colour bits Between 16 and 32 (32 is recommended)" << std::endl;
     std::cout << ">";
     std::cin >> colour_bits;
 
@@ -60,11 +62,12 @@ void Advanced_Options() {
     std::cout << "(1) Yes" << std::endl;
     std::cout << "(2) No" << std::endl;
 
-      do {
     std::cout << ">";
     std::cin >> choose_switch_stuff;
 
     std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+
+      do {
 
     switch (choose_switch_stuff){
     case '1': shadows_define = true; break;
@@ -73,17 +76,18 @@ void Advanced_Options() {
     std::cout << "\nYour selection is invalid, Please correct it.\n" << ">";
     std::cin >> choose_switch_stuff;
         }
-    }while(true);
+    }while(isalpha(choose_switch_stuff));
 
  std::cout << "Do you want to use Vsync?" << std::endl;
  std::cout << "(1) Yes" << std::endl;
  std::cout << "(2) No" << std::endl;
 
-       do {
     std::cout << ">";
     std::cin >> choose_switch_stuff;
 
     std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+
+       do {
 
     switch (choose_switch_stuff){
     case '1': vsync_define = true; break;
@@ -92,7 +96,7 @@ void Advanced_Options() {
     std::cout << "\nYour selection is invalid, Please correct it.\n" << ">";
     std::cin >> choose_switch_stuff;
         }
-    }while(true);
+    }while(isalpha(choose_switch_stuff));
 
 
          // Save the advanced configuration.
@@ -114,11 +118,12 @@ void display_software_select() {
     std::cout << "(3) Direct3D8" << std::endl;
     std::cout << "(4) Software" << std::endl;
 
-    do {//This is connected to the while statement a bit later.
-        std::cout << ">";
-        std::cin >> choose_switch_stuff;
+    std::cout << ">";
+    std::cin >> choose_switch_stuff;
 
-        std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+    std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+
+    do {//This is connected to the while statement a bit later.
 
         switch (choose_switch_stuff){
         case '1': display_software = irr::video::E_DRIVER_TYPE::EDT_OPENGL; break;
@@ -129,7 +134,7 @@ void display_software_select() {
         std::cout << "\nYour selection is invalid, Please correct it.\n" << ">";
         std::cin >> choose_switch_stuff;
         }
-    }while(true);
+    }while(isalpha(choose_switch_stuff));
 
 
     std::cout << "Please chose a screen size." << std::endl;
@@ -142,11 +147,12 @@ void display_software_select() {
     std::cout << "(1) Yes" << std::endl;
     std::cout << "(2) No" << std::endl;
 
-      do {
     std::cout << ">";
     std::cin >> choose_switch_stuff;
 
     std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+
+      do {
 
     switch (choose_switch_stuff){
     case '1': fullscreen_define = true; break;
@@ -155,7 +161,7 @@ void display_software_select() {
     std::cout << "\nYour selection is invalid, Please correct it.\n" << ">";
     std::cin >> choose_switch_stuff;
         }
-    }while(true);
+    }while(isalpha(choose_switch_stuff));
 
 
         // Save the standard configuration.
@@ -173,11 +179,13 @@ void display_software_select() {
     std::cout << "(1) Yes" << std::endl;
     std::cout << "(2) No" << std::endl;
 
-  do {
     std::cout << ">";
     std::cin >> choose_switch_stuff;
 
     std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+
+  do {
+
 
     switch (choose_switch_stuff){
     case '1': Advanced_Options(); break;
@@ -186,7 +194,7 @@ void display_software_select() {
     std::cout << "\nYour selection is invalid, Please correct it.\n" << ">";
     std::cin >> choose_switch_stuff;
         }
-    }while(true);
+    }while(isalpha(choose_switch_stuff));
 
 }
 
@@ -219,12 +227,13 @@ void options_select(){
     std::cout << "(1) Yes" << std::endl;
     std::cout << "(2) No (Recommended if you haven't run this game before, Or deleted the configurations file.)" << std::endl;
     std::cout << "(3) Exit" << std::endl;
-        //do {//This is connected to the while statement a bit later.
+
         std::cout << ">";
         std::cin >> choose_switch_stuff;
 
-        do {
         std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+
+        do {
 
         switch (choose_switch_stuff){
         case '1': optional_config(); break;
@@ -234,7 +243,7 @@ void options_select(){
         std::cout << "\nYour selection is invalid, Please correct it.\n" << ">";
         std::cin >> choose_switch_stuff;
         }
-    }while(true);
+    }while(isalpha(choose_switch_stuff));
  }
 
 #endif // DRIVERCHOICE_HPP_INCLUDED

@@ -185,7 +185,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         if(receiver.IsKeyDown(irr::KEY_ESCAPE))
            break;
 
-        std::thread beginrender([&]{
+        //std::thread beginrender([&]{
         //Begin Scene with a gray backdrop #rgb(125,125,125)
         driver->beginScene(true,true,SColor(0,125,125,125));
 
@@ -194,7 +194,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
         //End the scene
         driver->endScene();
-    });
+    //});
 
         //Logic to update the scene will go here.
 
@@ -203,7 +203,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
                 const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
                 then = now;
 
-        std::thread charactermovement([&](){
+        //std::thread charactermovement([&](){
         //Character Model Movement here.
         core::vector3df nodePosition = characternode->getPosition();
 
@@ -218,9 +218,9 @@ int main(int argc, char ** argv) // The options here define an argument count ap
             nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
 
         characternode->setPosition(nodePosition);
-    });
+    //});
 
-        std::thread fpsdetection([&](){
+        //std::thread fpsdetection([&](){
         //Detects and displays FPS dynamically.
         int fps = driver->getFPS();
     if (lastFPS != fps)
@@ -235,11 +235,11 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         device->setWindowCaption(str.c_str());
         lastFPS = fps;
         }
-    });
+    //});
 
-        beginrender.join();
-        charactermovement.join();
-        fpsdetection.join();
+        //beginrender.join();
+        //charactermovement.join();
+        //fpsdetection.join();
 
   }
     device->drop();
