@@ -98,8 +98,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
     //IAnimatedMesh* irr::scene::ISceneManager::addHillPlaneMesh(nodehill, 10.0f, 10.0f, "/home/missvaleska/Documents/Blender/textures/greenhillsmalljg0.jpg", 5.0f, 2.0f, 2.0f);
 
-
-            //Adding a Room
+            /*//Adding a Room
             scene::IAnimatedMesh* roomMesh = smgr->getMesh("Structures/room.3ds");
         scene::ISceneNode* room = 0;
         scene::ISceneNode* earth = 0;
@@ -135,11 +134,9 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         room->getMaterial(0).MaterialTypeParam = 1.f / 64.f;
 
         // drop mesh because we created it with a create.. call.
-        tangentMesh->drop();
-    }
+        tangentMesh->drop();*/
 
-
-             SKeyMap keyMap[8];
+                 SKeyMap keyMap[10];
          keyMap[0].Action = EKA_MOVE_FORWARD;
          keyMap[0].KeyCode = KEY_UP;
          keyMap[1].Action = EKA_MOVE_FORWARD;
@@ -159,9 +156,67 @@ int main(int argc, char ** argv) // The options here define an argument count ap
          keyMap[6].KeyCode = KEY_RIGHT;
          keyMap[7].Action = EKA_STRAFE_RIGHT;
          keyMap[7].KeyCode = KEY_KEY_D;
+         keyMap[8].Action = EKA_JUMP_UP;
+         keyMap[8].KeyCode = KEY_SPACE;
+         keyMap[9].Action = EKA_CROUCH;
+         keyMap[9].KeyCode = KEY_CONTROL;
+
+        enum
+{
+    // I use this ISceneNode ID to indicate a scene node that is
+    // not pickable by getSceneNodeAndCollisionPointFromRay()
+    ID_IsNotPickable = 0,
+
+    // I use this flag in ISceneNode IDs to indicate that the
+    // scene node can be picked by ray selection.
+    IDFlag_IsPickable = 1 << 0,
+
+    // I use this flag in ISceneNode IDs to indicate that the
+    // scene node can be highlighted.  In this example, the
+    // homonids can be highlighted, but the level mesh can't.
+    IDFlag_IsHighlightable = 1 << 1
+};
+
+        device->getFileSystem()->addFileArchive("Structures/map-20kdm2.pk3");
+
+    scene::IAnimatedMesh* q3levelmesh = smgr->getMesh("20kdm2.bsp");
+    scene::IMeshSceneNode* q3node = 0;
+
+    // The Quake mesh is pickable, but doesn't get highlighted.
+    if (q3levelmesh)
+        q3node = smgr->addOctreeSceneNode(q3levelmesh->getMesh(0), 0, IDFlag_IsPickable);
+
+        scene::ITriangleSelector* selector = 0;
+
+    if (q3node)
+    {
+        q3node->setPosition(core::vector3df(-1350,-130,-1400));
+
+        selector = smgr->createOctreeTriangleSelector(
+                q3node->getMesh(), q3node, 128);
+        q3node->setTriangleSelector(selector);
+        // We're not done with this selector yet, so don't drop it.
+    }
+
+    // Set a jump speed of 3 units per second, which gives a fairly realistic jump
+    // when used with the gravity of (0, -10, 0) in the collision response animator.
+    scene::ICameraSceneNode* camera =
+        smgr->addCameraSceneNodeFPS(0, 100, 0.35, ID_IsNotPickable, keyMap, 8, true, 3.f);
+    camera->setPosition(core::vector3df(50,50,-60));
+    camera->setTarget(core::vector3df(-70,30,-60));
+
+    if (selector)
+    {
+        scene::ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(
+            selector, camera, core::vector3df(10,40,10),
+            core::vector3df(0,-10,0), core::vector3df(0,30,0));
+        selector->drop(); // As soon as we're done with the selector, drop it.
+        camera->addAnimator(anim);
+        anim->drop();  // And likewise, drop the animator when we're done referring to it.
+    }
 
     //Add FPS Camera to allow movement using Keyboard and Mouse.
-    smgr->addCameraSceneNodeFPS(0, 100, 0.07, -1, keyMap, 8);
+    //smgr->addCameraSceneNodeFPS(0, 100, 0.07, -1, keyMap, 8);
 
     //Changes cursor visibility.
     device->getCursorControl()->setVisible(false);
@@ -219,6 +274,8 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
         characternode->setPosition(nodePosition);
     //});
+
+
 
         //std::thread fpsdetection([&](){
         //Detects and displays FPS dynamically.
