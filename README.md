@@ -13,3 +13,7 @@ If you enjoy soft body physics in racing games, You'll LOVE Open Horizons!
 ===============
 
 Please note: Open Horizons is currently in unbelievely early pre-alpha, If you are looking for examples of what I have explained above, You will have to wait for a little while longer. I'm sorry. :(
+
+Build Instructions
+===============
+Coming soon!
