@@ -8,6 +8,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <stdexcept>
 
 // Please note that concurrent instances of IniSetup are not supported,
 //because there is no locking mechanism for the ini file.
@@ -111,6 +112,8 @@ namespace inisetup {
 
     bool write_ini_file() {
       ofstream file(_filename);
+      if (!file.is_open())
+            { throw std::runtime_error("Could not write/create configurations file."); }
       for (auto x: _m) {
         file << x.first;
         file << "=";

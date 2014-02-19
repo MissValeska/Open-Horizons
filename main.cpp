@@ -201,7 +201,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     // Set a jump speed of 3 units per second, which gives a fairly realistic jump
     // when used with the gravity of (0, -10, 0) in the collision response animator.
     scene::ICameraSceneNode* camera =
-        smgr->addCameraSceneNodeFPS(0, 100, 0.35, ID_IsNotPickable, keyMap, 8, true, 3.f);
+        smgr->addCameraSceneNodeFPS(0, 100, 0.35, ID_IsNotPickable, keyMap, 8, true, 3);
     camera->setPosition(core::vector3df(50,50,-60));
     camera->setTarget(core::vector3df(-70,30,-60));
 
@@ -239,6 +239,12 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
         if(receiver.IsKeyDown(irr::KEY_ESCAPE))
            break;
+
+            if(receiver.IsKeyDown(irr::KEY_SPACE))
+          camera_animator->jump(10);
+
+            if(receiver.IsKeyDown(irr::KEY_CONTROL))
+          camera_animator->crouch(5);
 
         //std::thread beginrender([&]{
         //Begin Scene with a gray backdrop #rgb(125,125,125)
