@@ -205,7 +205,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     camera->setPosition(core::vector3df(50,50,-60));
     camera->setTarget(core::vector3df(-70,30,-60));
 
-        scene::ISceneNodeAnimator* camera_animator = smgr->createCollisionResponseAnimator(
+        scene::ISceneNodeAnimatorCollisionResponse* camera_animator = smgr->createCollisionResponseAnimator(
             selector, camera, core::vector3df(10,40,10),
             core::vector3df(0,-10,0), core::vector3df(0,30,0));
         selector->drop(); // As soon as we're done with the selector, drop it.
@@ -236,11 +236,12 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         if(receiver.IsKeyDown(irr::KEY_ESCAPE))
            break;
 
-            if(receiver.IsKeyDown(irr::KEY_SPACE))
+        if(receiver.IsKeyDown(irr::KEY_SPACE))
           camera_animator->jump(10);
 
-            if(receiver.IsKeyDown(irr::KEY_CONTROL))
-          camera_animator->crouch(5);
+        // A camera_animator->crouch does not seem to exist
+        // if(receiver.IsKeyDown(irr::KEY_CONTROL))
+        //  camera_animator->crouch(5);
 
         //std::thread beginrender([&]{
         //Begin Scene with a gray backdrop #rgb(125,125,125)
