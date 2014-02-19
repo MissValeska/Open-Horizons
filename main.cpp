@@ -201,15 +201,25 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     // Set a jump speed of 3 units per second, which gives a fairly realistic jump
     // when used with the gravity of (0, -10, 0) in the collision response animator.
     scene::ICameraSceneNode* camera =
-        smgr->addCameraSceneNodeFPS(0, 100, 0.35, ID_IsNotPickable, keyMap, 8, true, 3);
+        smgr->addCameraSceneNodeFPS(0, 100, 0.3, ID_IsNotPickable, keyMap, 8, true, 3);
     camera->setPosition(core::vector3df(50,50,-60));
     camera->setTarget(core::vector3df(-70,30,-60));
 
+    bool bCrouch;
+            if(bCrouch == true)
+                {
         scene::ISceneNodeAnimatorCollisionResponse* camera_animator = smgr->createCollisionResponseAnimator(
-            selector, camera, core::vector3df(10,40,10),
-            core::vector3df(0,-10,0), core::vector3df(0,30,0));
-        selector->drop(); // As soon as we're done with the selector, drop it.
+            selector, camera, core::vector3df(10,20,10),
+            core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
         camera->addAnimator(camera_animator);
+        }
+    if(bCrouch == false)
+        {        scene::ISceneNodeAnimatorCollisionResponse* camera_animator = smgr->createCollisionResponseAnimator(
+            selector, camera, core::vector3df(10,40,10),
+            core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
+        camera->addAnimator(camera_animator);
+  }
+          selector->drop(); // As soon as we're done with the selector, drop it.
 
     //Add FPS Camera to allow movement using Keyboard and Mouse.
     //smgr->addCameraSceneNodeFPS(0, 100, 0.07, -1, keyMap, 8);
@@ -232,12 +242,18 @@ int main(int argc, char ** argv) // The options here define an argument count ap
  //Run simulation
     while(device->run())
     {
-
+        std::thread GetPlayerPosition([&]{
+        camera->getAbsolutePosition();
+        camera->updateAbsolutePosition();
+    });
         if(receiver.IsKeyDown(irr::KEY_ESCAPE))
            break;
 
-        if(receiver.IsKeyDown(irr::KEY_SPACE))
-          camera_animator->jump(10);
+        //if(receiver.IsKeyDown(irr::KEY_SPACE))
+          //camera_animator->jump(0.8);
+
+          if(receiver.IsKeyDown(irr::KEY_CONTROL))
+            bCrouch = true;
 
         // A camera_animator->crouch does not seem to exist
         // if(receiver.IsKeyDown(irr::KEY_CONTROL))
@@ -300,6 +316,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         //beginrender.join();
         //charactermovement.join();
         //fpsdetection.join();
+        GetPlayerPosition.join();
 
   }
     device->drop();
