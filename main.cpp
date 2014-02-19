@@ -205,15 +205,11 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     camera->setPosition(core::vector3df(50,50,-60));
     camera->setTarget(core::vector3df(-70,30,-60));
 
-    if (selector)
-    {
-        scene::ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(
+        scene::ISceneNodeAnimator* camera_animator = smgr->createCollisionResponseAnimator(
             selector, camera, core::vector3df(10,40,10),
             core::vector3df(0,-10,0), core::vector3df(0,30,0));
         selector->drop(); // As soon as we're done with the selector, drop it.
-        camera->addAnimator(anim);
-        anim->drop();  // And likewise, drop the animator when we're done referring to it.
-    }
+        camera->addAnimator(camera_animator);
 
     //Add FPS Camera to allow movement using Keyboard and Mouse.
     //smgr->addCameraSceneNodeFPS(0, 100, 0.07, -1, keyMap, 8);
