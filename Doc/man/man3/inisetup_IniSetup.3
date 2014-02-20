@@ -1,0 +1,133 @@
+.TH "inisetup::IniSetup" 3 "Thu Feb 20 2014" "Version 0.0.1" "Open Horizons" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+inisetup::IniSetup \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include 'inisetup\&.hpp'\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBIniSetup\fP ()"
+.br
+.ti -1c
+.RI "\fBIniSetup\fP (const char *filename)"
+.br
+.ti -1c
+.RI "\fB~IniSetup\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBget\fP (const std::string &n)"
+.br
+.ti -1c
+.RI "\fBIniSetup\fP & \fBset\fP (const std::string &n, const std::string &v)"
+.br
+.ti -1c
+.RI "std::string \fBget_string\fP (const std::string &n)"
+.br
+.ti -1c
+.RI "\fBIniSetup\fP & \fBset_string\fP (const std::string &n, const std::string &v)"
+.br
+.ti -1c
+.RI "int \fBget_number\fP (const std::string &n)"
+.br
+.ti -1c
+.RI "\fBIniSetup\fP & \fBset_number\fP (const std::string &n, int v)"
+.br
+.ti -1c
+.RI "bool \fBget_bool\fP (const std::string &n)"
+.br
+.ti -1c
+.RI "\fBIniSetup\fP & \fBset_bool\fP (const std::string &n, bool v)"
+.br
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBread_ini_file\fP ()"
+.br
+.ti -1c
+.RI "bool \fBwrite_ini_file\fP ()"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "string \fB_filename\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 50 of file inisetup\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "inisetup::IniSetup::IniSetup ()\fC [inline]\fP"
+
+.PP
+Definition at line 53 of file inisetup\&.hpp\&.
+.SS "inisetup::IniSetup::IniSetup (const char *filename)\fC [inline]\fP"
+
+.PP
+Definition at line 55 of file inisetup\&.hpp\&.
+.SS "inisetup::IniSetup::~IniSetup ()\fC [inline]\fP"
+
+.PP
+Definition at line 56 of file inisetup\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "std::string inisetup::IniSetup::get (const std::string &n)\fC [inline]\fP"
+
+.PP
+Definition at line 127 of file inisetup\&.hpp\&.
+.SS "bool inisetup::IniSetup::get_bool (const std::string &n)\fC [inline]\fP"
+
+.PP
+Definition at line 151 of file inisetup\&.hpp\&.
+.SS "int inisetup::IniSetup::get_number (const std::string &n)\fC [inline]\fP"
+
+.PP
+Definition at line 141 of file inisetup\&.hpp\&.
+.SS "std::string inisetup::IniSetup::get_string (const std::string &n)\fC [inline]\fP"
+
+.PP
+Definition at line 134 of file inisetup\&.hpp\&.
+.SS "bool inisetup::IniSetup::read_ini_file ()\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Definition at line 58 of file inisetup\&.hpp\&.
+.SS "\fBIniSetup\fP& inisetup::IniSetup::set (const std::string &n, const std::string &v)\fC [inline]\fP"
+
+.PP
+Definition at line 130 of file inisetup\&.hpp\&.
+.SS "\fBIniSetup\fP& inisetup::IniSetup::set_bool (const std::string &n, boolv)\fC [inline]\fP"
+
+.PP
+Definition at line 154 of file inisetup\&.hpp\&.
+.SS "\fBIniSetup\fP& inisetup::IniSetup::set_number (const std::string &n, intv)\fC [inline]\fP"
+
+.PP
+Definition at line 146 of file inisetup\&.hpp\&.
+.SS "\fBIniSetup\fP& inisetup::IniSetup::set_string (const std::string &n, const std::string &v)\fC [inline]\fP"
+
+.PP
+Definition at line 137 of file inisetup\&.hpp\&.
+.SS "bool inisetup::IniSetup::write_ini_file ()\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Definition at line 113 of file inisetup\&.hpp\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "string inisetup::IniSetup::_filename\fC [private]\fP"
+
+.PP
+Definition at line 51 of file inisetup\&.hpp\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Open Horizons from the source code\&.

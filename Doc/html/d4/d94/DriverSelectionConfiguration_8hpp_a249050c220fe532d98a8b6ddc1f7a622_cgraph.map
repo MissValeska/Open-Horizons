@@ -1,0 +1,15 @@
+<map id="options_select" name="options_select">
+<area shape="rect" id="node3" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a6b1c8cd019da5de3d54dfc82d0592c2e" title="optional_config" alt="" coords="160,143,269,172"/>
+<area shape="rect" id="node12" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a67a37a0d1212e459d092a0d832f8f47f" title="display_software_select" alt="" coords="317,204,480,233"/>
+<area shape="rect" id="node32" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#ab38bea277bcb76332fd9bb780351cc13" title="fatal" alt="" coords="919,372,964,401"/>
+<area shape="rect" id="node5" href="$d5/dc4/classinisetup_1_1IniSetup.html#ae5181087f780d7a3855669923934855a" title="inisetup::IniSetup\l::get_number" alt="" coords="533,5,656,51"/>
+<area shape="rect" id="node7" href="$d5/dc4/classinisetup_1_1IniSetup.html#a06654e80de4170cfb6f7717a6629fd0d" title="inisetup::IniSetup\l::get_string" alt="" coords="337,65,460,111"/>
+<area shape="rect" id="node9" href="$d5/dc4/classinisetup_1_1IniSetup.html#aa5cd3f0b73231d0bd062f4e1b5c0366d" title="inisetup::IniSetup\l::get_bool" alt="" coords="337,134,460,181"/>
+<area shape="rect" id="node14" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a64fa61baa23f8a73bcfd267625d8ac2d" title="MulitplayerInfo" alt="" coords="717,72,824,101"/>
+<area shape="rect" id="node16" href="$d5/dc4/classinisetup_1_1IniSetup.html#ad17d7e41f044917a1406b093fda58f3d" title="inisetup::IniSetup\l::set_number" alt="" coords="880,146,1003,193"/>
+<area shape="rect" id="node21" href="$d5/dc4/classinisetup_1_1IniSetup.html#ac13907114bf6eb3da68f3b77f7f1b67c" title="inisetup::IniSetup\l::set_bool" alt="" coords="709,175,832,222"/>
+<area shape="rect" id="node24" href="$d5/dc4/classinisetup_1_1IniSetup.html#aedea6e81702df28a3acab7793ea1524c" title="inisetup::IniSetup\l::set_string" alt="" coords="533,226,656,273"/>
+<area shape="rect" id="node26" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a166df529c38c9eeb5c61052059ba28c0" title="Advanced_Options" alt="" coords="529,296,660,325"/>
+<area shape="rect" id="node30" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a9f80209e5dcf24639b4f5ddc85362484" title="Play_Now" alt="" coords="729,347,812,376"/>
+<area shape="rect" id="node18" href="$d5/dc4/classinisetup_1_1IniSetup.html#a1f3c71dce71c9a2b9ab5c7cb23b5161f" title="inisetup::IniSetup::set" alt="" coords="1051,155,1200,184"/>
+</map>

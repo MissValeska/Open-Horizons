@@ -1,0 +1,112 @@
+.TH "EventReceiver" 3 "Thu Feb 20 2014" "Version 0.0.1" "Open Horizons" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+EventReceiver \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include 'EventReceiver\&.hpp'\fP
+.PP
+Inherits IEventReceiver\&.
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBSMouseState\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual bool \fBOnEvent\fP (const SEvent &event)"
+.br
+.ti -1c
+.RI "const SEvent::SJoystickEvent & \fBGetJoystickState\fP (void) const "
+.br
+.ti -1c
+.RI "const \fBSMouseState\fP & \fBGetMouseState\fP (void) const "
+.br
+.ti -1c
+.RI "virtual bool \fBIsKeyDown\fP (EKEY_CODE keyCode) const "
+.br
+.ti -1c
+.RI "virtual bool \fBIsKeyUp\fP (EKEY_CODE keyCode) const "
+.br
+.ti -1c
+.RI "\fBEventReceiver\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBEventReceiver::SMouseState\fP \fBMouseState\fP"
+.br
+.ti -1c
+.RI "bool \fBKeyIsUp\fP [KEY_KEY_CODES_COUNT]"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "bool \fBKeyIsDown\fP [KEY_KEY_CODES_COUNT]"
+.br
+.ti -1c
+.RI "SEvent::SJoystickEvent \fBJoystickState\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 8 of file EventReceiver\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "EventReceiver::EventReceiver ()\fC [inline]\fP"
+
+.PP
+Definition at line 93 of file EventReceiver\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "const SEvent::SJoystickEvent& EventReceiver::GetJoystickState (void) const\fC [inline]\fP"
+
+.PP
+Definition at line 70 of file EventReceiver\&.hpp\&.
+.SS "const \fBSMouseState\fP& EventReceiver::GetMouseState (void) const\fC [inline]\fP"
+
+.PP
+Definition at line 75 of file EventReceiver\&.hpp\&.
+.SS "virtual bool EventReceiver::IsKeyDown (EKEY_CODEkeyCode) const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Definition at line 81 of file EventReceiver\&.hpp\&.
+.SS "virtual bool EventReceiver::IsKeyUp (EKEY_CODEkeyCode) const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Definition at line 87 of file EventReceiver\&.hpp\&.
+.SS "virtual bool EventReceiver::OnEvent (const SEvent &event)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Definition at line 22 of file EventReceiver\&.hpp\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "SEvent::SJoystickEvent EventReceiver::JoystickState\fC [private]\fP"
+
+.PP
+Definition at line 110 of file EventReceiver\&.hpp\&.
+.SS "bool EventReceiver::KeyIsDown[KEY_KEY_CODES_COUNT]\fC [private]\fP"
+
+.PP
+Definition at line 107 of file EventReceiver\&.hpp\&.
+.SS "bool EventReceiver::KeyIsUp[KEY_KEY_CODES_COUNT]"
+
+.PP
+Definition at line 103 of file EventReceiver\&.hpp\&.
+.SS "struct \fBEventReceiver::SMouseState\fP  EventReceiver::MouseState"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Open Horizons from the source code\&.
