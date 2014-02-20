@@ -99,7 +99,8 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
     //IAnimatedMesh* irr::scene::ISceneManager::addHillPlaneMesh(nodehill, 10.0f, 10.0f, "/home/missvaleska/Documents/Blender/textures/greenhillsmalljg0.jpg", 5.0f, 2.0f, 2.0f);
 
-            /*//Adding a Room
+            /*
+            //Adding a Room
             scene::IAnimatedMesh* roomMesh = smgr->getMesh("Structures/room.3ds");
         scene::ISceneNode* room = 0;
         scene::ISceneNode* earth = 0;
@@ -109,7 +110,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         // The Room mesh doesn't have proper Texture Mapping on the
         // floor, so we can recreate them on runtime
         smgr->getMeshManipulator()->makePlanarTextureMapping(
-                roomMesh->getMesh(0), 0.003f);
+            roomMesh->getMesh(0), 0.003f);
 
                 video::ITexture* normalMap =
             driver->getTexture("Textures/rockwall_height.bmp");
