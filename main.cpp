@@ -205,16 +205,17 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     camera->setPosition(core::vector3df(50,50,-60));
     camera->setTarget(core::vector3df(-70,30,-60));
 
-    bool bCrouch;
+      scene::ISceneNodeAnimatorCollisionResponse* camera_animator;
+	bool bCrouch;
             if(bCrouch == true)
                 {
-        scene::ISceneNodeAnimatorCollisionResponse* camera_animator = smgr->createCollisionResponseAnimator(
+         camera_animator = smgr->createCollisionResponseAnimator(
             selector, camera, core::vector3df(10,20,10),
             core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
         camera->addAnimator(camera_animator);
         }
     if(bCrouch == false)
-        {        scene::ISceneNodeAnimatorCollisionResponse* camera_animator = smgr->createCollisionResponseAnimator(
+        {        camera_animator = smgr->createCollisionResponseAnimator(
             selector, camera, core::vector3df(10,40,10),
             core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
         camera->addAnimator(camera_animator);
@@ -240,17 +241,17 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 	const f32 MOVEMENT_SPEED = 70.f;
 
  //Run simulation
-    while(device->run())
-    {
-        std::thread GetPlayerPosition([&]{
+	  while(device->run()) {
         camera->getAbsolutePosition();
         camera->updateAbsolutePosition();
-    });
         if(receiver.IsKeyDown(irr::KEY_ESCAPE))
            break;
 
-        //if(receiver.IsKeyDown(irr::KEY_SPACE))
-          //camera_animator->jump(0.8);
+	  if(receiver.IsKeyDown(irr::KEY_SPACE)) {
+	    if (!camera_animator->isFalling()) {
+	      camera_animator->jump(10);
+	    }
+	  }
 
           if(receiver.IsKeyDown(irr::KEY_CONTROL))
             bCrouch = true;
@@ -316,7 +317,6 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         //beginrender.join();
         //charactermovement.join();
         //fpsdetection.join();
-        GetPlayerPosition.join();
 
   }
     device->drop();
