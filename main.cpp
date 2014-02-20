@@ -208,7 +208,6 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     bool bCrouch = false;
 
       scene::ISceneNodeAnimatorCollisionResponse* camera_animator;
-	bool bCrouch;
 
             if(bCrouch == true)
 
@@ -221,14 +220,13 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
     if(bCrouch == false)
 
+        {
 
-        {        scene::ISceneNodeAnimatorCollisionResponse* camera_animator = smgr->createCollisionResponseAnimator(
-
-        {        camera_animator = smgr->createCollisionResponseAnimator(
+            camera_animator = smgr->createCollisionResponseAnimator(
 
             selector, camera, core::vector3df(10,40,10),
             core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
-            camera->addAnimator(camera_animator);
+            camera->addAnimator(camera_animator));
   }
 
           selector->drop(); // As soon as we're done with the selector, drop it.
