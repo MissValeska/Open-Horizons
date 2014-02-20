@@ -205,20 +205,25 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     camera->setPosition(core::vector3df(50,50,-60));
     camera->setTarget(core::vector3df(-70,30,-60));
 
-    bool bCrouch;
+    bool bCrouch = false;
+
             if(bCrouch == true)
+
                 {
         scene::ISceneNodeAnimatorCollisionResponse* camera_animator = smgr->createCollisionResponseAnimator(
             selector, camera, core::vector3df(10,20,10),
             core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
-        camera->addAnimator(camera_animator);
+            camera->addAnimator(camera_animator);
         }
+
     if(bCrouch == false)
+
         {        scene::ISceneNodeAnimatorCollisionResponse* camera_animator = smgr->createCollisionResponseAnimator(
             selector, camera, core::vector3df(10,40,10),
             core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
-        camera->addAnimator(camera_animator);
+            camera->addAnimator(camera_animator);
   }
+
           selector->drop(); // As soon as we're done with the selector, drop it.
 
     //Add FPS Camera to allow movement using Keyboard and Mouse.
@@ -242,10 +247,9 @@ int main(int argc, char ** argv) // The options here define an argument count ap
  //Run simulation
     while(device->run())
     {
-        std::thread GetPlayerPosition([&]{
         camera->getAbsolutePosition();
         camera->updateAbsolutePosition();
-    });
+
         if(receiver.IsKeyDown(irr::KEY_ESCAPE))
            break;
 
@@ -254,6 +258,9 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
           if(receiver.IsKeyDown(irr::KEY_CONTROL))
             bCrouch = true;
+
+            if(receiver.IsKeyDown(irr::KEY_DELETE))
+            cout << "Hiya!";
 
         // A camera_animator->crouch does not seem to exist
         // if(receiver.IsKeyDown(irr::KEY_CONTROL))
@@ -294,8 +301,6 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         characternode->setPosition(nodePosition);
     //});
 
-
-
         //std::thread fpsdetection([&](){
         //Detects and displays FPS dynamically.
         int fps = driver->getFPS();
@@ -316,9 +321,11 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         //beginrender.join();
         //charactermovement.join();
         //fpsdetection.join();
-        GetPlayerPosition.join();
 
-  }
+        //bCrouch == false;
+
+    }
+
     device->drop();
     return 0;
 }
