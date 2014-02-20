@@ -225,8 +225,8 @@ int main(int argc, char ** argv) // The options here define an argument count ap
             camera_animator = smgr->createCollisionResponseAnimator(
 
             selector, camera, core::vector3df(10,40,10),
-            core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
-            camera->addAnimator(camera_animator));
+              core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
+          camera->addAnimator(camera_animator);
   }
 
           selector->drop(); // As soon as we're done with the selector, drop it.
@@ -329,11 +329,8 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         //beginrender.join();
         //charactermovement.join();
         //fpsdetection.join();
-<<<<<<< HEAD
 
-        //bCrouch == false;
-=======
->>>>>>> aa75cf95c2a796977bc740d45318787ed136ae88
+        //bCrouch = false;
 
     }
 
