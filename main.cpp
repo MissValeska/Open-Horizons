@@ -6,6 +6,7 @@
 #include "EventReceiver.hpp"
 #include "DriverSelectionConfiguration.hpp"
 #include <thread>
+#include "UDPSocket.hpp"
 
 using namespace std;
 using namespace irr;
@@ -221,9 +222,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     if(bCrouch == false)
 
         {
-
-            camera_animator = smgr->createCollisionResponseAnimator(
-
+    camera_animator = smgr->createCollisionResponseAnimator(
             selector, camera, core::vector3df(10,40,10),
               core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
           camera->addAnimator(camera_animator);
@@ -252,23 +251,32 @@ int main(int argc, char ** argv) // The options here define an argument count ap
  //Run simulation
     while(device->run())
     {
-        camera->getAbsolutePosition();
+        float PlayerPosX = camera->getAbsolutePosition().X;
+        float PlayerPosY = camera->getAbsolutePosition().Y;
+        float PlayerPosZ = camera->getAbsolutePosition().Z;
         camera->updateAbsolutePosition();
+
+        float PlayerPos = PlayerPosX + PlayerPosY + PlayerPosZ;
+
+        UDPSocket(2000).sendto(ipaddress, ServAddr(ipaddress.c_str(),portnumber));
 
         if(receiver.IsKeyDown(irr::KEY_ESCAPE))
            break;
 
 	  if(receiver.IsKeyDown(irr::KEY_SPACE)) {
 	    if (!camera_animator->isFalling()) {
-	      camera_animator->jump(0.5);
+	      camera_animator->jump(3.5);
 	    }
 	  }
+          if(receiver.IsKeyDown(irr::KEY_INSERT))
+            cout << UDPSocket(2000).recv_string() << std::endl;
+            //bCrouch = true;
 
-          if(receiver.IsKeyDown(irr::KEY_CONTROL))
-            bCrouch = true;
+        //if(receiver.KeyIsUp(irr::KEY_CONTROL))
+           // bCrouch = false;
 
             if(receiver.IsKeyDown(irr::KEY_DELETE))
-            cout << "Hiya!";
+            cout << PlayerPosX << PlayerPosY << PlayerPosZ << endl; //<< PlayerPos << endl;
 
         // A camera_animator->crouch does not seem to exist
         // if(receiver.IsKeyDown(irr::KEY_CONTROL))
@@ -329,8 +337,6 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         //beginrender.join();
         //charactermovement.join();
         //fpsdetection.join();
-
-        //bCrouch = false;
 
     }
 

@@ -3,6 +3,7 @@
 #include "inisetup.hpp"
 #include <limits>
 #include <ctype.h>
+#include <functional>
 
 char choose_switch_stuff;
 
@@ -13,6 +14,10 @@ bool vsync_define = false;
 
 int screen_width;
 int screen_height;
+
+std::string ipaddress;
+
+int portnumber;
 
 irr::video::E_DRIVER_TYPE display_software; //This defines a string basically (It's probably not technically a string)
 //Which I can name what ever I want, And is compatible with defining the renderer.
@@ -109,6 +114,22 @@ void Advanced_Options() {
 
 }
 
+void MulitplayerInfo() {
+
+    std::cout << "Please enter the IP address of the person you want to play with." << std::endl;
+    std::cout << ">";
+
+    std::cin >> ipaddress;
+
+    std::cout << "Please enter the port you will both be using, Such as 2000." << std::endl;
+    std::cout << ">";
+
+    std::cin >> portnumber;
+
+    inisetup::IniSetup ini("config.ini");
+    ini.set_number("Last_Port_Number", portnumber);
+
+}
 
 void display_software_select() {
 
@@ -137,7 +158,7 @@ void display_software_select() {
     }while(isalpha(choose_switch_stuff));
 
 
-    std::cout << "Please chose a screen size." << std::endl;
+    std::cout << "Please chose a screen size, Such as 800 (Press Enter) 600." << std::endl;
     std::cout << "x axis:";
     std::cin >> screen_width;
     std::cout << "y axis:";
@@ -163,6 +184,25 @@ void display_software_select() {
         }
     }while(isalpha(choose_switch_stuff));
 
+    std::cout << "Do you want to use multiplayer now?" << std::endl;
+    std::cout << "(1) Yes" << std::endl;
+    std::cout << "(2) No" << std::endl;
+
+    std::cout << ">";
+    std::cin >> choose_switch_stuff;
+
+    std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+
+      do {
+
+    switch (choose_switch_stuff){
+    case '1': MulitplayerInfo(); break;
+    case '2':; break;
+    default:
+    std::cout << "\nYour selection is invalid, Please correct it.\n" << ">";
+    std::cin >> choose_switch_stuff;
+        }
+    }while(isalpha(choose_switch_stuff));
 
         // Save the standard configuration.
     inisetup::IniSetup ini("config.ini");
