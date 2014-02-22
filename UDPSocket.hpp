@@ -60,8 +60,17 @@ struct UDPSocket {
         );
   }
 
-  int sendto(std::basic_string<char> s, const ServAddr& a) {
+  int send_basic_string(std::basic_string<char> s, const ServAddr& a) {
     return sendto(s.c_str(), s.length(), a);
+  }
+
+    int send_float(float s, const ServAddr& a) {
+    std::stringstream ss;
+      ss << s;
+      ss.seekg(0, std::ios::end);
+      int str_size = ss.tellg();
+      ss.seekg(0, std::ios::beg);
+    return send_basic_string(ss.str(), a);
   }
 
   // Wait for and obtain a UDP packet (returns the size of the data stored in BUF)
@@ -80,6 +89,11 @@ struct UDPSocket {
       return std::basic_string<char>();
     }
   }
+
+    int recv_float(float var) {
+
+        return std::stoi(recv_string(100));
+}
 
   // Destructor: closes the socket
   ~UDPSocket() {

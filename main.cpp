@@ -95,6 +95,14 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         characternode->setPosition(core::vector3df(0,-7,0));
         characternode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
 
+            //Add SecondPlayerNode
+        scene::IAnimatedMeshSceneNode* ExPlayer =
+        smgr->addAnimatedMeshSceneNode(smgr->getMesh
+        ("Models/Female_Model_BaseMesh.obj"));
+
+        ExPlayer->setPosition(core::vector3df(50,50,-60));
+        ExPlayer->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+
     //characternode->setMaterialTexture(0, driver->getTexture("../../media/sydney.bmp"))
 
     //IAnimatedMesh* irr::scene::ISceneManager::addHillPlaneMesh(nodehill, 10.0f, 10.0f, "/home/missvaleska/Documents/Blender/textures/greenhillsmalljg0.jpg", 5.0f, 2.0f, 2.0f);
@@ -207,27 +215,13 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     camera->setPosition(core::vector3df(50,50,-60));
     camera->setTarget(core::vector3df(-70,30,-60));
 
-    bool bCrouch = false;
-
       scene::ISceneNodeAnimatorCollisionResponse* camera_animator;
 
-            if(bCrouch == true)
-
-                {
-         camera_animator = smgr->createCollisionResponseAnimator(
-            selector, camera, core::vector3df(10,20,10),
-            core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
-            camera->addAnimator(camera_animator);
-        }
-
-    if(bCrouch == false)
-
-        {
     camera_animator = smgr->createCollisionResponseAnimator(
             selector, camera, core::vector3df(10,40,10),
               core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
           camera->addAnimator(camera_animator);
-  }
+
 
           selector->drop(); // As soon as we're done with the selector, drop it.
 
@@ -249,17 +243,34 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     // This is the movement speed in units per second.
 	const f32 MOVEMENT_SPEED = 70.f;
 
+    //irr::core::vector3d<float>& PlayerPos;
+
+        float ExPlayerPosX = 50;
+        float ExPlayerPosY = -60;
+        float ExPlayerPosZ = 50;
+
  //Run simulation
     while(device->run())
     {
-        float PlayerPosX = camera->getAbsolutePosition().X;
-        float PlayerPosY = camera->getAbsolutePosition().Y;
-        float PlayerPosZ = camera->getAbsolutePosition().Z;
+
+        float MyPlayerPosX = camera->getAbsolutePosition().X;
+        float MyPlayerPosY = camera->getAbsolutePosition().Y;
+        float MyPlayerPosZ = camera->getAbsolutePosition().Z;
         camera->updateAbsolutePosition();
 
-        float PlayerPos = PlayerPosX + PlayerPosY + PlayerPosZ;
+        //irr::core::vector3d<float>& MyPlayerPos = MyPlayerPosX + MyPlayerPosY + MyPlayerPosZ;
 
-        UDPSocket(2000).sendto(ipaddress, ServAddr(ipaddress.c_str(),portnumber));
+        UDPSocket(2000).send_float(MyPlayerPosX, ServAddr(ipaddress.c_str(),portnumber));
+
+        UDPSocket(2000).recv_float(ExPlayerPosX);
+
+        UDPSocket(2000).send_float(MyPlayerPosY, ServAddr(ipaddress.c_str(),portnumber));
+
+        UDPSocket(2000).recv_float(ExPlayerPosY);
+
+        UDPSocket(2000).send_float(MyPlayerPosZ, ServAddr(ipaddress.c_str(),portnumber));
+
+        UDPSocket(2000).recv_float(ExPlayerPosZ);
 
         if(receiver.IsKeyDown(irr::KEY_ESCAPE))
            break;
@@ -270,14 +281,16 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 	    }
 	  }
           if(receiver.IsKeyDown(irr::KEY_INSERT))
-            cout << UDPSocket(2000).recv_string() << std::endl;
-            //bCrouch = true;
+            camera_animator->setEllipsoidRadius(core::vector3df(10,10,10));
 
-        //if(receiver.KeyIsUp(irr::KEY_CONTROL))
-           // bCrouch = false;
+        //if(receiver.KeyIsUp(irr::KEY_INSERT))
+           // camera_animator->setEllipsoidRadius(core::vector3df(10,40,10));
 
             if(receiver.IsKeyDown(irr::KEY_DELETE))
-            cout << PlayerPosX << PlayerPosY << PlayerPosZ << endl; //<< PlayerPos << endl;
+            cout << UDPSocket(2000).recv_string() << std::endl;
+            //cout << MyPlayerPosX << MyPlayerPosY << MyPlayerPosZ << endl; //<< MyPlayerPos << endl;
+
+            ExPlayer->setPosition(core::vector3df(MyPlayerPosX,MyPlayerPosZ,MyPlayerPosY));
 
         // A camera_animator->crouch does not seem to exist
         // if(receiver.IsKeyDown(irr::KEY_CONTROL))

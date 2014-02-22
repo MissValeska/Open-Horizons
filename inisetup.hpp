@@ -153,8 +153,38 @@ namespace inisetup {
     };
     IniSetup &set_bool(const std::string &n, bool v) {
       return set_number(n, v ? 1 : 0);
+        };
+    /*IniSetup &get_float(const std::string &n) {
+        float r = 0;
+        std::istringstream(get(n)) >> r;
+        return r;
+    };*/ // Return fails with: invalid initialization of reference of type ‘inisetup::IniSetup&’ from expression of type ‘float’
+    IniSetup &set_float(const std::string &n, float v) {
+        std::stringstream ss;
+        ss << v;
+        return set(n, ss.str());
+        };
+    double get_double(const std::string &n) {
+      double r = 0;
+      std::istringstream(get(n)) >> r;
+      return r;
+    };
+    IniSetup &set_double(const std::string &n, double v) {
+      std::stringstream ss;
+      ss << v;
+      return set(n, ss.str());
+    };
+    /*IniSetup &get_wchar_t(const std::string &n) {
+        wchar_t r = 0;
+        std::istringstream(get(n)) >> r;
+        return r;
+    };
+    IniSetup &set_wchar_t(const std::string &n, wchar_t v) {
+        std::stringstream ss;
+        ss << v;
+        return set(n, ss.str());
+      };*/
     };
   };
-};
 
 #endif // INISETUP_HPP_INCLUDED
