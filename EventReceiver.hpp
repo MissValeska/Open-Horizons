@@ -54,19 +54,27 @@ public:
         {
             JoystickState = event.JoystickEvent;
         }
+        // Enumeration for UP, DOWN, PRESSED and RELEASED key states. Also used for mouse button states.
+        enum keyStatesENUM {UP, DOWN, PRESSED, RELEASED};
+
+        // Keyboard key states.
+        keyStatesENUM keyState[KEY_KEY_CODES_COUNT];
+
+        EKEY_CODE keyCode;
 
         // Remember whether each key is down or up
         if (event.EventType == irr::EET_KEY_INPUT_EVENT)
             KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
 
-        return false;
+            return false;
 
         if (event.EventType == irr::EET_KEY_INPUT_EVENT)
             KeyIsUp[event.KeyInput.Key] = event.KeyInput.PressedDown;
 
-        return true;
-    }
+            if (keyState [keyCode] == UP || keyState[keyCode] == RELEASED)
+                return false;
 
+}
     const SEvent::SJoystickEvent & GetJoystickState(void) const
     {
         return JoystickState;
@@ -96,15 +104,14 @@ public:
             KeyIsDown[i] = false;
 
         for (u32 i=0; i<KEY_KEY_CODES_COUNT; ++i)
-            KeyIsUp[i] = true;
+            KeyIsUp[i] = false;
     }
-public:
-
-    bool KeyIsUp[KEY_KEY_CODES_COUNT];
 
 private:
     // We use this array to store the current state of each key
     bool KeyIsDown[KEY_KEY_CODES_COUNT];
+
+    bool KeyIsUp[KEY_KEY_CODES_COUNT];
 
     //Joystick State
     SEvent::SJoystickEvent JoystickState;

@@ -47,6 +47,7 @@
 		</Compiler>
 		<Unit filename="DriverSelectionConfiguration.hpp" />
 		<Unit filename="EventReceiver.hpp" />
+		<Unit filename="UDPSocket.hpp" />
 		<Unit filename="bimap.hpp" />
 		<Unit filename="inisetup.hpp" />
 		<Unit filename="main.cpp" />
