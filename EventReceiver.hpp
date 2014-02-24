@@ -72,7 +72,7 @@ public:
             KeyIsUp[event.KeyInput.Key] = event.KeyInput.PressedDown;
 
             if (keyState [keyCode] == UP || keyState[keyCode] == RELEASED)
-                return false;
+                return true;
 
 }
     const SEvent::SJoystickEvent & GetJoystickState(void) const
@@ -104,7 +104,7 @@ public:
             KeyIsDown[i] = false;
 
         for (u32 i=0; i<KEY_KEY_CODES_COUNT; ++i)
-            KeyIsUp[i] = false;
+            KeyIsUp[i] = true;
     }
 
 private:

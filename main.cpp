@@ -96,6 +96,14 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         characternode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);*/
 
             //Add Second PlayerNode
+        scene::IAnimatedMeshSceneNode* InPlayer =
+        smgr->addAnimatedMeshSceneNode(smgr->getMesh
+        ("Models/Female_Model_BaseMesh.obj"));
+
+        InPlayer->setPosition(core::vector3df(50,50,-60));
+        InPlayer->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+
+            //Add Second PlayerNode
         scene::IAnimatedMeshSceneNode* ExPlayer =
         smgr->addAnimatedMeshSceneNode(smgr->getMesh
         ("Models/Female_Model_BaseMesh.obj"));
@@ -208,13 +216,6 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         // We're not done with this selector yet, so don't drop it.
     }
 
-    scene::ISceneNodeAnimatorCollisionResponse* player_animator;
-
-    player_animator = smgr->createCollisionResponseAnimator(
-        selector, ExPlayer, core::vector3df(10,40,10),
-            core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
-        ExPlayer->addAnimator(player_animator);
-
     // Set a jump speed of 3 units per second, which gives a fairly realistic jump
     // when used with the gravity of (0, -10, 0) in the collision response animator.
     scene::ICameraSceneNode* camera =
@@ -229,6 +230,24 @@ int main(int argc, char ** argv) // The options here define an argument count ap
               core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
           camera->addAnimator(camera_animator);
 
+    InPlayer->setPosition(core::vector3df(50,50,-60));
+    InPlayer->setParent(camera);
+
+    scene::ISceneNodeAnimatorCollisionResponse* in_player_animator;
+
+    in_player_animator = smgr->createCollisionResponseAnimator(
+        selector, InPlayer, core::vector3df(10,40,10),
+            core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
+        InPlayer->addAnimator(in_player_animator);
+
+    ExPlayer->setPosition(core::vector3df(50,50,-60));
+
+    scene::ISceneNodeAnimatorCollisionResponse* player_animator;
+
+    player_animator = smgr->createCollisionResponseAnimator(
+        selector, ExPlayer, core::vector3df(10,40,10),
+            core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
+        ExPlayer->addAnimator(player_animator);
 
           selector->drop(); // As soon as we're done with the selector, drop it.
 
@@ -252,13 +271,13 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
     //irr::core::vector3d<float>& PlayerPos;
 
-        float ExPlayerPosX = 50;
-        float ExPlayerPosY = -60;
-        float ExPlayerPosZ = 50;
+        f32 ExPlayerPosX = 50;
+        f32 ExPlayerPosY = -60;
+        f32 ExPlayerPosZ = 50;
 
-        float MyPlayerPosX;
-        float MyPlayerPosY;
-        float MyPlayerPosZ;
+        f32 MyPlayerPosX;
+        f32 MyPlayerPosY;
+        f32 MyPlayerPosZ;
 
 std::thread MultiplayerPos([&]{
     while(true)
@@ -289,6 +308,10 @@ std::thread MultiplayerPos([&]{
  //Run simulation
     while(device->run())
     {
+        MyPlayerPosX = camera->getAbsolutePosition().X;
+    MyPlayerPosY = camera->getAbsolutePosition().Y;
+    MyPlayerPosZ = camera->getAbsolutePosition().Z;
+        camera->updateAbsolutePosition();
 
         //irr::core::vector3d<float>& MyPlayerPos = MyPlayerPosX + MyPlayerPosY + MyPlayerPosZ;
 
@@ -304,15 +327,12 @@ std::thread MultiplayerPos([&]{
             camera_animator->setEllipsoidRadius(core::vector3df(10,15,10));
 
     }
-        else if(receiver.IsKeyUp(irr::KEY_LCONTROL)) {
-            camera_animator->setEllipsoidRadius(core::vector3df(10,40,10));
-        }
-
-        //if(receiver.KeyIsUp(irr::KEY_INSERT))
-           // camera_animator->setEllipsoidRadius(core::vector3df(10,40,10));
+        //else if(receiver.IsKeyUp(irr::KEY_LCONTROL)) {
+            //camera_animator->setEllipsoidRadius(core::vector3df(10,40,10));
+        //}
 
             if(receiver.IsKeyDown(irr::KEY_DELETE))
-            cout << ExPlayerPosX << ExPlayerPosY << ExPlayerPosZ << endl; //<< MyPlayerPos << endl;
+            cout << MyPlayerPosX << MyPlayerPosY << MyPlayerPosZ << endl; //<< MyPlayerPos << endl;
 
         // A camera_animator->crouch does not seem to exist
         // if(receiver.IsKeyDown(irr::KEY_CONTROL))
