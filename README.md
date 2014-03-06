@@ -1,6 +1,8 @@
 Open-Horizons
 ===============
 
+From Stones to Stars!
+
 A game of realism and simulation!
 
 This is a game using the Irrlicht Engine,
