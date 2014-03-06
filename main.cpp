@@ -308,10 +308,6 @@ std::thread MultiplayerPos([&]{
  //Run simulation
     while(device->run())
     {
-        MyPlayerPosX = camera->getAbsolutePosition().X;
-    MyPlayerPosY = camera->getAbsolutePosition().Y;
-    MyPlayerPosZ = camera->getAbsolutePosition().Z;
-        camera->updateAbsolutePosition();
 
         //irr::core::vector3d<float>& MyPlayerPos = MyPlayerPosX + MyPlayerPosY + MyPlayerPosZ;
 
@@ -331,8 +327,10 @@ std::thread MultiplayerPos([&]{
             //camera_animator->setEllipsoidRadius(core::vector3df(10,40,10));
         //}
 
-            if(receiver.IsKeyDown(irr::KEY_DELETE))
-            cout << MyPlayerPosX << MyPlayerPosY << MyPlayerPosZ << endl; //<< MyPlayerPos << endl;
+            if(receiver.IsKeyDown(irr::KEY_DELETE)){
+                cout << MyPlayerPosX << MyPlayerPosY << MyPlayerPosZ << endl;
+            }
+            //<< MyPlayerPos << endl;
 
         // A camera_animator->crouch does not seem to exist
         // if(receiver.IsKeyDown(irr::KEY_CONTROL))
