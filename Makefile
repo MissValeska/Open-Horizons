@@ -1,5 +1,5 @@
 LDLIBS=-lIrrlicht
-LDFLAGS=-L ~/Downloads/irrlicht-trunk/include -L ~Downloads/irrlicht-trunk/source/Irrlicht
+LDFLAGS=-L ~/Downloads/irrlicht-trunk/include -L ~/Downloads/irrlicht-trunk/source/Irrlicht
 LIBS=-lIrrlicht
 EXTRA_CXXFLAGS=-I ~/Downloads/irrlicht-trunk/include -I ~/Downloads/irrlicht-trunk/lib/Linux -D_LOCAL_IRRLICHT
 CXX=g++
@@ -8,10 +8,10 @@ CXXFLAGS= -std=c++11 -Wall -g ${EXTRA_CXXFLAGS}
 
 all: ExperimentalGame
 
-ExperimentalGame: main.o DriverSelectionConfiguration.o
+OpenHorizons: main.o DriverSelectionConfiguration.o
 	${CXX} ${LDFLAGS} ${LIBS} $^ -o $@
 
 .PHONY: clean
 
 clean:
-	rm -f *.o ExperimentalGame
+	rm -f *.o OpenHorizons
