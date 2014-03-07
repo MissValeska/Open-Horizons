@@ -7,8 +7,8 @@
 #include <string>
 #include <iostream>
 #include <thread>
-#include "bimap.hpp" // http://collabedit.com/sn782
-//#include "keybinds.hpp"
+#include "bimap.hpp" //!< http://!<collabedit.com/sn782
+//!<#include "keybinds.hpp"
 #include "EventReceiver.hpp"
 #include "DriverSelectionConfiguration.hpp"
 #include "UDPSocket.hpp"
@@ -20,59 +20,59 @@ using namespace video;
 using namespace io;
 using namespace gui;
 
-int main(int argc, char ** argv) // The options here define an argument count apparently, I don't fully understand it.
-//http://collabedit.com/sab53 A friend explained here if it is still up next you check.
+int main(int argc, char ** argv) //!<!<  The options here define an argument count apparently, I don't fully understand it.
+//!<!< http://!<collabedit.com/sab53 A friend explained here if it is still up next you check.
 {
 
   options_select();
 
     EventReceiver receiver;
 
-   //Exclamation means negation
+   //!<!< Exclamation means negation
     if(!display_software)
         fatal("Fatal Error: The Renderer was not correctly specified!", 1);
         else if(display_software == 0)
             fatal("Fatal Error: The Renderer was not correctly specified!", 1);
 
-    //Create an Irrlicht Device.
+    //!<!< Create an Irrlicht Device.
     IrrlichtDevice * device = irr::createDevice(display_software,dimension2d<u32>(screen_width,screen_height), colour_bits,
                 fullscreen_define, shadows_define, vsync_define, &receiver);
 
     if (!device ) fatal("Fatal Error: The Irrlicht Device could not be created!", 2);
 
-    //Get the Video Driver from the device.
+    //!<!< Get the Video Driver from the device.
     IVideoDriver * driver = device->getVideoDriver();
     if (!driver) fatal("Fatal Error: Could not get Video Driver from the Irrlicht Device.", 3);
 
-    //Get the Scene Manager from the device.
+    //!<!< Get the Scene Manager from the device.
     ISceneManager * smgr = device->getSceneManager();
     if (!smgr) fatal("Fatal Error: Could not get Scene Manager from the Irrlicht Device.", 4);
 
-    //Add a Cube to the Scene.
+    //!<!< Add a Cube to the Scene.
     ISceneNode * n = smgr->addCubeSceneNode();
 
-        //An animated cube.
+        //!<!< An animated cube.
 
     if (n)
     {
-    //Add texture to the cube.
+    //!<!< Add texture to the cube.
     n->setMaterialTexture(0,driver->getTexture("Textures/IMG_1457.JPG"));
 
-    //Needed to make the object's texture visible without a light source.
-    //n->setMaterialFlag(EMF_LIGHTING, false);
+    //!<!< Needed to make the object's texture visible without a light source.
+    //!<!< n->setMaterialFlag(EMF_LIGHTING, false);
 
     n->setPosition(core::vector3df(0,0,100));
-        //Set cube 100 units further in forward direction (Z axis), And animate it.
-        /*scene::ISceneNodeAnimator* anim =
+        //!<Set cube 100 units further in forward direction (Z axis), And animate it.
+        scene::ISceneNodeAnimator* anim =
             smgr->createFlyCircleAnimator(core::vector3df(0,0,100), 20.0f);
         if (anim)
         {
             n->addAnimator(anim);
             anim->drop();
-        }*/
+        }
     }
 
-    // create light
+    //!<!<  create light
 
     scene::ISceneNode* node = 0;
 
@@ -83,7 +83,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     node->addAnimator(anim);
     anim->drop();
 
-    // attach billboard to light
+    //!<!<  attach billboard to light
 
     node = smgr->addBillboardSceneNode(node, core::dimension2d<f32>(50, 50));
     node->setMaterialFlag(video::EMF_LIGHTING, false);
@@ -92,7 +92,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     ("Textures/particlewhite.bmp"));
 
 
-        /*//Add CharacterNode
+        /*//!<Add CharacterNode
         scene::IAnimatedMeshSceneNode* characternode =
         smgr->addAnimatedMeshSceneNode(smgr->getMesh
         ("Models/Female_Model_BaseMesh.obj"));
@@ -100,7 +100,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         characternode->setPosition(core::vector3df(0,-7,0));
         characternode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);*/
 
-            //Add Second PlayerNode
+            //!<!< Add Second PlayerNode
         scene::IAnimatedMeshSceneNode* InPlayer =
         smgr->addAnimatedMeshSceneNode(smgr->getMesh
         ("Models/Female_Model_BaseMesh.obj"));
@@ -108,7 +108,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         InPlayer->setPosition(core::vector3df(50,50,-60));
         InPlayer->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
 
-            //Add Second PlayerNode
+            //!<!< Add Second PlayerNode
         scene::IAnimatedMeshSceneNode* ExPlayer =
         smgr->addAnimatedMeshSceneNode(smgr->getMesh
         ("Models/Female_Model_BaseMesh.obj"));
@@ -116,20 +116,20 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         ExPlayer->setPosition(core::vector3df(50,50,-60));
         ExPlayer->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
 
-    //characternode->setMaterialTexture(0, driver->getTexture("../../media/sydney.bmp"))
+    //!<!< characternode->setMaterialTexture(0, driver->getTexture("../../media/sydney.bmp"))
 
-    //IAnimatedMesh* irr::scene::ISceneManager::addHillPlaneMesh(nodehill, 10.0f, 10.0f, "/home/missvaleska/Documents/Blender/textures/greenhillsmalljg0.jpg", 5.0f, 2.0f, 2.0f);
+    //!<!< IAnimatedMesh* irr::scene::ISceneManager::addHillPlaneMesh(nodehill, 10.0f, 10.0f, "/home/missvaleska/Documents/Blender/textures/greenhillsmalljg0.jpg", 5.0f, 2.0f, 2.0f);
 
             /*
-            //Adding a Room
+            //!<Adding a Room
             scene::IAnimatedMesh* roomMesh = smgr->getMesh("Structures/room.3ds");
         scene::ISceneNode* room = 0;
         scene::ISceneNode* earth = 0;
 
     if (roomMesh)
     {
-        // The Room mesh doesn't have proper Texture Mapping on the
-        // floor, so we can recreate them on runtime
+        //!< The Room mesh doesn't have proper Texture Mapping on the
+        //!< floor, so we can recreate them on runtime
         smgr->getMeshManipulator()->makePlanarTextureMapping(
             roomMesh->getMesh(0), 0.003f);
 
@@ -148,15 +148,15 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
         room->setPosition(core::vector3df(0,-60,0));
 
-        // Stones don't glitter..
+        //!< Stones don't glitter..
         room->getMaterial(0).SpecularColor.set(0,0,0,0);
         room->getMaterial(0).Shininess = 0.f;
 
         room->setMaterialType(video::EMT_PARALLAX_MAP_SOLID);
-        // adjust height for parallax effect
+        //!< adjust height for parallax effect
         room->getMaterial(0).MaterialTypeParam = 1.f / 64.f;
 
-        // drop mesh because we created it with a create.. call.
+        //!< drop mesh because we created it with a create.. call.
         tangentMesh->drop();*/
 
                  SKeyMap keyMap[8];
@@ -182,17 +182,17 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
         enum
 {
-    // I use this ISceneNode ID to indicate a scene node that is
-    // not pickable by getSceneNodeAndCollisionPointFromRay()
+    //!< I use this ISceneNode ID to indicate a scene node that is
+    //!< not pickable by getSceneNodeAndCollisionPointFromRay()
     ID_IsNotPickable = 0,
 
-    // I use this flag in ISceneNode IDs to indicate that the
-    // scene node can be picked by ray selection.
+    //!< I use this flag in ISceneNode IDs to indicate that the
+    //!< scene node can be picked by ray selection.
     IDFlag_IsPickable = 1 << 0,
 
-    // I use this flag in ISceneNode IDs to indicate that the
-    // scene node can be highlighted.  In this example, the
-    // homonids can be highlighted, but the level mesh can't.
+    //!< I use this flag in ISceneNode IDs to indicate that the
+    //!< scene node can be highlighted.  In this example, the
+    //!< homonids can be highlighted, but the level mesh can't.
     IDFlag_IsHighlightable = 1 << 1
 };
 
@@ -201,7 +201,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     scene::IAnimatedMesh* q3levelmesh = smgr->getMesh("20kdm2.bsp");
     scene::IMeshSceneNode* q3node = 0;
 
-    // The Quake mesh is pickable, but doesn't get highlighted.
+    //!< The Quake mesh is pickable, but doesn't get highlighted.
     if (q3levelmesh)
         q3node = smgr->addOctreeSceneNode(q3levelmesh->getMesh(0), 0, IDFlag_IsPickable);
 
@@ -214,11 +214,11 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         selector = smgr->createOctreeTriangleSelector(
                 q3node->getMesh(), q3node, 128);
         q3node->setTriangleSelector(selector);
-        // We're not done with this selector yet, so don't drop it.
+        //!< We're not done with this selector yet, so don't drop it.
     }
 
-    // Set a jump speed of 3 units per second, which gives a fairly realistic jump
-    // when used with the gravity of (0, -10, 0) in the collision response animator.
+    //!< Set a jump speed of 3 units per second, which gives a fairly realistic jump
+    //!< when used with the gravity of (0, -10, 0) in the collision response animator.
     scene::ICameraSceneNode* camera =
         smgr->addCameraSceneNodeFPS(0, 100, 0.3, ID_IsNotPickable, keyMap, 8, true, 3);
     camera->setPosition(core::vector3df(50,50,-60));
@@ -250,27 +250,27 @@ int main(int argc, char ** argv) // The options here define an argument count ap
             core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
         ExPlayer->addAnimator(player_animator);
 
-          selector->drop(); // As soon as we're done with the selector, drop it.
+          selector->drop(); //!< As soon as we're done with the selector, drop it.
 
-    //Add FPS Camera to allow movement using Keyboard and Mouse.
-    //smgr->addCameraSceneNodeFPS(0, 100, 0.07, -1, keyMap, 8);
+    //!<Add FPS Camera to allow movement using Keyboard and Mouse.
+    //!<smgr->addCameraSceneNodeFPS(0, 100, 0.07, -1, keyMap, 8);
 
-    //Changes cursor visibility.
+    //!<Changes cursor visibility.
     device->getCursorControl()->setVisible(false);
 
-    // create event handler
-   // PressedKeysMonitor receiver;
+    //!< create event handler
+   //!< PressedKeysMonitor receiver;
 
 	int lastFPS = -1;
 
-	// In order to do framerate independent movement, we have to know
-	// how long it was since the last frame
+	//!< In order to do framerate independent movement, we have to know
+	//!< how long it was since the last frame
 	u32 then = device->getTimer()->getTime();
 
-    // This is the movement speed in units per second.
+    //!< This is the movement speed in units per second.
 	const f32 MOVEMENT_SPEED = 70.f;
 
-    //irr::core::vector3d<float>& PlayerPos;
+    //!<irr::core::vector3d<float>& PlayerPos;
 
         f32 ExPlayerPosX = 50;
         f32 ExPlayerPosY = -60;
@@ -308,15 +308,15 @@ std::thread MultiplayerPos([&]{
 
     MultiplayerPos.detach();
 
- //Run simulation
+ //!<Run simulation
     while(device->run())
     {
 
-        //irr::core::vector3d<float>& MyPlayerPos = MyPlayerPosX + MyPlayerPosY + MyPlayerPosZ;
+        //!<irr::core::vector3d<float>& MyPlayerPos = MyPlayerPosX + MyPlayerPosY + MyPlayerPosZ;
 
         if(receiver.IsKeyDown(irr::KEY_ESCAPE))
            break;
-    //The operator ! is the C++ operator for the Boolean operation NOT.
+    //!<The operator ! is the C++ operator for the Boolean operation NOT.
 	if(receiver.IsKeyDown(irr::KEY_SPACE)) {
 	    if (!camera_animator->isFalling()) {
 	      camera_animator->jump(3.8);
@@ -333,32 +333,32 @@ std::thread MultiplayerPos([&]{
         if(receiver.IsKeyDown(irr::KEY_DELETE)){
             std::cout << MyPlayerPosX << MyPlayerPosY << MyPlayerPosZ << std::endl;
         }
-        //<< MyPlayerPos << std::endl;
+        //!<<< MyPlayerPos << std::endl;
 
-        // A camera_animator->crouch does not seem to exist
-        // if(receiver.IsKeyDown(irr::KEY_CONTROL))
-        //  camera_animator->crouch(5);
+        //!< A camera_animator->crouch does not seem to exist
+        //!< if(receiver.IsKeyDown(irr::KEY_CONTROL))
+        //!<  camera_animator->crouch(5);
 
-        //std::thread beginrender([&]{
-        //Begin Scene with a gray backdrop #rgb(125,125,125)
+        //!<std::thread beginrender([&]{
+        //!<Begin Scene with a gray backdrop #rgb(125,125,125)
         driver->beginScene(true,true,SColor(0,125,125,125));
 
-        //Render the scene at this instant.
+        //!<Render the scene at this instant.
         smgr->drawAll();
 
-        //End the scene
+        //!<End the scene
         driver->endScene();
-    //});
+    //!<});
 
-        //Logic to update the scene will go here.
+        //!<Logic to update the scene will go here.
 
-                // Work out a frame delta time.
+                //!< Work out a frame delta time.
                 const u32 now = device->getTimer()->getTime();
-                const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
+                const f32 frameDeltaTime = (f32)(now - then) / 1000.f; //!< Time in seconds
                 then = now;
 
-        //std::thread charactermovement([&](){
-        //Character Model Movement here.
+        //!<std::thread charactermovement([&](){
+        //!<Character Model Movement here.
        /* core::vector3df nodePosition = characternode->getPosition();
 
         if(receiver.IsKeyDown(irr::KEY_KEY_W))
@@ -372,15 +372,15 @@ std::thread MultiplayerPos([&]{
             nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
 
         characternode->setPosition(nodePosition);*/
-    //});
+    //!<});
 
-        //std::thread fpsdetection([&](){
-        //Detects and displays FPS dynamically.
+        //!<std::thread fpsdetection([&](){
+        //!<Detects and displays FPS dynamically.
         int fps = driver->getFPS();
     if (lastFPS != fps)
         {
-    //This defines a string of text to be the window caption, The Irrlicht engine apparently uses
-    //something called "wide character strings" when displaying text by the way.
+    //!<This defines a string of text to be the window caption, The Irrlicht engine apparently uses
+    //!<something called "wide character strings" when displaying text by the way.
     core::stringw str = L"Yet to be Named Game - Irrlicht Engine [";
 
         str += driver->getName();
@@ -389,11 +389,11 @@ std::thread MultiplayerPos([&]{
         device->setWindowCaption(str.c_str());
         lastFPS = fps;
         }
-    //});
+    //!<});
 
-        //beginrender.join();
-        //charactermovement.join();
-        //fpsdetection.join();
+        //!<beginrender.join();
+        //!<charactermovement.join();
+        //!<fpsdetection.join();
 
     }
     device->drop();

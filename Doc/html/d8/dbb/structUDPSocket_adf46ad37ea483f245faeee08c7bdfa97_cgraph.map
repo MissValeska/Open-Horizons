@@ -1,3 +1,3 @@
 <map id="UDPSocket::recv_string" name="UDPSocket::recv_string">
-<area shape="rect" id="node3" href="$d8/dbb/structUDPSocket.html#a041a3f65cf02debf6d6a7a2d095883dc" title="UDPSocket::recvfrom" alt="" coords="220,5,369,35"/>
+<area shape="rect" id="node3" href="$d8/dbb/structUDPSocket.html#a041a3f65cf02debf6d6a7a2d095883dc" title="Wait for and obtain a UDP packet as a std::string. " alt="" coords="220,5,369,35"/>
 </map>

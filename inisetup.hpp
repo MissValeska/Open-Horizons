@@ -1,4 +1,4 @@
-// This library was written by Michele Bini in 2014 and placed in the public domain
+//!< This library was written by Michele Bini in 2014 and placed in the public domain
 
 #ifndef INISETUP_HPP_INCLUDED
 #define INISETUP_HPP_INCLUDED
@@ -10,29 +10,29 @@
 #include <fstream>
 #include <stdexcept>
 
-// Please note that concurrent instances of IniSetup are not supported,
-//because there is no locking mechanism for the ini file.
+//!< Please note that concurrent instances of IniSetup are not supported,
+//!<because there is no locking mechanism for the ini file.
 
-// Usage is very simple:
+//!< Usage is very simple:
 
-// IniSetup ini("config.ini");
+//!< IniSetup ini("config.ini");
 
-    // This creates an instance for the file config.ini; settings are loaded and saved automatically
+    //!< This creates an instance for the file config.ini; settings are loaded and saved automatically
 
-// int width = ini.get_number("width");
+//!< int width = ini.get_number("width");
 
-    // This gets option width= from the config file
+    //!< This gets option width= from the config file
 
-// width = width + 400;
+//!< width = width + 400;
 
-    // you can change it
+    //!< you can change it
 
-// ini.set_number("width", width);
+//!< ini.set_number("width", width);
 
-    // and save it back
+    //!< and save it back
 
-// Three types are currently supported (bool, string and number),
-//all with get_* and set_* methods, like set_bool() and get_bool()
+//!< Three types are currently supported (bool, string and number),
+//!<all with get_* and set_* methods, like set_bool() and get_bool()
 
 namespace inisetup {
   using std::string;
@@ -40,18 +40,18 @@ namespace inisetup {
   using std::ofstream;
   using std::map;
   struct empty_class {};
-  // This holds the mapping (option name -> setting)
+  //!< This holds the mapping (option name -> setting)
   map<string, string> _m;
   map<string, string> _settings_on_file;
   map<string, empty_class> _possibly_changed_settings;
 
-  // This class manages a simple .ini file
-  // Sections like [foo] are ignored for now
+  //!< This class manages a simple .ini file
+  //!< Sections like [foo] are ignored for now
   class IniSetup {
     string _filename;
   public:
     IniSetup() {};
-    // Read a .ini file from FILENAME
+    //!< Read a .ini file from FILENAME
     IniSetup(const char*filename) :_filename(filename) { read_ini_file(); }
     ~IniSetup() { write_ini_file(); }
   private:
@@ -71,16 +71,16 @@ namespace inisetup {
     if (c >= s) goto nextline;
 
 
-    // Skip whitespace
+    //!< Skip whitespace
     while ((ch = line[c]) == ' ') {
       c++;
       if (c >= s) goto nextline;
     };
 
-    n_b = c; // Beginning of option name
-    if (ch == '[') break; // Skip sections
+    n_b = c; //!< Beginning of option name
+    if (ch == '[') break; //!< Skip sections
 
-    // Parse option name
+    //!< Parse option name
     while (((ch >= 'A') && (ch <= 'Z')) ||
            ((ch >= 'a') && (ch <= 'z')) ||
            (ch == '_')) {
@@ -88,9 +88,9 @@ namespace inisetup {
       if (c >= s) goto nextline;
       ch = line[c];
     }
-    n_e = c; // End of option name
+    n_e = c; //!< End of option name
 
-    // Skip whitespace
+    //!< Skip whitespace
     while (ch == ' ') {
       c++;
       if (c >= s) goto nextline;
@@ -100,7 +100,7 @@ namespace inisetup {
         if (ch != '=') goto nextline;
     c++;
 
-    o_b = c; // Beginning of option value
+    o_b = c; //!< Beginning of option value
 
     _settings_on_file[string(line.begin() + n_b, line.begin() + n_e)] = string(line.begin() + o_b, line.end());
       nextline:
@@ -158,7 +158,7 @@ namespace inisetup {
         float r = 0;
         std::istringstream(get(n)) >> r;
         return r;
-    };*/ // Return fails with: invalid initialization of reference of type ‘inisetup::IniSetup&’ from expression of type ‘float’
+    };*/ //!< Return fails with: invalid initialization of reference of type ‘inisetup::IniSetup&’ from expression of type ‘float’
     IniSetup &set_float(const std::string &n, float v) {
         std::stringstream ss;
         ss << v;
@@ -187,4 +187,4 @@ namespace inisetup {
     };
   };
 
-#endif // INISETUP_HPP_INCLUDED
+#endif //!< INISETUP_HPP_INCLUDED

@@ -1,8 +1,11 @@
-.TH "EventReceiver" 3 "Thu Feb 20 2014" "Version 0.0.1" "Open Horizons" \" -*- nroff -*-
+.TH "EventReceiver" 3 "Fri Mar 7 2014" "Version 0.0.1.1" "Open Horizons" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
 EventReceiver \- 
+.PP
+EVENTRECEIVER_HPP_INCLUDED\&.  
+
 .SH SYNOPSIS
 .br
 .PP
@@ -16,6 +19,7 @@ Inherits IEventReceiver\&.
 .ti -1c
 .RI "struct \fBSMouseState\fP"
 .br
+.RI "\fI< We'll create a struct to record info on the mouse state \fP"
 .in -1c
 .SS "Public Member Functions"
 
@@ -29,11 +33,9 @@ Inherits IEventReceiver\&.
 .ti -1c
 .RI "const \fBSMouseState\fP & \fBGetMouseState\fP (void) const "
 .br
+.RI "\fIThis is used to check whether a key is being held down\&. \fP"
 .ti -1c
 .RI "virtual bool \fBIsKeyDown\fP (EKEY_CODE keyCode) const "
-.br
-.ti -1c
-.RI "virtual bool \fBIsKeyUp\fP (EKEY_CODE keyCode) const "
 .br
 .ti -1c
 .RI "\fBEventReceiver\fP ()"
@@ -45,9 +47,7 @@ Inherits IEventReceiver\&.
 .ti -1c
 .RI "struct \fBEventReceiver::SMouseState\fP \fBMouseState\fP"
 .br
-.ti -1c
-.RI "bool \fBKeyIsUp\fP [KEY_KEY_CODES_COUNT]"
-.br
+.RI "\fIThis is the one method that we have to implement\&. \fP"
 .in -1c
 .SS "Private Attributes"
 
@@ -55,57 +55,64 @@ Inherits IEventReceiver\&.
 .ti -1c
 .RI "bool \fBKeyIsDown\fP [KEY_KEY_CODES_COUNT]"
 .br
+.RI "\fI< We use this array to store the current state of each key \fP"
 .ti -1c
 .RI "SEvent::SJoystickEvent \fBJoystickState\fP"
 .br
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line 8 of file EventReceiver\&.hpp\&.
+EVENTRECEIVER_HPP_INCLUDED\&. 
+.PP
+Definition at line 12 of file EventReceiver\&.hpp\&.
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "EventReceiver::EventReceiver ()\fC [inline]\fP"
 
 .PP
-Definition at line 93 of file EventReceiver\&.hpp\&.
+Definition at line 94 of file EventReceiver\&.hpp\&.
 .SH "Member Function Documentation"
 .PP 
 .SS "const SEvent::SJoystickEvent& EventReceiver::GetJoystickState (void) const\fC [inline]\fP"
 
 .PP
-Definition at line 70 of file EventReceiver\&.hpp\&.
+Definition at line 78 of file EventReceiver\&.hpp\&.
 .SS "const \fBSMouseState\fP& EventReceiver::GetMouseState (void) const\fC [inline]\fP"
 
 .PP
-Definition at line 75 of file EventReceiver\&.hpp\&.
+This is used to check whether a key is being held down\&. 
+.PP
+Definition at line 83 of file EventReceiver\&.hpp\&.
 .SS "virtual bool EventReceiver::IsKeyDown (EKEY_CODEkeyCode) const\fC [inline]\fP, \fC [virtual]\fP"
 
 .PP
-Definition at line 81 of file EventReceiver\&.hpp\&.
-.SS "virtual bool EventReceiver::IsKeyUp (EKEY_CODEkeyCode) const\fC [inline]\fP, \fC [virtual]\fP"
-
-.PP
-Definition at line 87 of file EventReceiver\&.hpp\&.
+Definition at line 89 of file EventReceiver\&.hpp\&.
 .SS "virtual bool EventReceiver::OnEvent (const SEvent &event)\fC [inline]\fP, \fC [virtual]\fP"
-
+< Remember the mouse state
 .PP
-Definition at line 22 of file EventReceiver\&.hpp\&.
+< We won't use the wheel
+.PP
+< Keyboard key states\&. Unused?
+.PP
+< Remember whether each key is down or up 
+.PP
+Definition at line 26 of file EventReceiver\&.hpp\&.
 .SH "Member Data Documentation"
 .PP 
 .SS "SEvent::SJoystickEvent EventReceiver::JoystickState\fC [private]\fP"
 
 .PP
-Definition at line 110 of file EventReceiver\&.hpp\&.
+Definition at line 107 of file EventReceiver\&.hpp\&.
 .SS "bool EventReceiver::KeyIsDown[KEY_KEY_CODES_COUNT]\fC [private]\fP"
 
 .PP
-Definition at line 107 of file EventReceiver\&.hpp\&.
-.SS "bool EventReceiver::KeyIsUp[KEY_KEY_CODES_COUNT]"
-
+< We use this array to store the current state of each key Joystick State 
 .PP
-Definition at line 103 of file EventReceiver\&.hpp\&.
+Definition at line 104 of file EventReceiver\&.hpp\&.
 .SS "struct \fBEventReceiver::SMouseState\fP  EventReceiver::MouseState"
 
+.PP
+This is the one method that we have to implement\&. 
 
 .SH "Author"
 .PP 

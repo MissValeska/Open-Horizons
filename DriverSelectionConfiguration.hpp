@@ -19,4 +19,4 @@ void MulitplayerInfo();
 void display_software_select();
 void optional_config();
 void options_select();
-#endif // DRIVERCHOICE_HPP_INCLUDED
+#endif //!< DRIVERCHOICE_HPP_INCLUDED

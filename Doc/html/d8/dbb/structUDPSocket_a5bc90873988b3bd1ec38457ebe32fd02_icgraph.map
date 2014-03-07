@@ -1,4 +1,5 @@
 <map id="UDPSocket::sendto" name="UDPSocket::sendto">
-<area shape="rect" id="node3" href="$df/d0a/main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="236,5,287,35"/>
-<area shape="rect" id="node5" href="$d8/dbb/structUDPSocket.html#a3ce7f0bddae6da454b088efaf1e619e1" title="UDPSocket::sendto" alt="" coords="192,59,331,88"/>
+<area shape="rect" id="node3" href="$d8/dbb/structUDPSocket.html#a11a2fa856b725ba36cce0ded55162ed7" title="UDPSocket::send_basic\l_string" alt="" coords="193,5,359,51"/>
+<area shape="rect" id="node5" href="$d8/dbb/structUDPSocket.html#a407dab37930645d84bbe7dda2bb946ac" title="Wait for and obtain a UDP packet (returns the size of the data stored in BUF) " alt="" coords="408,13,568,43"/>
+<area shape="rect" id="node7" href="$df/d0a/main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="616,13,667,43"/>
 </map>

@@ -26,10 +26,10 @@ std::string ipaddress;
 
 int portnumber;
 
-irr::video::E_DRIVER_TYPE display_software; //This defines a string basically (It's probably not technically a string)
-//Which I can name what ever I want, And is compatible with defining the renderer.
-//This prevents me from needing to set up multiple nearly identical functions, Or, Worse,
-//Some kind of complicated go to this function, run this, then return, and please don't fail.
+irr::video::E_DRIVER_TYPE display_software; //!<This defines a string basically (It's probably not technically a string)
+//!<Which I can name what ever I want, And is compatible with defining the renderer.
+//!<This prevents me from needing to set up multiple nearly identical functions, Or, Worse,
+//!<Some kind of complicated go to this function, run this, then return, and please don't fail.
 
 std::string display_software_string;
 
@@ -111,7 +111,7 @@ void Advanced_Options() {
     }while(isalpha(choose_switch_stuff));
 
 
-         // Save the advanced configuration.
+         //!< Save the advanced configuration.
     inisetup::IniSetup ini("config.ini");
     ini.set_number("colour_bits", colour_bits);
     ini.set_bool("shadows", shadows_define);
@@ -151,7 +151,7 @@ void display_software_select() {
 
     std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
 
-    do {//This is connected to the while statement a bit later.
+    do {//!<This is connected to the while statement a bit later.
 
         switch (choose_switch_stuff){
         case '1': display_software = irr::video::E_DRIVER_TYPE::EDT_OPENGL; break;
@@ -211,7 +211,7 @@ void display_software_select() {
         }
     }while(isalpha(choose_switch_stuff));
 
-        // Save the standard configuration.
+        //!< Save the standard configuration.
     inisetup::IniSetup ini("config.ini");
     ini.set_number("screen_width", screen_width);
     ini.set_number("screen_height", screen_height);
@@ -255,7 +255,7 @@ void optional_config() {
     colour_bits = ini.get_number("colour_bits");
     shadows_define = ini.get_bool("shadows");
     vsync_define = ini.get_bool("vsync");
-// this gets back the value from the config file and saves to a variable
+//!< this gets back the value from the config file and saves to a variable
 
         IrrDriversBimap drivers;
     display_software = drivers.from[display_software_string];

@@ -1,8 +1,11 @@
-.TH "inisetup" 3 "Thu Feb 20 2014" "Version 0.0.1" "Open Horizons" \" -*- nroff -*-
+.TH "inisetup" 3 "Fri Mar 7 2014" "Version 0.0.1.1" "Open Horizons" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
 inisetup \- 
+.PP
+< This library was written by Michele Bini in 2014 and placed in the public domain  
+
 .SH SYNOPSIS
 .br
 .PP
@@ -12,6 +15,7 @@ inisetup \-
 .ti -1c
 .RI "struct \fBempty_class\fP"
 .br
+.RI "\fIThis holds the mapping (option name -> setting) \fP"
 .ti -1c
 .RI "class \fBIniSetup\fP"
 .br
@@ -29,6 +33,11 @@ inisetup \-
 .RI "map< string, \fBempty_class\fP > \fB_possibly_changed_settings\fP"
 .br
 .in -1c
+.SH "Detailed Description"
+.PP 
+< This library was written by Michele Bini in 2014 and placed in the public domain 
+
+< Please note that concurrent instances of \fBIniSetup\fP are not supported, because there is no locking mechanism for the ini file\&. < Usage is very simple: < \fBIniSetup\fP ini('config\&.ini'); < This creates an instance for the file config\&.ini; settings are loaded and saved automatically < int width = ini\&.get_number('width'); < This gets option width= from the config file < width = width + 400; < you can change it < ini\&.set_number('width', width); < and save it back < Three types are currently supported (bool, string and number), all with get_* and set_* methods, like set_bool() and get_bool() 
 .SH "Variable Documentation"
 .PP 
 .SS "map<string, string> inisetup::_m"
@@ -36,7 +45,7 @@ inisetup \-
 .PP
 Definition at line 44 of file inisetup\&.hpp\&.
 .SS "map<string, \fBempty_class\fP> inisetup::_possibly_changed_settings"
-
+This class manages a simple \&.ini file Sections like [foo] are ignored for now 
 .PP
 Definition at line 46 of file inisetup\&.hpp\&.
 .SS "map<string, string> inisetup::_settings_on_file"

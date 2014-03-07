@@ -1,4 +1,4 @@
-.TH "Open-Horizons/main.cpp" 3 "Thu Feb 20 2014" "Version 0.0.1" "Open Horizons" \" -*- nroff -*-
+.TH "Open-Horizons/main.cpp" 3 "Fri Mar 7 2014" "Version 0.0.1.1" "Open Horizons" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,19 +6,21 @@ Open-Horizons/main.cpp \-
 .SH SYNOPSIS
 .br
 .PP
-\fC#include <irrlicht\&.h>\fP
+\fC#include <irrlicht/irrlicht\&.h>\fP
 .br
 \fC#include <cstdlib>\fP
 .br
-\fC#include 'inisetup\&.hpp'\fP
+\fC#include <string>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <thread>\fP
 .br
 \fC#include 'bimap\&.hpp'\fP
 .br
 \fC#include 'EventReceiver\&.hpp'\fP
 .br
 \fC#include 'DriverSelectionConfiguration\&.hpp'\fP
-.br
-\fC#include <thread>\fP
 .br
 \fC#include 'UDPSocket\&.hpp'\fP
 .br
@@ -29,13 +31,122 @@ Open-Horizons/main.cpp \-
 .ti -1c
 .RI "int \fBmain\fP (int argc, char **argv)"
 .br
+.ti -1c
+.RI "device \fBdrop\fP ()"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBreturn\fP"
+.br
 .in -1c
 .SH "Function Documentation"
 .PP 
+.SS "device drop ()"
+
 .SS "int main (intargc, char **argv)"
+<!< Exclamation means negation
+.PP
+<!< Create an Irrlicht Device\&.
+.PP
+<!< Get the Video Driver from the device\&.
+.PP
+<!< Get the Scene Manager from the device\&.
+.PP
+<!< Add a Cube to the Scene\&.
+.PP
+<!< An animated cube\&.
+.PP
+<!< Add texture to the cube\&.
+.PP
+<!< Needed to make the object's texture visible without a light source\&. !< n->setMaterialFlag(EMF_LIGHTING, false);
+.PP
+<Set cube 100 units further in forward direction (Z axis), And animate it\&.
+.PP
+<!< attach billboard to light
+.PP
+<!< Add Second PlayerNode
+.PP
+<!< Add Second PlayerNode
+.PP
+<!< characternode->setMaterialTexture(0, driver->getTexture('\&.\&./\&.\&./media/sydney\&.bmp'))
+.PP
+<!< IAnimatedMesh* irr::scene::ISceneManager::addHillPlaneMesh(nodehill, 10\&.0f, 10\&.0f, '/home/missvaleska/Documents/Blender/textures/greenhillsmalljg0\&.jpg', 5\&.0f, 2\&.0f, 2\&.0f);
+.PP
+< I use this ISceneNode ID to indicate a scene node that is not pickable by getSceneNodeAndCollisionPointFromRay()
+.PP
+< I use this flag in ISceneNode IDs to indicate that the scene node can be picked by ray selection\&.
+.PP
+< I use this flag in ISceneNode IDs to indicate that the scene node can be highlighted\&. In this example, the homonids can be highlighted, but the level mesh can't\&.
+.PP
+< The Quake mesh is pickable, but doesn't get highlighted\&.
+.PP
+< We're not done with this selector yet, so don't drop it\&.
+.PP
+< As soon as we're done with the selector, drop it\&.
+.PP
+<Add FPS Camera to allow movement using Keyboard and Mouse\&. smgr->addCameraSceneNodeFPS(0, 100, 0\&.07, -1, keyMap, 8);
+.PP
+<Changes cursor visibility\&.
+.PP
+< create event handler
+.PP
+< PressedKeysMonitor receiver;
+.PP
+< In order to do framerate independent movement, we have to know how long it was since the last frame
+.PP
+< This is the movement speed in units per second\&.
+.PP
+<irr::core::vector3d<float>& PlayerPos;
+.PP
+<Run simulation
+.PP
+<irr::core::vector3d<float>& MyPlayerPos = MyPlayerPosX + MyPlayerPosY + MyPlayerPosZ;
+.PP
+<The operator ! is the C++ operator for the Boolean operation NOT\&.
+.PP
+< A camera_animator->crouch does not seem to exist if(receiver\&.IsKeyDown(irr::KEY_CONTROL)) camera_animator->crouch(5);
+.PP
+<std::thread beginrender([&]{ Begin Scene with a gray backdrop #rgb(125,125,125)
+.PP
+<Render the scene at this instant\&.
+.PP
+<End the scene
+.PP
+<});
+.PP
+<Logic to update the scene will go here\&.
+.PP
+< Work out a frame delta time\&.
+.PP
+< Time in seconds
+.PP
+<std::thread charactermovement([&](){ Character Model Movement here\&.
+.PP
+<});
+.PP
+<std::thread fpsdetection([&](){ Detects and displays FPS dynamically\&.
+.PP
+<This defines a string of text to be the window caption, The Irrlicht engine apparently uses something called 'wide character strings' when displaying text by the way\&.
+.PP
+<beginrender\&.join(); charactermovement\&.join(); fpsdetection\&.join(); 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIargv\fP !< The options here define an argument count apparently, I don't fully understand it\&. !< http://!<collabedit\&.com/sab53 A friend explained here if it is still up next you check\&. 
+.RE
+.PP
 
 .PP
-Definition at line 19 of file main\&.cpp\&.
+Definition at line 23 of file main\&.cpp\&.
+.SH "Variable Documentation"
+.PP 
+.SS "return"
+
+.PP
+Definition at line 400 of file main\&.cpp\&.
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for Open Horizons from the source code\&.

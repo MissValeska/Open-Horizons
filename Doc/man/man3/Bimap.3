@@ -1,8 +1,11 @@
-.TH "Bimap< X, Y >" 3 "Thu Feb 20 2014" "Version 0.0.1" "Open Horizons" \" -*- nroff -*-
+.TH "Bimap< X, Y >" 3 "Fri Mar 7 2014" "Version 0.0.1.1" "Open Horizons" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
 Bimap< X, Y > \- 
+.PP
+< Define a generic bimap type (X <-> Y) Specialized bimap type (E_DRIVER_TYPE <-> string)  
+
 .SH SYNOPSIS
 .br
 .PP
@@ -20,6 +23,7 @@ Bimap< X, Y > \-
 .ti -1c
 .RI "void \fBupdate_from_map\fP ()"
 .br
+.RI "\fIBuild up the 'from' map (Y -> X) using the 'to' map (X -> Y) \fP"
 .in -1c
 .SS "Public Attributes"
 
@@ -35,35 +39,37 @@ Bimap< X, Y > \-
 .PP 
 
 .SS "template<typename X, typename Y>struct Bimap< X, Y >"
-
+< Define a generic bimap type (X <-> Y) Specialized bimap type (E_DRIVER_TYPE <-> string) 
 .PP
-Definition at line 6 of file bimap\&.hpp\&.
+Definition at line 7 of file bimap\&.hpp\&.
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "template<typename X, typename Y> \fBBimap\fP< X, Y >::\fBBimap\fP ()\fC [inline]\fP"
 
 .PP
-Definition at line 9 of file bimap\&.hpp\&.
+Definition at line 10 of file bimap\&.hpp\&.
 .SS "template<typename X, typename Y> \fBBimap\fP< X, Y >::\fBBimap\fP (const std::map< X, Y > &m)\fC [inline]\fP"
 
 .PP
-Definition at line 10 of file bimap\&.hpp\&.
+Definition at line 11 of file bimap\&.hpp\&.
 .SH "Member Function Documentation"
 .PP 
 .SS "template<typename X, typename Y> void \fBBimap\fP< X, Y >::update_from_map ()\fC [inline]\fP"
 
 .PP
-Definition at line 13 of file bimap\&.hpp\&.
+Build up the 'from' map (Y -> X) using the 'to' map (X -> Y) <Exclamation mark means negation, //!<I\&.E !true = false or !!true == true\&. 
+.PP
+Definition at line 14 of file bimap\&.hpp\&.
 .SH "Member Data Documentation"
 .PP 
 .SS "template<typename X, typename Y> std::map<Y,X> \fBBimap\fP< X, Y >::from"
 
 .PP
-Definition at line 8 of file bimap\&.hpp\&.
+Definition at line 9 of file bimap\&.hpp\&.
 .SS "template<typename X, typename Y> std::map<X,Y> \fBBimap\fP< X, Y >::to"
 
 .PP
-Definition at line 7 of file bimap\&.hpp\&.
+Definition at line 8 of file bimap\&.hpp\&.
 
 .SH "Author"
 .PP 

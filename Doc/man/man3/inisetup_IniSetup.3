@@ -1,4 +1,4 @@
-.TH "inisetup::IniSetup" 3 "Thu Feb 20 2014" "Version 0.0.1" "Open Horizons" \" -*- nroff -*-
+.TH "inisetup::IniSetup" 3 "Fri Mar 7 2014" "Version 0.0.1.1" "Open Horizons" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -17,6 +17,7 @@ inisetup::IniSetup \-
 .ti -1c
 .RI "\fBIniSetup\fP (const char *filename)"
 .br
+.RI "\fIRead a \&.ini file from FILENAME\&. \fP"
 .ti -1c
 .RI "\fB~IniSetup\fP ()"
 .br
@@ -43,6 +44,16 @@ inisetup::IniSetup \-
 .br
 .ti -1c
 .RI "\fBIniSetup\fP & \fBset_bool\fP (const std::string &n, bool v)"
+.br
+.ti -1c
+.RI "\fBIniSetup\fP & \fBset_float\fP (const std::string &n, float v)"
+.br
+.RI "\fI< Return fails with: invalid initialization of reference of type ‘inisetup::IniSetup&’ from expression of type ‘float’ \fP"
+.ti -1c
+.RI "double \fBget_double\fP (const std::string &n)"
+.br
+.ti -1c
+.RI "\fBIniSetup\fP & \fBset_double\fP (const std::string &n, double v)"
 .br
 .in -1c
 .SS "Private Member Functions"
@@ -74,6 +85,8 @@ Definition at line 53 of file inisetup\&.hpp\&.
 .SS "inisetup::IniSetup::IniSetup (const char *filename)\fC [inline]\fP"
 
 .PP
+Read a \&.ini file from FILENAME\&. 
+.PP
 Definition at line 55 of file inisetup\&.hpp\&.
 .SS "inisetup::IniSetup::~IniSetup ()\fC [inline]\fP"
 
@@ -89,6 +102,10 @@ Definition at line 127 of file inisetup\&.hpp\&.
 
 .PP
 Definition at line 151 of file inisetup\&.hpp\&.
+.SS "double inisetup::IniSetup::get_double (const std::string &n)\fC [inline]\fP"
+
+.PP
+Definition at line 167 of file inisetup\&.hpp\&.
 .SS "int inisetup::IniSetup::get_number (const std::string &n)\fC [inline]\fP"
 
 .PP
@@ -98,7 +115,19 @@ Definition at line 141 of file inisetup\&.hpp\&.
 .PP
 Definition at line 134 of file inisetup\&.hpp\&.
 .SS "bool inisetup::IniSetup::read_ini_file ()\fC [inline]\fP, \fC [private]\fP"
-
+< Skip whitespace
+.PP
+< Beginning of option name
+.PP
+< Skip sections
+.PP
+< Parse option name
+.PP
+< End of option name
+.PP
+< Skip whitespace
+.PP
+< Beginning of option value 
 .PP
 Definition at line 58 of file inisetup\&.hpp\&.
 .SS "\fBIniSetup\fP& inisetup::IniSetup::set (const std::string &n, const std::string &v)\fC [inline]\fP"
@@ -109,6 +138,16 @@ Definition at line 130 of file inisetup\&.hpp\&.
 
 .PP
 Definition at line 154 of file inisetup\&.hpp\&.
+.SS "\fBIniSetup\fP& inisetup::IniSetup::set_double (const std::string &n, doublev)\fC [inline]\fP"
+
+.PP
+Definition at line 172 of file inisetup\&.hpp\&.
+.SS "\fBIniSetup\fP& inisetup::IniSetup::set_float (const std::string &n, floatv)\fC [inline]\fP"
+
+.PP
+< Return fails with: invalid initialization of reference of type ‘inisetup::IniSetup&’ from expression of type ‘float’ 
+.PP
+Definition at line 162 of file inisetup\&.hpp\&.
 .SS "\fBIniSetup\fP& inisetup::IniSetup::set_number (const std::string &n, intv)\fC [inline]\fP"
 
 .PP

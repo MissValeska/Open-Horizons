@@ -3,25 +3,25 @@
 #include <map>
 #include <string>
 
-// Define a generic bimap type (X <-> Y)
+//!< Define a generic bimap type (X <-> Y)
 template <typename X, typename Y> struct Bimap {
   std::map<X,Y> to;
   std::map<Y,X> from;
   Bimap() { };
   Bimap(const std::map<X, Y> &m) :to(m) { update_from_map(); };
 
-  // Build up the 'from' map (Y -> X) using the 'to' map (X -> Y)
+  //!< Build up the 'from' map (Y -> X) using the 'to' map (X -> Y)
   void update_from_map() {
     typename std::map<X,Y>::iterator iter = to.begin();
     typename std::map<X,Y>::iterator end = to.end();
 
-    for (; iter != end; iter++) { //Exclamation mark means negation, //I.E !true = false or !!true == true.
+    for (; iter != end; iter++) { //!<Exclamation mark means negation, //!<I.E !true = false or !!true == true.
       from[iter->second] = iter->first;
     }
   };
 };
 
-// Specialized bimap type (E_DRIVER_TYPE <-> string)
+//!< Specialized bimap type (E_DRIVER_TYPE <-> string)
 struct IrrDriversBimap : Bimap<irr::video::E_DRIVER_TYPE, std::string> {
   IrrDriversBimap() {
     to[irr::video::E_DRIVER_TYPE::EDT_OPENGL]     = "OpenGL";
@@ -32,4 +32,4 @@ struct IrrDriversBimap : Bimap<irr::video::E_DRIVER_TYPE, std::string> {
   };
 };
 
-#endif // BIMAP_HPP_INCLUDED
+#endif //!< BIMAP_HPP_INCLUDED

@@ -1,4 +1,5 @@
 <map id="UDPSocket::recvfrom" name="UDPSocket::recvfrom">
 <area shape="rect" id="node3" href="$d8/dbb/structUDPSocket.html#adf46ad37ea483f245faeee08c7bdfa97" title="UDPSocket::recv_string" alt="" coords="207,5,369,35"/>
-<area shape="rect" id="node5" href="$df/d0a/main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="419,5,469,35"/>
+<area shape="rect" id="node5" href="$d8/dbb/structUDPSocket.html#a442b621c138c2f41a8e7c3dc82e5478a" title="Destructor: closes the socket. " alt="" coords="419,5,576,35"/>
+<area shape="rect" id="node7" href="$df/d0a/main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="624,5,675,35"/>
 </map>

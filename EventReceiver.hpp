@@ -14,7 +14,7 @@ class EventReceiver : public IEventReceiver
 
 
 public:
-    // We'll create a struct to record info on the mouse state
+    //!< We'll create a struct to record info on the mouse state
     struct SMouseState
      {
         core::position2di Position;
@@ -22,10 +22,10 @@ public:
         SMouseState() : LeftButtonDown(false) { }
     } MouseState;
 
-    // This is the one method that we have to implement
+    //!< This is the one method that we have to implement
     virtual bool OnEvent(const SEvent& event)
     {
-        // Remember the mouse state
+        //!< Remember the mouse state
         if (event.EventType == irr::EET_MOUSE_INPUT_EVENT)
         {
             switch(event.MouseInput.Event)
@@ -44,31 +44,31 @@ public:
                 break;
 
             default:
-                // We won't use the wheel
+                //!< We won't use the wheel
                 break;
             }
         }
 
-        // The state of each connected joystick is sent to us
-        // once every run() of the Irrlicht device.  Store the
-        // state of the first joystick, ignoring other joysticks.
-        // This is currently only supported on Windows and Linux.
+        //!< The state of each connected joystick is sent to us
+        //!< once every run() of the Irrlicht device.  Store the
+        //!< state of the first joystick, ignoring other joysticks.
+        //!< This is currently only supported on Windows and Linux.
         if (event.EventType == irr::EET_JOYSTICK_INPUT_EVENT
             && event.JoystickEvent.Joystick == 0)
         {
             JoystickState = event.JoystickEvent;
         }
-        // Enumeration for UP, DOWN, PRESSED and RELEASED key states. Also used for mouse button states.
+        //!< Enumeration for UP, DOWN, PRESSED and RELEASED key states. Also used for mouse button states.
         enum keyStatesENUM {UP, DOWN, PRESSED, RELEASED};
 
-        // Keyboard key states. Unused?
+        //!< Keyboard key states. Unused?
 	/*
         keyStatesENUM keyState[KEY_KEY_CODES_COUNT];
 
         EKEY_CODE keyCode;
 	*/
 
-        // Remember whether each key is down or up
+        //!< Remember whether each key is down or up
         if (event.EventType == irr::EET_KEY_INPUT_EVENT)
             KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
 
@@ -85,7 +85,7 @@ public:
         return MouseState;
     }
 
-    // This is used to check whether a key is being held down
+    //!< This is used to check whether a key is being held down
     virtual bool IsKeyDown(EKEY_CODE keyCode) const
     {
         return KeyIsDown[keyCode];
@@ -99,12 +99,12 @@ public:
     }
 
 private:
-    // We use this array to store the current state of each key
+    //!< We use this array to store the current state of each key
 
     bool KeyIsDown[KEY_KEY_CODES_COUNT];
 
-    //Joystick State
+    //!<Joystick State
     SEvent::SJoystickEvent JoystickState;
 };
 
-#endif // EVENTRECEIVER_HPP_INCLUDED
+#endif //!< EVENTRECEIVER_HPP_INCLUDED

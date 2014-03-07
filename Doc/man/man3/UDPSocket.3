@@ -1,8 +1,11 @@
-.TH "UDPSocket" 3 "Thu Feb 20 2014" "Version 0.0.1" "Open Horizons" \" -*- nroff -*-
+.TH "UDPSocket" 3 "Fri Mar 7 2014" "Version 0.0.1.1" "Open Horizons" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
 UDPSocket \- 
+.PP
+Example usage:  
+
 .SH SYNOPSIS
 .br
 .PP
@@ -14,24 +17,35 @@ UDPSocket \-
 .ti -1c
 .RI "\fBUDPSocket\fP ()"
 .br
+.RI "\fIAlternate constructor: opens the socket for UDP, and binds it to a port for receiving packets\&. \fP"
 .ti -1c
 .RI "\fBUDPSocket\fP (int port)"
 .br
 .ti -1c
 .RI "int \fBbind\fP (int port)"
 .br
+.RI "\fISends a UDP packet to \fBServAddr\fP object (remote host + port) \fP"
 .ti -1c
 .RI "int \fBsendto\fP (const char *data, size_t len, const \fBServAddr\fP &a)"
 .br
 .ti -1c
-.RI "int \fBsendto\fP (std::basic_string< char > s, const \fBServAddr\fP &a)"
+.RI "int \fBsend_basic_string\fP (std::basic_string< char > s, const \fBServAddr\fP &a)"
 .br
+.ti -1c
+.RI "int \fBsend_float\fP (float s, const \fBServAddr\fP &a)"
+.br
+.RI "\fIWait for and obtain a UDP packet (returns the size of the data stored in BUF) \fP"
 .ti -1c
 .RI "int \fBrecvfrom\fP (char *buf, size_t len)"
 .br
+.RI "\fIWait for and obtain a UDP packet as a std::string\&. \fP"
 .ti -1c
 .RI "std::basic_string< char > \fBrecv_string\fP (size_t max_length=10000)"
 .br
+.ti -1c
+.RI "int \fBrecv_float\fP (float var)"
+.br
+.RI "\fIDestructor: closes the socket\&. \fP"
 .ti -1c
 .RI "\fB~UDPSocket\fP ()"
 .br
@@ -42,52 +56,77 @@ UDPSocket \-
 .ti -1c
 .RI "int \fBfd\fP"
 .br
+.RI "\fIFile descriptor, this is used by the library to identify the socket\&. \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line 31 of file UDPSocket\&.hpp\&.
+Example usage: 
+
+Send a UDP packet with 'hello' (5 bytes) as data, to host 10\&.3\&.3\&.7, port 20 \fBUDPSocket()\fP\&.sendto('hello', 5, \fBServAddr\fP('10\&.3\&.3\&.7',20)); UDPSOCKET_HPP_INCLUDED 
+.PP
+Definition at line 32 of file UDPSocket\&.hpp\&.
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "UDPSocket::UDPSocket ()\fC [inline]\fP"
 
 .PP
-Definition at line 35 of file UDPSocket\&.hpp\&.
+Alternate constructor: opens the socket for UDP, and binds it to a port for receiving packets\&. 
+.PP
+Definition at line 36 of file UDPSocket\&.hpp\&.
 .SS "UDPSocket::UDPSocket (intport)\fC [inline]\fP"
 
 .PP
-Definition at line 40 of file UDPSocket\&.hpp\&.
+Definition at line 41 of file UDPSocket\&.hpp\&.
 .SS "UDPSocket::~UDPSocket ()\fC [inline]\fP"
 
 .PP
-Definition at line 85 of file UDPSocket\&.hpp\&.
+Definition at line 97 of file UDPSocket\&.hpp\&.
 .SH "Member Function Documentation"
 .PP 
 .SS "int UDPSocket::bind (intport)\fC [inline]\fP"
 
 .PP
-Definition at line 44 of file UDPSocket\&.hpp\&.
-.SS "std::basic_string<char> UDPSocket::recv_string (size_tmax_length = \fC10000\fP)\fC [inline]\fP"
+Sends a UDP packet to \fBServAddr\fP object (remote host + port) 
+.PP
+Definition at line 45 of file UDPSocket\&.hpp\&.
+.SS "int UDPSocket::recv_float (floatvar)\fC [inline]\fP"
 
 .PP
-Definition at line 73 of file UDPSocket\&.hpp\&.
+Destructor: closes the socket\&. 
+.PP
+Definition at line 91 of file UDPSocket\&.hpp\&.
+.SS "std::basic_string<char> UDPSocket::recv_string (size_tmax_length = \fC10000\fP)\fC [inline]\fP"
+< It would be better to throw an exception here 
+.PP
+Definition at line 80 of file UDPSocket\&.hpp\&.
 .SS "int UDPSocket::recvfrom (char *buf, size_tlen)\fC [inline]\fP"
 
+.PP
+Wait for and obtain a UDP packet as a std::string\&. 
+.PP
+Definition at line 75 of file UDPSocket\&.hpp\&.
+.SS "int UDPSocket::send_basic_string (std::basic_string< char >s, const \fBServAddr\fP &a)\fC [inline]\fP"
+
+.PP
+Definition at line 64 of file UDPSocket\&.hpp\&.
+.SS "int UDPSocket::send_float (floats, const \fBServAddr\fP &a)\fC [inline]\fP"
+
+.PP
+Wait for and obtain a UDP packet (returns the size of the data stored in BUF) 
 .PP
 Definition at line 68 of file UDPSocket\&.hpp\&.
 .SS "int UDPSocket::sendto (const char *data, size_tlen, const \fBServAddr\fP &a)\fC [inline]\fP"
 
 .PP
-Definition at line 54 of file UDPSocket\&.hpp\&.
-.SS "int UDPSocket::sendto (std::basic_string< char >s, const \fBServAddr\fP &a)\fC [inline]\fP"
-
-.PP
-Definition at line 63 of file UDPSocket\&.hpp\&.
+Definition at line 55 of file UDPSocket\&.hpp\&.
 .SH "Member Data Documentation"
 .PP 
 .SS "int UDPSocket::fd"
 
 .PP
-Definition at line 32 of file UDPSocket\&.hpp\&.
+File descriptor, this is used by the library to identify the socket\&. Constructor: opens the socket for UDP 
+.PP
+Definition at line 33 of file UDPSocket\&.hpp\&.
 
 .SH "Author"
 .PP 

@@ -1,10 +1,12 @@
 <map id="inisetup::IniSetup::set" name="inisetup::IniSetup::set">
-<area shape="rect" id="node3" href="$d5/dc4/classinisetup_1_1IniSetup.html#ad17d7e41f044917a1406b093fda58f3d" title="inisetup::IniSetup\l::set_number" alt="" coords="203,40,325,87"/>
-<area shape="rect" id="node5" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a166df529c38c9eeb5c61052059ba28c0" title="Advanced_Options" alt="" coords="545,26,676,56"/>
-<area shape="rect" id="node7" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a67a37a0d1212e459d092a0d832f8f47f" title="display_software_select" alt="" coords="725,53,888,82"/>
-<area shape="rect" id="node16" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a64fa61baa23f8a73bcfd267625d8ac2d" title="MulitplayerInfo" alt="" coords="557,134,664,164"/>
-<area shape="rect" id="node20" href="$d5/dc4/classinisetup_1_1IniSetup.html#ac13907114bf6eb3da68f3b77f7f1b67c" title="inisetup::IniSetup\l::set_bool" alt="" coords="373,70,496,116"/>
-<area shape="rect" id="node9" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a6b1c8cd019da5de3d54dfc82d0592c2e" title="optional_config" alt="" coords="936,26,1045,56"/>
-<area shape="rect" id="node11" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a249050c220fe532d98a8b6ddc1f7a622" title="options_select" alt="" coords="1093,53,1200,82"/>
-<area shape="rect" id="node13" href="$df/d0a/main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1248,53,1299,82"/>
+<area shape="rect" id="node3" href="$d5/dc4/classinisetup_1_1IniSetup.html#ad17d7e41f044917a1406b093fda58f3d" title="inisetup::IniSetup\l::set_number" alt="" coords="203,39,325,86"/>
+<area shape="rect" id="node24" href="$d5/dc4/classinisetup_1_1IniSetup.html#a81c6dd32fe791f8dee6b98b24524f867" title="&lt; Return fails with: invalid initialization of reference of type ‘inisetup::IniSetup&amp;’ from expressio..." alt="" coords="203,109,325,155"/>
+<area shape="rect" id="node26" href="$d5/dc4/classinisetup_1_1IniSetup.html#ae2fa34d22b8d9c1e456d7f30efe6d4b7" title="inisetup::IniSetup\l::set_double" alt="" coords="203,178,325,225"/>
+<area shape="rect" id="node5" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a166df529c38c9eeb5c61052059ba28c0" title="Advanced_Options" alt="" coords="545,27,676,56"/>
+<area shape="rect" id="node7" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a67a37a0d1212e459d092a0d832f8f47f" title="display_software_select" alt="" coords="725,53,888,83"/>
+<area shape="rect" id="node16" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a64fa61baa23f8a73bcfd267625d8ac2d" title="MulitplayerInfo" alt="" coords="557,135,664,164"/>
+<area shape="rect" id="node20" href="$d5/dc4/classinisetup_1_1IniSetup.html#ac13907114bf6eb3da68f3b77f7f1b67c" title="inisetup::IniSetup\l::set_bool" alt="" coords="373,70,496,117"/>
+<area shape="rect" id="node9" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a6b1c8cd019da5de3d54dfc82d0592c2e" title="optional_config" alt="" coords="936,27,1045,56"/>
+<area shape="rect" id="node11" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a249050c220fe532d98a8b6ddc1f7a622" title="DRIVERCHOICE_HPP_INCLUDED. " alt="" coords="1093,53,1200,83"/>
+<area shape="rect" id="node13" href="$df/d0a/main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1248,53,1299,83"/>
 </map>

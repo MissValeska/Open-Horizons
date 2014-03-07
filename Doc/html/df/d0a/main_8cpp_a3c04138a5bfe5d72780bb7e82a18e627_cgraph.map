@@ -1,20 +1,23 @@
 <map id="main" name="main">
-<area shape="rect" id="node3" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a249050c220fe532d98a8b6ddc1f7a622" title="options_select" alt="" coords="143,343,249,372"/>
-<area shape="rect" id="node34" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#ab38bea277bcb76332fd9bb780351cc13" title="fatal" alt="" coords="1137,399,1183,428"/>
-<area shape="rect" id="node40" href="$d8/dbb/structUDPSocket.html#a5bc90873988b3bd1ec38457ebe32fd02" title="UDPSocket::sendto" alt="" coords="127,501,265,531"/>
-<area shape="rect" id="node42" href="$df/d64/classEventReceiver.html#ac17944164122737ffe1739a1a759c2d4" title="EventReceiver::IsKeyDown" alt="" coords="104,555,288,584"/>
-<area shape="rect" id="node44" href="$d8/dbb/structUDPSocket.html#adf46ad37ea483f245faeee08c7bdfa97" title="UDPSocket::recv_string" alt="" coords="115,608,277,637"/>
-<area shape="rect" id="node5" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a6b1c8cd019da5de3d54dfc82d0592c2e" title="optional_config" alt="" coords="357,161,467,191"/>
-<area shape="rect" id="node14" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a67a37a0d1212e459d092a0d832f8f47f" title="display_software_select" alt="" coords="536,231,699,260"/>
-<area shape="rect" id="node7" href="$d5/dc4/classinisetup_1_1IniSetup.html#ae5181087f780d7a3855669923934855a" title="inisetup::IniSetup\l::get_number" alt="" coords="752,5,875,51"/>
-<area shape="rect" id="node9" href="$d5/dc4/classinisetup_1_1IniSetup.html#a06654e80de4170cfb6f7717a6629fd0d" title="inisetup::IniSetup\l::get_string" alt="" coords="556,83,679,130"/>
-<area shape="rect" id="node11" href="$d5/dc4/classinisetup_1_1IniSetup.html#aa5cd3f0b73231d0bd062f4e1b5c0366d" title="inisetup::IniSetup\l::get_bool" alt="" coords="556,153,679,199"/>
-<area shape="rect" id="node16" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a64fa61baa23f8a73bcfd267625d8ac2d" title="MulitplayerInfo" alt="" coords="936,72,1043,101"/>
-<area shape="rect" id="node18" href="$d5/dc4/classinisetup_1_1IniSetup.html#ad17d7e41f044917a1406b093fda58f3d" title="inisetup::IniSetup\l::set_number" alt="" coords="1099,146,1221,193"/>
-<area shape="rect" id="node23" href="$d5/dc4/classinisetup_1_1IniSetup.html#ac13907114bf6eb3da68f3b77f7f1b67c" title="inisetup::IniSetup\l::set_bool" alt="" coords="928,175,1051,222"/>
-<area shape="rect" id="node26" href="$d5/dc4/classinisetup_1_1IniSetup.html#aedea6e81702df28a3acab7793ea1524c" title="inisetup::IniSetup\l::set_string" alt="" coords="752,226,875,273"/>
-<area shape="rect" id="node28" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a166df529c38c9eeb5c61052059ba28c0" title="Advanced_Options" alt="" coords="748,296,879,325"/>
-<area shape="rect" id="node32" href="$d4/d94/DriverSelectionConfiguration_8hpp.html#a9f80209e5dcf24639b4f5ddc85362484" title="Play_Now" alt="" coords="948,347,1031,376"/>
-<area shape="rect" id="node20" href="$d5/dc4/classinisetup_1_1IniSetup.html#a1f3c71dce71c9a2b9ab5c7cb23b5161f" title="inisetup::IniSetup::set" alt="" coords="1269,155,1419,184"/>
-<area shape="rect" id="node46" href="$d8/dbb/structUDPSocket.html#a041a3f65cf02debf6d6a7a2d095883dc" title="UDPSocket::recvfrom" alt="" coords="337,608,487,637"/>
+<area shape="rect" id="node3" href="$d0/d99/DriverSelectionConfiguration_8cpp.html#a249050c220fe532d98a8b6ddc1f7a622" title="DRIVERCHOICE_HPP_INCLUDED. " alt="" coords="143,345,249,375"/>
+<area shape="rect" id="node34" href="$d0/d99/DriverSelectionConfiguration_8cpp.html#ab38bea277bcb76332fd9bb780351cc13" title="fatal" alt="" coords="1153,399,1199,428"/>
+<area shape="rect" id="node40" href="$d8/dbb/structUDPSocket.html#a407dab37930645d84bbe7dda2bb946ac" title="Wait for and obtain a UDP packet (returns the size of the data stored in BUF) " alt="" coords="116,505,276,535"/>
+<area shape="rect" id="node46" href="$d8/dbb/structUDPSocket.html#a442b621c138c2f41a8e7c3dc82e5478a" title="Destructor: closes the socket. " alt="" coords="117,559,275,588"/>
+<area shape="rect" id="node52" href="$df/d64/classEventReceiver.html#ac17944164122737ffe1739a1a759c2d4" title="EventReceiver::IsKeyDown" alt="" coords="104,612,288,641"/>
+<area shape="rect" id="node5" href="$d0/d99/DriverSelectionConfiguration_8cpp.html#a6b1c8cd019da5de3d54dfc82d0592c2e" title="optional_config" alt="" coords="365,155,475,184"/>
+<area shape="rect" id="node14" href="$d0/d99/DriverSelectionConfiguration_8cpp.html#a67a37a0d1212e459d092a0d832f8f47f" title="display_software_select" alt="" coords="552,231,715,260"/>
+<area shape="rect" id="node7" href="$d5/dc4/classinisetup_1_1IniSetup.html#ae5181087f780d7a3855669923934855a" title="inisetup::IniSetup\l::get_number" alt="" coords="768,5,891,51"/>
+<area shape="rect" id="node9" href="$d5/dc4/classinisetup_1_1IniSetup.html#a06654e80de4170cfb6f7717a6629fd0d" title="inisetup::IniSetup\l::get_string" alt="" coords="572,77,695,123"/>
+<area shape="rect" id="node11" href="$d5/dc4/classinisetup_1_1IniSetup.html#aa5cd3f0b73231d0bd062f4e1b5c0366d" title="inisetup::IniSetup\l::get_bool" alt="" coords="572,146,695,193"/>
+<area shape="rect" id="node16" href="$d0/d99/DriverSelectionConfiguration_8cpp.html#a64fa61baa23f8a73bcfd267625d8ac2d" title="MulitplayerInfo" alt="" coords="952,72,1059,101"/>
+<area shape="rect" id="node18" href="$d5/dc4/classinisetup_1_1IniSetup.html#ad17d7e41f044917a1406b093fda58f3d" title="inisetup::IniSetup\l::set_number" alt="" coords="1115,146,1237,193"/>
+<area shape="rect" id="node23" href="$d5/dc4/classinisetup_1_1IniSetup.html#ac13907114bf6eb3da68f3b77f7f1b67c" title="inisetup::IniSetup\l::set_bool" alt="" coords="944,175,1067,222"/>
+<area shape="rect" id="node26" href="$d5/dc4/classinisetup_1_1IniSetup.html#aedea6e81702df28a3acab7793ea1524c" title="inisetup::IniSetup\l::set_string" alt="" coords="768,226,891,273"/>
+<area shape="rect" id="node28" href="$d0/d99/DriverSelectionConfiguration_8cpp.html#a166df529c38c9eeb5c61052059ba28c0" title="Advanced_Options" alt="" coords="764,296,895,325"/>
+<area shape="rect" id="node32" href="$d0/d99/DriverSelectionConfiguration_8cpp.html#a9f80209e5dcf24639b4f5ddc85362484" title="Play_Now" alt="" coords="964,347,1047,376"/>
+<area shape="rect" id="node20" href="$d5/dc4/classinisetup_1_1IniSetup.html#a1f3c71dce71c9a2b9ab5c7cb23b5161f" title="inisetup::IniSetup::set" alt="" coords="1285,155,1435,184"/>
+<area shape="rect" id="node42" href="$d8/dbb/structUDPSocket.html#a11a2fa856b725ba36cce0ded55162ed7" title="UDPSocket::send_basic\l_string" alt="" coords="337,501,503,547"/>
+<area shape="rect" id="node44" href="$d8/dbb/structUDPSocket.html#a5bc90873988b3bd1ec38457ebe32fd02" title="UDPSocket::sendto" alt="" coords="564,509,703,539"/>
+<area shape="rect" id="node48" href="$d8/dbb/structUDPSocket.html#adf46ad37ea483f245faeee08c7bdfa97" title="UDPSocket::recv_string" alt="" coords="339,571,501,600"/>
+<area shape="rect" id="node50" href="$d8/dbb/structUDPSocket.html#a041a3f65cf02debf6d6a7a2d095883dc" title="Wait for and obtain a UDP packet as a std::string. " alt="" coords="559,571,708,600"/>
 </map>

@@ -1,6 +1,6 @@
-// UDPSocket.hpp - An OO representation of UDP connections
+//!< UDPSocket.hpp - An OO representation of UDP connections
 
-// Version: 0.4
+//!< Version: 0.4
 
 #ifndef UDPSOCKET_HPP_INCLUDED
 #define UDPSOCKET_HPP_INCLUDED
@@ -8,7 +8,7 @@
 #include <string>
 #include <sstream>
 
-// Standard C header files, needed for the structures and system calls below (e.g. socket, recvfrom, sendto, ...)
+//!< Standard C header files, needed for the structures and system calls below (e.g. socket, recvfrom, sendto, ...)
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <stdio.h>
@@ -18,7 +18,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-// Represents a remote host + port number
+//!< Represents a remote host + port number
 struct ServAddr {
   struct sockaddr_in servaddr;
   ServAddr(const char*addr, int port) {
@@ -30,14 +30,14 @@ struct ServAddr {
 };
 
 struct UDPSocket {
-  int fd; // File descriptor, this is used by the library to identify the socket
+  int fd; //!< File descriptor, this is used by the library to identify the socket
 
-  // Constructor: opens the socket for UDP
+  //!< Constructor: opens the socket for UDP
   UDPSocket() {
     fd=socket(AF_INET,SOCK_DGRAM,0);
   }
 
-  // Alternate constructor: opens the socket for UDP, and binds it to a port for receiving packets
+  //!< Alternate constructor: opens the socket for UDP, and binds it to a port for receiving packets
   UDPSocket(int port) :UDPSocket() {
     bind(port);
   }
@@ -51,7 +51,7 @@ struct UDPSocket {
     return ::bind(fd,(struct sockaddr *)&servaddr,sizeof(servaddr));
   }
 
-  // Sends a UDP packet to ServAddr object (remote host + port)
+  //!< Sends a UDP packet to ServAddr object (remote host + port)
   int sendto(const char*data, size_t len, const ServAddr& a) {
     return ::sendto(
         fd,
@@ -71,19 +71,19 @@ struct UDPSocket {
     return send_basic_string(ss.str(), a);
   }
 
-  // Wait for and obtain a UDP packet (returns the size of the data stored in BUF)
+  //!< Wait for and obtain a UDP packet (returns the size of the data stored in BUF)
   int recvfrom(char*buf, size_t len) {
     return ::recvfrom(fd, buf, len,0,NULL,NULL);
   }
 
-  // Wait for and obtain a UDP packet as a std::string
+  //!< Wait for and obtain a UDP packet as a std::string
   std::basic_string<char> recv_string(size_t max_length = 10000) {
     char buf[max_length];
     int n;
     if ((n = recvfrom(buf, max_length)) >= 0) {
       return std::basic_string<char>(buf, n);
     } else {
-      // It would be better to throw an exception here
+      //!< It would be better to throw an exception here
       return std::basic_string<char>();
     }
   }
@@ -93,18 +93,18 @@ struct UDPSocket {
         return std::stoi(recv_string(100));
 }
 
-  // Destructor: closes the socket
+  //!< Destructor: closes the socket
   ~UDPSocket() {
     close(fd);
   }
 };
 
-// Example usage:
+//!< Example usage:
 
-// Send a UDP packet with "hello" (5 bytes) as data, to host 10.3.3.7, port 20
+//!< Send a UDP packet with "hello" (5 bytes) as data, to host 10.3.3.7, port 20
 
-// UDPSocket().sendto("hello", 5, ServAddr("10.3.3.7",20));
+//!< UDPSocket().sendto("hello", 5, ServAddr("10.3.3.7",20));
 
 
-#endif // UDPSOCKET_HPP_INCLUDED
+#endif //!< UDPSOCKET_HPP_INCLUDED
 
