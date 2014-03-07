@@ -68,12 +68,6 @@ public:
 
             return false;
 
-        if (event.EventType == irr::EET_KEY_INPUT_EVENT)
-            KeyIsUp[event.KeyInput.Key] = event.KeyInput.PressedDown;
-
-            if (keyState [keyCode] == UP || keyState[keyCode] == RELEASED)
-                return true;
-
 }
     const SEvent::SJoystickEvent & GetJoystickState(void) const
     {
@@ -91,27 +85,17 @@ public:
         return KeyIsDown[keyCode];
     }
 
-    // This is used to check whether a key is up
-    virtual bool IsKeyUp(EKEY_CODE keyCode) const
-    {
-        return KeyIsUp[keyCode];
-    }
-
-
     EventReceiver()
     {
         for (u32 i=0; i<KEY_KEY_CODES_COUNT; ++i)
             KeyIsDown[i] = false;
 
-        for (u32 i=0; i<KEY_KEY_CODES_COUNT; ++i)
-            KeyIsUp[i] = true;
     }
 
 private:
     // We use this array to store the current state of each key
-    bool KeyIsDown[KEY_KEY_CODES_COUNT];
 
-    bool KeyIsUp[KEY_KEY_CODES_COUNT];
+    bool KeyIsDown[KEY_KEY_CODES_COUNT];
 
     //Joystick State
     SEvent::SJoystickEvent JoystickState;

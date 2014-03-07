@@ -279,6 +279,8 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         f32 MyPlayerPosY;
         f32 MyPlayerPosZ;
 
+        bool Camera_height_state;
+
 std::thread MultiplayerPos([&]{
     while(true)
     {
@@ -323,10 +325,11 @@ std::thread MultiplayerPos([&]{
             camera_animator->setEllipsoidRadius(core::vector3df(10,15,10));
 
     }
-        //else if(receiver.IsKeyUp(irr::KEY_LCONTROL)) {
-            //camera_animator->setEllipsoidRadius(core::vector3df(10,40,10));
-        //}
+        if(Camera_height_state && !receiver.IsKeyDown(irr::KEY_LCONTROL)) {
+         Camera_height_state = false;
+         camera_animator->setEllipsoidRadius(core::vector3df(10,40,10));
 
+        }
             if(receiver.IsKeyDown(irr::KEY_DELETE)){
                 cout << MyPlayerPosX << MyPlayerPosY << MyPlayerPosZ << endl;
             }
