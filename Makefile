@@ -1,9 +1,8 @@
 LDLIBS=-lIrrlicht
-# LDFLAGS=-L ~/Downloads/irrlicht-trunk/lib/Linux
 LIBS=-lIrrlicht
-# EXTRA_CXXFLAGS=-I ~/Downloads/irrlicht-trunk/include -D_LOCAL_IRRLICHT
 CXX=g++
-CXXFLAGS= -std=c++11 -Wall -g
+DEBUG=-g -Wfatal-errors -pedantic -Weffc++ -Wunreachable-code -Winline -Wredundant-decls
+CXXFLAGS=-std=c++11 -Wall ${DEBUG}
 GAMEBIN=OpenHorizons
 # Discarded switches:  -lXxf86vm -lGL -lX11 -lXcursor -D_IRR_STATIC_LIB_
 
