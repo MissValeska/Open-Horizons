@@ -6,11 +6,11 @@
 #include <cstdlib>
 #include <string>
 #include <iostream>
+#include <thread>
 #include "bimap.hpp" // http://collabedit.com/sn782
 //#include "keybinds.hpp"
 #include "EventReceiver.hpp"
 #include "DriverSelectionConfiguration.hpp"
-#include <thread>
 #include "UDPSocket.hpp"
 
 using namespace irr;
@@ -28,6 +28,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
 
     EventReceiver receiver;
 
+   //Exclamation means negation
     if(!display_software)
         fatal("Fatal Error: The Renderer was not correctly specified!", 1);
         else if(display_software == 0)
@@ -36,7 +37,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
     //Create an Irrlicht Device.
     IrrlichtDevice * device = irr::createDevice(display_software,dimension2d<u32>(screen_width,screen_height), colour_bits,
                 fullscreen_define, shadows_define, vsync_define, &receiver);
-   //Exclamation means negation
+
     if (!device ) fatal("Fatal Error: The Irrlicht Device could not be created!", 2);
 
     //Get the Video Driver from the device.
@@ -158,7 +159,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         // drop mesh because we created it with a create.. call.
         tangentMesh->drop();*/
 
-                 SKeyMap keyMap[10];
+                 SKeyMap keyMap[8];
          keyMap[0].Action = EKA_MOVE_FORWARD;
          keyMap[0].KeyCode = KEY_UP;
          keyMap[1].Action = EKA_MOVE_FORWARD;
@@ -178,10 +179,6 @@ int main(int argc, char ** argv) // The options here define an argument count ap
          keyMap[6].KeyCode = KEY_RIGHT;
          keyMap[7].Action = EKA_STRAFE_RIGHT;
          keyMap[7].KeyCode = KEY_KEY_D;
-         keyMap[8].Action = EKA_JUMP_UP;
-         keyMap[8].KeyCode = KEY_SPACE;
-         keyMap[9].Action = EKA_CROUCH;
-         keyMap[9].KeyCode = KEY_CONTROL;
 
         enum
 {
@@ -283,7 +280,7 @@ int main(int argc, char ** argv) // The options here define an argument count ap
         f32 MyPlayerPosY;
         f32 MyPlayerPosZ;
 
-        bool Camera_height_state;
+        bool Camera_height_state = true;
 
 std::thread MultiplayerPos([&]{
     while(true)
@@ -319,7 +316,7 @@ std::thread MultiplayerPos([&]{
 
         if(receiver.IsKeyDown(irr::KEY_ESCAPE))
            break;
-
+    //The operator ! is the C++ operator for the Boolean operation NOT.
 	if(receiver.IsKeyDown(irr::KEY_SPACE)) {
 	    if (!camera_animator->isFalling()) {
 	      camera_animator->jump(3.8);

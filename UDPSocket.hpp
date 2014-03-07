@@ -68,9 +68,6 @@ struct UDPSocket {
     int send_float(float s, const ServAddr& a) {
     std::stringstream ss;
       ss << s;
-      ss.seekg(0, std::ios::end);
-      /* int str_size = ss.tellg(); *** Unused variable. Why? */
-      ss.seekg(0, std::ios::beg);
     return send_basic_string(ss.str(), a);
   }
 
