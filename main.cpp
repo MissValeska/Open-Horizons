@@ -4,7 +4,8 @@
  #include <irrlicht/irrlicht.h>
 #endif
 #include <cstdlib>
-#include "inisetup.hpp"
+#include <string>
+#include <iostream>
 #include "bimap.hpp" // http://collabedit.com/sn782
 //#include "keybinds.hpp"
 #include "EventReceiver.hpp"
@@ -12,7 +13,6 @@
 #include <thread>
 #include "UDPSocket.hpp"
 
-using namespace std;
 using namespace irr;
 using namespace core;
 using namespace scene;
@@ -334,9 +334,9 @@ std::thread MultiplayerPos([&]{
             camera_animator->setEllipsoidRadius(core::vector3df(10,40,10));
         }
         if(receiver.IsKeyDown(irr::KEY_DELETE)){
-            cout << MyPlayerPosX << MyPlayerPosY << MyPlayerPosZ << endl;
+            std::cout << MyPlayerPosX << MyPlayerPosY << MyPlayerPosZ << std::endl;
         }
-        //<< MyPlayerPos << endl;
+        //<< MyPlayerPos << std::endl;
 
         // A camera_animator->crouch does not seem to exist
         // if(receiver.IsKeyDown(irr::KEY_CONTROL))

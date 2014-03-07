@@ -6,6 +6,7 @@
 #define UDPSOCKET_HPP_INCLUDED
 
 #include <string>
+#include <sstream>
 
 // Standard C header files, needed for the structures and system calls below (e.g. socket, recvfrom, sendto, ...)
 #include <sys/socket.h>

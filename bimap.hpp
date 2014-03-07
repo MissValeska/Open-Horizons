@@ -1,6 +1,7 @@
 #ifndef BIMAP_HPP_INCLUDED
 #define BIMAP_HPP_INCLUDED
 #include <map>
+#include <string>
 
 // Define a generic bimap type (X <-> Y)
 template <typename X, typename Y> struct Bimap {
