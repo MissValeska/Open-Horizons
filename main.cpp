@@ -1,4 +1,8 @@
-#include <irrlicht.h>
+#ifdef _LOCAL_IRRLICHT
+ #include <irrlicht.h>
+#else
+ #include <irrlicht/irrlicht.h>
+#endif
 #include <cstdlib>
 #include "inisetup.hpp"
 #include "bimap.hpp" // http://collabedit.com/sn782
@@ -316,24 +320,23 @@ std::thread MultiplayerPos([&]{
         if(receiver.IsKeyDown(irr::KEY_ESCAPE))
            break;
 
-	  if(receiver.IsKeyDown(irr::KEY_SPACE)) {
+	if(receiver.IsKeyDown(irr::KEY_SPACE)) {
 	    if (!camera_animator->isFalling()) {
 	      camera_animator->jump(3.8);
 	    }
-	  }
-          if(receiver.IsKeyDown(irr::KEY_LCONTROL)) {
+	}
+        if(!Camera_height_state && receiver.IsKeyDown(irr::KEY_LCONTROL)) {
+            Camera_height_state = true;
             camera_animator->setEllipsoidRadius(core::vector3df(10,15,10));
-
-    }
-        if(Camera_height_state && !receiver.IsKeyDown(irr::KEY_LCONTROL)) {
-         Camera_height_state = false;
-         camera_animator->setEllipsoidRadius(core::vector3df(10,40,10));
-
         }
-            if(receiver.IsKeyDown(irr::KEY_DELETE)){
-                cout << MyPlayerPosX << MyPlayerPosY << MyPlayerPosZ << endl;
-            }
-            //<< MyPlayerPos << endl;
+        if(Camera_height_state && !receiver.IsKeyDown(irr::KEY_LCONTROL)) {
+            Camera_height_state = false;
+            camera_animator->setEllipsoidRadius(core::vector3df(10,40,10));
+        }
+        if(receiver.IsKeyDown(irr::KEY_DELETE)){
+            cout << MyPlayerPosX << MyPlayerPosY << MyPlayerPosZ << endl;
+        }
+        //<< MyPlayerPos << endl;
 
         // A camera_animator->crouch does not seem to exist
         // if(receiver.IsKeyDown(irr::KEY_CONTROL))

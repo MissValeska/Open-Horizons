@@ -47,7 +47,7 @@ struct UDPSocket {
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr=htonl(INADDR_ANY);
     servaddr.sin_port=htons(port);
-    ::bind(fd,(struct sockaddr *)&servaddr,sizeof(servaddr));
+    return ::bind(fd,(struct sockaddr *)&servaddr,sizeof(servaddr));
   }
 
   // Sends a UDP packet to ServAddr object (remote host + port)
@@ -68,7 +68,7 @@ struct UDPSocket {
     std::stringstream ss;
       ss << s;
       ss.seekg(0, std::ios::end);
-      int str_size = ss.tellg();
+      /* int str_size = ss.tellg(); *** Unused variable. Why? */
       ss.seekg(0, std::ios::beg);
     return send_basic_string(ss.str(), a);
   }
