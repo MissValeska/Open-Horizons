@@ -1,11 +1,7 @@
 #ifndef EVENTRECEIVER_HPP_INCLUDED
 #define EVENTRECEIVER_HPP_INCLUDED
 
-#ifdef _LOCAL_IRRLICHT
- #include <irrlicht.h>
-#else
  #include <irrlicht/irrlicht.h>
-#endif
 
 using namespace irr;
 
