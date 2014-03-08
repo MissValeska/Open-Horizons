@@ -1,8 +1,4 @@
-#ifdef _LOCAL_IRRLICHT
- #include <irrlicht.h>
-#else
- #include <irrlicht/irrlicht.h>
-#endif
+#include <irrlicht/irrlicht.h>
 #include <cstdlib>
 #include <string>
 #include <iostream>
