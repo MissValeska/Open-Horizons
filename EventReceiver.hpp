@@ -15,7 +15,7 @@ class EventReceiver : public IEventReceiver
 		{
 			core::position2di Position;
 			bool LeftButtonDown;
-			SMouseState() : LeftButtonDown(false) { }
+			SMouseState() : Position(), LeftButtonDown(false) { }
 		} MouseState;
 
 		//!< This is the one method that we have to implement
@@ -87,7 +87,7 @@ class EventReceiver : public IEventReceiver
 			return KeyIsDown[keyCode];
 		}
 
-		EventReceiver()
+		EventReceiver() : MouseState(), JoystickState()
 		{
 			for (u32 i=0; i<KEY_KEY_CODES_COUNT; ++i)
 				KeyIsDown[i] = false;

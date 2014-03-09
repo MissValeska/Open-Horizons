@@ -7,8 +7,9 @@
 template <typename X, typename Y> struct Bimap {
 	std::map<X,Y> to;
 	std::map<Y,X> from;
-	Bimap() { };
+	Bimap() : to(), from() { };
 	Bimap(const std::map<X, Y> &m) :to(m) { update_from_map(); };
+	virtual ~Bimap() {};
 
 	//!< Build up the 'from' map (Y -> X) using the 'to' map (X -> Y)
 	void update_from_map() {

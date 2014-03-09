@@ -1,7 +1,7 @@
 LDLIBS=-lIrrlicht
 LIBS=-lIrrlicht
 CXX=g++
-DEBUG=-g -Wfatal-errors -pedantic -Weffc++ -Wunreachable-code -Winline -Wredundant-decls
+DEBUG=-g -Wfatal-errors -pedantic -Weffc++ -Wunreachable-code -Winline -Wredundant-decls -Wno-vla
 CXXFLAGS=-std=c++11 -Wall ${DEBUG}
 GAMEBIN=OpenHorizons
 # Discarded switches:  -lXxf86vm -lGL -lX11 -lXcursor -D_IRR_STATIC_LIB_

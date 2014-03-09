@@ -50,7 +50,6 @@ namespace inisetup {
 	class IniSetup {
 		string _filename;
 		public:
-		IniSetup() {};
 		//!< Read a .ini file from FILENAME
 		IniSetup(const char*filename) :_filename(filename) { read_ini_file(); }
 		~IniSetup() { write_ini_file(); }

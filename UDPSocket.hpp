@@ -24,8 +24,7 @@
 //!< Represents a remote host + port number
 struct ServAddr {
 	struct sockaddr_in servaddr;
-	ServAddr(const char*addr, int port) {
-		bzero(&servaddr,sizeof(servaddr));
+	ServAddr(const char*addr, int port) : servaddr({0}) {
 		servaddr.sin_family = AF_INET;
 		servaddr.sin_addr.s_addr=inet_addr(addr);
 		servaddr.sin_port=htons(port);
@@ -36,7 +35,7 @@ struct UDPSocket {
 	int fd; //!< File descriptor, this is used by the library to identify the socket
 
 	//!< Constructor: opens the socket for UDP
-	UDPSocket() {
+	UDPSocket() : fd() {
 		fd=socket(AF_INET,SOCK_DGRAM,0);
 	}
 
@@ -46,8 +45,7 @@ struct UDPSocket {
 	}
 
 	int bind(int port) {
-		struct sockaddr_in servaddr;
-		bzero(&servaddr,sizeof(servaddr));
+		struct sockaddr_in servaddr = {0};
 		servaddr.sin_family = AF_INET;
 		servaddr.sin_addr.s_addr=htonl(INADDR_ANY);
 		servaddr.sin_port=htons(port);
