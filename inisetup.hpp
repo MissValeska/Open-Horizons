@@ -185,6 +185,6 @@ namespace inisetup {
         return set(n, ss.str());
       };*/
     };
-  };
+  }
 
 #endif //!< INISETUP_HPP_INCLUDED

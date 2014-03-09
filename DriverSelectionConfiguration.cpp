@@ -33,7 +33,7 @@ void fatal(const char * error, int exit_code) {
 
     std::cerr << error << std::endl; exit(exit_code);
 
-};
+}
 
 void Play_Now(){
 
