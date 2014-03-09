@@ -17,174 +17,174 @@
 
 //!< IniSetup ini("config.ini");
 
-    //!< This creates an instance for the file config.ini; settings are loaded and saved automatically
+//!< This creates an instance for the file config.ini; settings are loaded and saved automatically
 
 //!< int width = ini.get_number("width");
 
-    //!< This gets option width= from the config file
+//!< This gets option width= from the config file
 
 //!< width = width + 400;
 
-    //!< you can change it
+//!< you can change it
 
 //!< ini.set_number("width", width);
 
-    //!< and save it back
+//!< and save it back
 
 //!< Three types are currently supported (bool, string and number),
 //!<all with get_* and set_* methods, like set_bool() and get_bool()
 
 namespace inisetup {
-  using std::string;
-  using std::ifstream;
-  using std::ofstream;
-  using std::map;
-  struct empty_class {};
-  //!< This holds the mapping (option name -> setting)
-  map<string, string> _m;
-  map<string, string> _settings_on_file;
-  map<string, empty_class> _possibly_changed_settings;
+	using std::string;
+	using std::ifstream;
+	using std::ofstream;
+	using std::map;
+	struct empty_class {};
+	//!< This holds the mapping (option name -> setting)
+	map<string, string> _m;
+	map<string, string> _settings_on_file;
+	map<string, empty_class> _possibly_changed_settings;
 
-  //!< This class manages a simple .ini file
-  //!< Sections like [foo] are ignored for now
-  class IniSetup {
-    string _filename;
-  public:
-    IniSetup() {};
-    //!< Read a .ini file from FILENAME
-    IniSetup(const char*filename) :_filename(filename) { read_ini_file(); }
-    ~IniSetup() { write_ini_file(); }
-  private:
-    bool read_ini_file() {
-      ifstream file(_filename);
-      if (!file) return false;
-      string line;
-      while (std::getline(file, line)) {
-    char ch;
-    int c = 0;
-    int s = line.length();
+	//!< This class manages a simple .ini file
+	//!< Sections like [foo] are ignored for now
+	class IniSetup {
+		string _filename;
+		public:
+		IniSetup() {};
+		//!< Read a .ini file from FILENAME
+		IniSetup(const char*filename) :_filename(filename) { read_ini_file(); }
+		~IniSetup() { write_ini_file(); }
+		private:
+		bool read_ini_file() {
+			ifstream file(_filename);
+			if (!file) return false;
+			string line;
+			while (std::getline(file, line)) {
+				char ch;
+				int c = 0;
+				int s = line.length();
 
-    int n_b = 0;
-    int n_e = 0;
-    int o_b = 0;
+				int n_b = 0;
+				int n_e = 0;
+				int o_b = 0;
 
-    if (c >= s) goto nextline;
+				if (c >= s) goto nextline;
 
 
-    //!< Skip whitespace
-    while ((ch = line[c]) == ' ') {
-      c++;
-      if (c >= s) goto nextline;
-    };
+				//!< Skip whitespace
+				while ((ch = line[c]) == ' ') {
+					c++;
+					if (c >= s) goto nextline;
+				};
 
-    n_b = c; //!< Beginning of option name
-    if (ch == '[') break; //!< Skip sections
+				n_b = c; //!< Beginning of option name
+				if (ch == '[') break; //!< Skip sections
 
-    //!< Parse option name
-    while (((ch >= 'A') && (ch <= 'Z')) ||
-           ((ch >= 'a') && (ch <= 'z')) ||
-           (ch == '_')) {
-      c++;
-      if (c >= s) goto nextline;
-      ch = line[c];
-    }
-    n_e = c; //!< End of option name
+				//!< Parse option name
+				while (((ch >= 'A') && (ch <= 'Z')) ||
+						((ch >= 'a') && (ch <= 'z')) ||
+						(ch == '_')) {
+					c++;
+					if (c >= s) goto nextline;
+					ch = line[c];
+				}
+				n_e = c; //!< End of option name
 
-    //!< Skip whitespace
-    while (ch == ' ') {
-      c++;
-      if (c >= s) goto nextline;
-      ch = line[c];
-    };
+				//!< Skip whitespace
+				while (ch == ' ') {
+					c++;
+					if (c >= s) goto nextline;
+					ch = line[c];
+				};
 
-        if (ch != '=') goto nextline;
-    c++;
+				if (ch != '=') goto nextline;
+				c++;
 
-    o_b = c; //!< Beginning of option value
+				o_b = c; //!< Beginning of option value
 
-    _settings_on_file[string(line.begin() + n_b, line.begin() + n_e)] = string(line.begin() + o_b, line.end());
-      nextline:
-    ;
-      }
-      _m = _settings_on_file;
-      return true;
-    };
+				_settings_on_file[string(line.begin() + n_b, line.begin() + n_e)] = string(line.begin() + o_b, line.end());
+nextline:
+				;
+			}
+			_m = _settings_on_file;
+			return true;
+		};
 
-    bool write_ini_file() {
-      ofstream file(_filename);
-      if (!file.is_open())
-            { throw std::runtime_error("Could not write/create configurations file."); }
-      for (auto x: _m) {
-        file << x.first;
-        file << "=";
-        file << x.second;
-        file << "\n";
-      };
-      return true;
-    }
+		bool write_ini_file() {
+			ofstream file(_filename);
+			if (!file.is_open())
+			{ throw std::runtime_error("Could not write/create configurations file."); }
+			for (auto x: _m) {
+				file << x.first;
+				file << "=";
+				file << x.second;
+				file << "\n";
+			};
+			return true;
+		}
 
-  public:
-    std::string get(const std::string &n) {
-      return _m[n];
-    };
-    IniSetup &set(const std::string &n, const std::string &v) {
-      _m[n] = v;
-      return *this;
-    };
-    std::string get_string(const std::string &n) {
-      return _m[n];
-    };
-    IniSetup &set_string(const std::string &n, const std::string &v) {
-      _m[n] = v;
-      return *this;
-    };
-    int get_number(const std::string &n) {
-      int r = -1;
-      std::istringstream(get(n)) >> r;
-      return r;
-    };
-    IniSetup &set_number(const std::string &n, int v) {
-      std::stringstream ss;
-      ss << v;
-      return set(n, ss.str());
-    };
-    bool get_bool(const std::string &n) {
-      return get_number(n) == 1;
-    };
-    IniSetup &set_bool(const std::string &n, bool v) {
-      return set_number(n, v ? 1 : 0);
-        };
-    /*IniSetup &get_float(const std::string &n) {
-        float r = 0;
-        std::istringstream(get(n)) >> r;
-        return r;
-    };*/ //!< Return fails with: invalid initialization of reference of type ‘inisetup::IniSetup&’ from expression of type ‘float’
-    IniSetup &set_float(const std::string &n, float v) {
-        std::stringstream ss;
-        ss << v;
-        return set(n, ss.str());
-        };
-    double get_double(const std::string &n) {
-      double r = 0;
-      std::istringstream(get(n)) >> r;
-      return r;
-    };
-    IniSetup &set_double(const std::string &n, double v) {
-      std::stringstream ss;
-      ss << v;
-      return set(n, ss.str());
-    };
-    /*IniSetup &get_wchar_t(const std::string &n) {
-        wchar_t r = 0;
-        std::istringstream(get(n)) >> r;
-        return r;
-    };
-    IniSetup &set_wchar_t(const std::string &n, wchar_t v) {
-        std::stringstream ss;
-        ss << v;
-        return set(n, ss.str());
-      };*/
-    };
-  }
+		public:
+		std::string get(const std::string &n) {
+			return _m[n];
+		};
+		IniSetup &set(const std::string &n, const std::string &v) {
+			_m[n] = v;
+			return *this;
+		};
+		std::string get_string(const std::string &n) {
+			return _m[n];
+		};
+		IniSetup &set_string(const std::string &n, const std::string &v) {
+			_m[n] = v;
+			return *this;
+		};
+		int get_number(const std::string &n) {
+			int r = -1;
+			std::istringstream(get(n)) >> r;
+			return r;
+		};
+		IniSetup &set_number(const std::string &n, int v) {
+			std::stringstream ss;
+			ss << v;
+			return set(n, ss.str());
+		};
+		bool get_bool(const std::string &n) {
+			return get_number(n) == 1;
+		};
+		IniSetup &set_bool(const std::string &n, bool v) {
+			return set_number(n, v ? 1 : 0);
+		};
+		/*IniSetup &get_float(const std::string &n) {
+		  float r = 0;
+		  std::istringstream(get(n)) >> r;
+		  return r;
+		  };*/ //!< Return fails with: invalid initialization of reference of type ‘inisetup::IniSetup&’ from expression of type ‘float’
+		IniSetup &set_float(const std::string &n, float v) {
+			std::stringstream ss;
+			ss << v;
+			return set(n, ss.str());
+		};
+		double get_double(const std::string &n) {
+			double r = 0;
+			std::istringstream(get(n)) >> r;
+			return r;
+		};
+		IniSetup &set_double(const std::string &n, double v) {
+			std::stringstream ss;
+			ss << v;
+			return set(n, ss.str());
+		};
+		/*IniSetup &get_wchar_t(const std::string &n) {
+		  wchar_t r = 0;
+		  std::istringstream(get(n)) >> r;
+		  return r;
+		  };
+		  IniSetup &set_wchar_t(const std::string &n, wchar_t v) {
+		  std::stringstream ss;
+		  ss << v;
+		  return set(n, ss.str());
+		  };*/
+	};
+}
 
 #endif //!< INISETUP_HPP_INCLUDED
