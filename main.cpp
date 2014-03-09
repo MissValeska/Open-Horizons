@@ -4,7 +4,7 @@
 #include <iostream>
 #include <thread>
 #include <mutex>
-#include "bimap.hpp" //!< http://!<collabedit.com/sn782
+#include "bimap.hpp" //!< http:/collabedit.com/sn782
 //!<#include "keybinds.hpp"
 #include "EventReceiver.hpp"
 #include "DriverSelectionConfiguration.hpp"
@@ -291,7 +291,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
     MultiplayerPos.detach();
 
-    
+
  //!<Run simulation
     while(device->run())
     {
@@ -392,4 +392,5 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
     }
     device->drop();
     return 0;
+}
 }
