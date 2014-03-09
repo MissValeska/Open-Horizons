@@ -10,11 +10,6 @@
 
 #include "UDPSocket.hpp"
 
-class PacketPack : public std::basic_stringstream<char> {
-    PacketPack() {};
-
-    PacketPack& operator <<(f32 v) {
-        //!< Convert number to fixed-point
 struct PacketPack : public std::basic_stringstream<char> {
     PacketPack() {};
 
@@ -35,7 +30,7 @@ struct PacketPack : public std::basic_stringstream<char> {
     }
 };
 
-class PacketUnpack : public std::basic_istringstream<char> {
+// class PacketUnpack : public std::basic_istringstream<char> {
 struct PacketUnpack : public std::basic_istringstream<char> {
 PacketUnpack(const std::basic_string<char> &s) :std::basic_istringstream<char>(s) {};
 

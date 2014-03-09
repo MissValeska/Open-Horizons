@@ -155,7 +155,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
         room->getMaterial(0).MaterialTypeParam = 1.f / 64.f;
 
         //!< drop mesh because we created it with a create.. call.
-        tangentMesh->drop();*/
+        tangentMesh->drop(); } */
 
                  SKeyMap keyMap[8];
          keyMap[0].Action = EKA_MOVE_FORWARD;
@@ -300,7 +300,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	// Send our player position
 	PacketPack p;
 	p << camera->getAbsolutePosition();
-	udpsocket.sendto(p.str(), peeraddr);
+	udpsocket.sendto(p.str().c_str(), p.str().length(), peeraddr);
 
 	// Allow the ExPlayer position to be updated
 	ExPlayerMutex.unlock();
@@ -325,7 +325,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
             camera_animator->setEllipsoidRadius(core::vector3df(10,40,10));
         }
         if(receiver.IsKeyDown(irr::KEY_DELETE)){
-            std::cout << MyPlayerPosX << MyPlayerPosY << MyPlayerPosZ << std::endl;
+//            std::cout << MyPlayerPosX << MyPlayerPosY << MyPlayerPosZ << std::endl;
         }
         //!<<< MyPlayerPos << std::endl;
 
@@ -392,5 +392,4 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
     }
     device->drop();
     return 0;
-}
 }

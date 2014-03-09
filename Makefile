@@ -1,6 +1,6 @@
 LDLIBS=-lIrrlicht
 LIBS=-lIrrlicht
-CXX=clang++
+CXX=g++
 DEBUG=-g -Wfatal-errors -pedantic -Weffc++ -Wunreachable-code -Winline -Wredundant-decls
 CXXFLAGS=-std=c++11 -Wall ${DEBUG}
 GAMEBIN=OpenHorizons
