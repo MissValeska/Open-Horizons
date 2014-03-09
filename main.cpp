@@ -3,11 +3,13 @@
 #include <string>
 #include <iostream>
 #include <thread>
+#include <mutex>
 #include "bimap.hpp" //!< http://!<collabedit.com/sn782
 //!<#include "keybinds.hpp"
 #include "EventReceiver.hpp"
 #include "DriverSelectionConfiguration.hpp"
 #include "UDPSocket.hpp"
+#include "PacketPack.hpp"
 
 using namespace irr;
 using namespace core;
@@ -255,59 +257,55 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
     device->getCursorControl()->setVisible(false);
 
     //!< create event handler
-   //!< PressedKeysMonitor receiver;
+    //!< PressedKeysMonitor receiver;
 
-	int lastFPS = -1;
+    int lastFPS = -1;
 
-	//!< In order to do framerate independent movement, we have to know
-	//!< how long it was since the last frame
-	u32 then = device->getTimer()->getTime();
+    //!< In order to do framerate independent movement, we have to know
+    //!< how long it was since the last frame
+    u32 then = device->getTimer()->getTime();
 
     //!< This is the movement speed in units per second.
-	const f32 MOVEMENT_SPEED = 70.f;
+    const f32 MOVEMENT_SPEED = 70.f;
 
     //!<irr::core::vector3d<float>& PlayerPos;
 
-        f32 ExPlayerPosX = 50;
-        f32 ExPlayerPosY = -60;
-        f32 ExPlayerPosZ = 50;
+    bool Camera_height_state = true;
 
-        f32 MyPlayerPosX;
-        f32 MyPlayerPosY;
-        f32 MyPlayerPosZ;
+    UDPSocket udpsocket(2000);
+    ServAddr peeraddr(ipaddress.c_str(), portnumber);
 
-        bool Camera_height_state = true;
-
-std::thread MultiplayerPos([&]{
-    while(true)
-    {
-    MyPlayerPosX = camera->getAbsolutePosition().X;
-    MyPlayerPosY = camera->getAbsolutePosition().Y;
-    MyPlayerPosZ = camera->getAbsolutePosition().Z;
-        camera->updateAbsolutePosition();
-
-        UDPSocket(2000).send_float(MyPlayerPosX, ServAddr(ipaddress.c_str(),portnumber));
-
-        UDPSocket(2000).recv_float(ExPlayerPosX);
-
-        UDPSocket(2000).send_float(MyPlayerPosY, ServAddr(ipaddress.c_str(),portnumber));
-
-        UDPSocket(2000).recv_float(ExPlayerPosY);
-
-        UDPSocket(2000).send_float(MyPlayerPosZ, ServAddr(ipaddress.c_str(),portnumber));
-
-        UDPSocket(2000).recv_float(ExPlayerPosZ);
-
-        ExPlayer->setPosition(core::vector3df(MyPlayerPosX,MyPlayerPosZ,MyPlayerPosY));
-    }
-});
+    std::mutex ExPlayerMutex;
+    ExPlayerMutex.lock();
+    std::thread MultiplayerPos([&]{
+	while(true)
+	  {
+	    core::vector3df pos;
+	    PacketUnpack(udpsocket.recv_string()) >> pos;
+	    {
+	      std::lock_guard<std::mutex> l(ExPlayerMutex);
+	      ExPlayer->setPosition(pos);
+	    }
+	  }
+      });
 
     MultiplayerPos.detach();
 
+    
  //!<Run simulation
     while(device->run())
     {
 
+      {
+	// Send our player position
+	PacketPack p;
+	p << camera->getAbsolutePosition();
+	udpsocket.sendto(p.str(), peeraddr);
+
+	// Allow the ExPlayer position to be updated
+	ExPlayerMutex.unlock();
+	ExPlayerMutex.lock();
+      }
         //!<irr::core::vector3d<float>& MyPlayerPos = MyPlayerPosX + MyPlayerPosY + MyPlayerPosZ;
 
         if(receiver.IsKeyDown(irr::KEY_ESCAPE))

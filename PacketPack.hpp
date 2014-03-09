@@ -16,6 +16,11 @@ class PacketPack : public std::basic_stringstream<char> {
 
     PacketPack& operator <<(f32 v) {
         //!< Convert number to fixed-point
+struct PacketPack : public std::basic_stringstream<char> {
+    PacketPack() {};
+ 
+    PacketPack& operator <<(f32 v) {
+        // Convert number to fixed-point
         int32_t vv = ((double)v)*1000;
         std::basic_stringstream<char> &s = *this;
         s << ((uint8_t)((vv)       &0xff));
@@ -32,7 +37,8 @@ class PacketPack : public std::basic_stringstream<char> {
 };
 
 class PacketUnpack : public std::basic_istringstream<char> {
-  PacketUnpack(const std::basic_string<char> &s) :std::basic_istringstream<char>(s) {};
+struct PacketUnpack : public std::basic_istringstream<char> {
+PacketUnpack(const std::basic_string<char> &s) :std::basic_istringstream<char>(s) {};
  
     PacketUnpack& operator >>(f32 &v) {
         uint8_t a, b, c, d;
@@ -40,6 +46,7 @@ class PacketUnpack : public std::basic_istringstream<char> {
         s >> a >> b >> c >> d;
         int32_t vv = a | (b<<8) | (c<<16) | (d<<24);
         //!< Convert number from fixed-point
+        // Convert number from fixed-point
         v = ((double)vv)/1000;
         return (*this);
     }
@@ -51,4 +58,3 @@ class PacketUnpack : public std::basic_istringstream<char> {
     
 };
 #endif //!< PACKETPACK_HPP_INCLUDED
-
