@@ -20,10 +20,11 @@ using namespace gui;
 
 int main(int argc, char ** argv) //!<!<  The options here define an argument count apparently, I don't fully understand it.
 	//!<!< http://!<collabedit.com/sab53 A friend explained here if it is still up next you check.
-{	
+{
 	options_select();
 
-	EventReceiver receiver;
+	// Then create the event receiver, giving it that context structure.
+	//EventReceiver receiver(context);
 
 	//!<!< Exclamation means negation
 	if(!display_software)
@@ -33,7 +34,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
 	//!<!< Create an Irrlicht Device.
 	IrrlichtDevice * device = irr::createDevice(display_software,dimension2d<u32>(screen_width,screen_height), colour_bits,
-			fullscreen_define, shadows_define, vsync_define, &receiver);
+			fullscreen_define, shadows_define, vsync_define);//, &receiver);
 
 	if (!device ) fatal("Fatal Error: The Irrlicht Device could not be created!", 2);
 
@@ -45,10 +46,8 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	ISceneManager * smgr = device->getSceneManager();
 	if (!smgr) fatal("Fatal Error: Could not get Scene Manager from the Irrlicht Device.", 4);
 
-    device->setWindowCaption(L"Irrlicht Engine - User Interface Demo");
     device->setResizable(true);
 
-    video::IVideoDriver* driver = device->getVideoDriver();
     IGUIEnvironment* env = device->getGUIEnvironment();
 
     IGUISkin* skin = env->getSkin();
@@ -64,7 +63,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
             L"New Window", L"Launches a new Window");
     env->addButton(rect<s32>(10,320,110,320 + 32), 0, GUI_ID_FILE_OPEN_BUTTON,
             L"File Open", L"Opens a file");
-	
+
 	    env->addStaticText(L"Transparent Control:", rect<s32>(150,20,350,40), true);
     IGUIScrollBar* scrollbar = env->addScrollBar(true,
             rect<s32>(150, 45, 350, 60), 0, GUI_ID_TRANSPARENCY_SCROLL_BAR);
@@ -85,8 +84,8 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
     context.counter = 0;
     context.listbox = listbox;
 
-    // Then create the event receiver, giving it that context structure.
-    EventReceiver receiver(context);
+	// Then create the event receiver, giving it that context structure.
+	EventReceiver receiver(context);
 
     // And tell the device to use our custom event receiver.
     device->setEventReceiver(&receiver);
@@ -420,7 +419,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 		{
 			//!<This defines a string of text to be the window caption, The Irrlicht engine apparently uses
 			//!<something called "wide character strings" when displaying text by the way.
-			core::stringw str = L"Yet to be Named Game - Irrlicht Engine [";
+			core::stringw str = L"Open Horizons - Irrlicht Engine [";
 
 			str += driver->getName();
 			str += "] FPS:";

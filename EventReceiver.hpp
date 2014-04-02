@@ -5,29 +5,23 @@
 
 using namespace irr;
 
-class EventReceiver : public IEventReceiver
-{
-	public:
-
 		// Declare a structure to hold some context for the event receiver so that it
 		// has it available inside its OnEvent() method.
-		struct SAppContext
+struct SAppContext
 		{
 		    IrrlichtDevice *device;
 		    s32             counter;
 		    irr::gui::IGUIListBox*    listbox;
 		};
 
-		// Define some values that we'll use to identify individual GUI controls.
-		enum
+        // Define some values that we'll use to identify individual GUI controls.
+enum
 		{
    		 GUI_ID_QUIT_BUTTON = 101,
    		GUI_ID_NEW_WINDOW_BUTTON,
    		 GUI_ID_FILE_OPEN_BUTTON,
     		GUI_ID_TRANSPARENCY_SCROLL_BAR
 		};
-
-		EventReceiver(SAppContext & context) : Context(context) { }
 
 void setSkinTransparency(s32 alpha, irr::gui::IGUISkin * skin)
 		{
@@ -38,6 +32,12 @@ void setSkinTransparency(s32 alpha, irr::gui::IGUISkin * skin)
         	skin->setColor((irr::gui::EGUI_DEFAULT_COLOR)i, col);
     		}
 	}
+
+class EventReceiver : public IEventReceiver
+{
+	public:
+
+		EventReceiver(SAppContext & context) : Context(context) { }
 
 		//!< We'll create a struct to record info on the mouse state
 		struct SMouseState
@@ -146,11 +146,6 @@ void setSkinTransparency(s32 alpha, irr::gui::IGUISkin * skin)
 
         return false;
 
-private:
-    SAppContext & Context;
-
-public:
-
 			//!< The state of each connected joystick is sent to us
 			//!< once every run() of the Irrlicht device.  Store the
 			//!< state of the first joystick, ignoring other joysticks.
@@ -191,12 +186,12 @@ public:
 			return KeyIsDown[keyCode];
 		}
 
-		EventReceiver() : MouseState(), JoystickState()
+        /*EventReceiver(), Context()
 		{
 			for (u32 i=0; i<KEY_KEY_CODES_COUNT; ++i)
 				KeyIsDown[i] = false;
 
-		}
+		}*/
 
 	private:
 		//!< We use this array to store the current state of each key
@@ -205,6 +200,8 @@ public:
 
 		//!<Joystick State
 		SEvent::SJoystickEvent JoystickState;
+
+        SAppContext & Context;
 };
 
 #endif //!< EVENTRECEIVER_HPP_INCLUDED
