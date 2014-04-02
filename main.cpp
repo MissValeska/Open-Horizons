@@ -23,8 +23,10 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 {
 	options_select();
 
+    SAppContext context;
+
 	// Then create the event receiver, giving it that context structure.
-	//EventReceiver receiver(context);
+	EventReceiver receiver(context);
 
 	//!<!< Exclamation means negation
 	if(!display_software)
@@ -34,7 +36,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
 	//!<!< Create an Irrlicht Device.
 	IrrlichtDevice * device = irr::createDevice(display_software,dimension2d<u32>(screen_width,screen_height), colour_bits,
-			fullscreen_define, shadows_define, vsync_define);//, &receiver);
+			fullscreen_define, shadows_define, vsync_define, &receiver);
 
 	if (!device ) fatal("Fatal Error: The Irrlicht Device could not be created!", 2);
 
@@ -79,16 +81,9 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
     env->addEditBox(L"Editable Text", rect<s32>(350, 80, 550, 100));
 
     // Store the appropriate data in a context structure.
-    SAppContext context;
     context.device = device;
     context.counter = 0;
     context.listbox = listbox;
-
-	// Then create the event receiver, giving it that context structure.
-	EventReceiver receiver(context);
-
-    // And tell the device to use our custom event receiver.
-    device->setEventReceiver(&receiver);
 
 	//!<!< Add a Cube to the Scene.
 	ISceneNode * n = smgr->addCubeSceneNode();

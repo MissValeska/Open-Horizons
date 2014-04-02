@@ -186,12 +186,12 @@ class EventReceiver : public IEventReceiver
 			return KeyIsDown[keyCode];
 		}
 
-        /*EventReceiver(), Context()
+        EventReceiver() : Context(Context), MouseState(), JoystickState()
 		{
 			for (u32 i=0; i<KEY_KEY_CODES_COUNT; ++i)
 				KeyIsDown[i] = false;
 
-		}*/
+		}
 
 	private:
 		//!< We use this array to store the current state of each key
