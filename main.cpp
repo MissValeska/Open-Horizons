@@ -316,19 +316,22 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
 	std::mutex ExPlayerMutex;
 	ExPlayerMutex.lock();
-	std::thread MultiplayerPos([&]{
+	/*std::thread MultiplayerPos([&]{
 			while(true)
 			{
 			core::vector3df pos;
 			PacketUnpack(udpsocket.recv_string()) >> pos;
+            core::vector3df rot;
+			PacketUnpack(udpsocket.recv_string()) >> rot;
 			{
 			std::lock_guard<std::mutex> l(ExPlayerMutex);
 			ExPlayer->setPosition(pos);
+			ExPlayer->setRotation(rot);
 			}
 			}
 			});
 
-	MultiplayerPos.detach();
+	MultiplayerPos.detach();*/
 
 
 	//!<Run simulation
@@ -338,8 +341,11 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 		{
 			// Send our player position
 			PacketPack p;
+			PacketPack r;
 			p << camera->getAbsolutePosition();
+			r << camera->getRotation();
 			udpsocket.sendto(p.str().c_str(), p.str().length(), peeraddr);
+            udpsocket.sendto(r.str().c_str(), r.str().length(), peeraddr);
 
 			// Allow the ExPlayer position to be updated
 			ExPlayerMutex.unlock();

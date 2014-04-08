@@ -155,13 +155,6 @@ class EventReceiver : public IEventReceiver
 			{
 				JoystickState = event.JoystickEvent;
 			}
-			//!< Enumeration for UP, DOWN, PRESSED and RELEASED key states. Also used for mouse button states.
-			enum keyStatesENUM {UP, DOWN, PRESSED, RELEASED};
-
-			//!< Keyboard key states. Unused?
-			   keyStatesENUM keyState[KEY_KEY_CODES_COUNT];
-
-			   EKEY_CODE keyCode;
 
 			//!< Remember whether each key is down or up
 			if (event.EventType == irr::EET_KEY_INPUT_EVENT)
