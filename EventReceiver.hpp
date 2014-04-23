@@ -143,8 +143,7 @@ class EventReceiver : public IEventReceiver
                 break;
             }
         }
-
-        return false;
+        //return false;
 
 			//!< The state of each connected joystick is sent to us
 			//!< once every run() of the Irrlicht device.  Store the

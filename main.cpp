@@ -48,7 +48,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	ISceneManager * smgr = device->getSceneManager();
 	if (!smgr) fatal("Fatal Error: Could not get Scene Manager from the Irrlicht Device.", 4);
 
-    device->setResizable(true);
+    /*device->setResizable(true);
 
     IGUIEnvironment* env = device->getGUIEnvironment();
 
@@ -83,7 +83,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
     // Store the appropriate data in a context structure.
     context.device = device;
     context.counter = 0;
-    context.listbox = listbox;
+    context.listbox = listbox;*/
 
 	//!<!< Add a Cube to the Scene.
 	ISceneNode * n = smgr->addCubeSceneNode();
@@ -316,7 +316,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
 	std::mutex ExPlayerMutex;
 	ExPlayerMutex.lock();
-	/*std::thread MultiplayerPos([&]{
+    std::thread MultiplayerPos([&]{
 			while(true)
 			{
 			core::vector3df pos;
@@ -331,7 +331,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 			}
 			});
 
-	MultiplayerPos.detach();*/
+	MultiplayerPos.detach();
 
 
 	//!<Run simulation
@@ -370,10 +370,8 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 			camera_animator->setEllipsoidRadius(core::vector3df(10,40,10));
 		}
 		if(receiver.IsKeyDown(irr::KEY_DELETE)){
-			//            std::cout << MyPlayerPosX << MyPlayerPosY << MyPlayerPosZ << std::endl;
+			std::cout << "I'm Alive" << std::endl;
 		}
-		//!<<< MyPlayerPos << std::endl;
-
 		//!< A camera_animator->crouch does not seem to exist
 		//!< if(receiver.IsKeyDown(irr::KEY_CONTROL))
 		//!<  camera_animator->crouch(5);
