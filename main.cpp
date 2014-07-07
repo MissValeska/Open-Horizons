@@ -1,15 +1,4 @@
-#include <irrlicht/irrlicht.h>
-#include <cstdlib>
-#include <string>
-#include <iostream>
-#include <thread>
-#include <mutex>
-#include "bimap.hpp" //!< http:/collabedit.com/sn782
-//!<#include "keybinds.hpp"
-#include "EventReceiver.hpp"
-#include "DriverSelectionConfiguration.hpp"
-#include "UDPSocket.hpp"
-#include "PacketPack.hpp"
+#include "OpenHorizonsIncludes.hpp"
 
 using namespace irr;
 using namespace core;
@@ -35,18 +24,21 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 		fatal("Fatal Error: The Renderer was not correctly specified!", 1);
 
 	//!<!< Create an Irrlicht Device.
-	IrrlichtDevice * device = irr::createDevice(display_software,dimension2d<u32>(screen_width,screen_height), colour_bits,
+	device = irr::createDevice(display_software,dimension2d<u32>(screen_width,screen_height), colour_bits,
 			fullscreen_define, shadows_define, vsync_define, &receiver);
 
 	if (!device ) fatal("Fatal Error: The Irrlicht Device could not be created!", 2);
 
 	//!<!< Get the Video Driver from the device.
-	IVideoDriver * driver = device->getVideoDriver();
-	if (!driver) fatal("Fatal Error: Could not get Video Driver from the Irrlicht Device.", 3);
+	driver = device->getVideoDriver();
+	if (!driver) fatal("Fatal Error: Could not get the Video Driver from the Irrlicht Device.", 3);
 
 	//!<!< Get the Scene Manager from the device.
-	ISceneManager * smgr = device->getSceneManager();
-	if (!smgr) fatal("Fatal Error: Could not get Scene Manager from the Irrlicht Device.", 4);
+	smgr = device->getSceneManager();
+	if (!smgr) fatal("Fatal Error: Could not get the Scene Manager from the Irrlicht Device.", 4);
+        
+        irrTimer = device->getTimer();
+        if (!irrTimer) fatal("Fatal Error: Could not get the Irrlicht Timer from the Irrlicht Device.", 5);
 
     /*device->setResizable(true);
 
@@ -85,30 +77,6 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
     context.counter = 0;
     context.listbox = listbox;*/
 
-	//!<!< Add a Cube to the Scene.
-	ISceneNode * n = smgr->addCubeSceneNode();
-
-	//!<!< An animated cube.
-
-	if (n)
-	{
-		//!<!< Add texture to the cube.
-		n->setMaterialTexture(0,driver->getTexture("Textures/IMG_1457.JPG"));
-
-		//!<!< Needed to make the object's texture visible without a light source.
-		//!<!< n->setMaterialFlag(EMF_LIGHTING, false);
-
-		n->setPosition(core::vector3df(0,0,100));
-		//!<Set cube 100 units further in forward direction (Z axis), And animate it.
-		scene::ISceneNodeAnimator* anim =
-			smgr->createFlyCircleAnimator(core::vector3df(0,0,100), 20.0f);
-		if (anim)
-		{
-			n->addAnimator(anim);
-			anim->drop();
-		}
-	}
-
 	//!<!<  create light
 
 	scene::ISceneNode* node = 0;
@@ -137,20 +105,18 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	  characternode->setPosition(core::vector3df(0,-7,0));
 	  characternode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);*/
 
-	//!<!< Add Second PlayerNode
+	//!<!< Add First PlayerNode
 	scene::IAnimatedMeshSceneNode* InPlayer =
 		smgr->addAnimatedMeshSceneNode(smgr->getMesh
 				("Models/Female_Model_BaseMesh.obj"));
-
-	InPlayer->setPosition(core::vector3df(50,50,-60));
+        InPlayer->setPosition(core::vector3df(50,50,-60));
 	InPlayer->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
 
 	//!<!< Add Second PlayerNode
 	scene::IAnimatedMeshSceneNode* ExPlayer =
 		smgr->addAnimatedMeshSceneNode(smgr->getMesh
 				("Models/Female_Model_BaseMesh.obj"));
-
-	ExPlayer->setPosition(core::vector3df(50,50,-60));
+        ExPlayer->setPosition(core::vector3df(50,50,-60));
 	ExPlayer->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
 
 	//!<!< characternode->setMaterialTexture(0, driver->getTexture("../../media/sydney.bmp"))
@@ -195,6 +161,8 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
 	//!< drop mesh because we created it with a create.. call.
 	tangentMesh->drop(); } */
+
+
 
 	SKeyMap keyMap[8];
 	keyMap[0].Action = EKA_MOVE_FORWARD;
@@ -333,6 +301,17 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
 	MultiplayerPos.detach();
 
+    // Initialize bullet
+	btDefaultCollisionConfiguration *CollisionConfiguration = new btDefaultCollisionConfiguration();
+	btBroadphaseInterface *BroadPhase = new btAxisSweep3(btVector3(-1000, -1000, -1000), btVector3(1000, 1000, 1000));
+	btCollisionDispatcher *Dispatcher = new btCollisionDispatcher(CollisionConfiguration);
+	btSequentialImpulseConstraintSolver *Solver = new btSequentialImpulseConstraintSolver();
+	World = new btDiscreteDynamicsWorld(Dispatcher, BroadPhase, Solver, CollisionConfiguration);
+
+    //irrScene->addLightSceneNode(0, core::vector3df(2, 5, -2), video::SColorf(4, 4, 4, 1));
+	CreateStartScene();
+
+    u32 TimeStamp = irrTimer->getTime(), DeltaTime = 0;
 
 	//!<Run simulation
 	while(device->run())
@@ -351,6 +330,12 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 			ExPlayerMutex.unlock();
 			ExPlayerMutex.lock();
 		}
+
+            DeltaTime = irrTimer->getTime() - TimeStamp;
+            TimeStamp = irrTimer->getTime();
+
+            UpdatePhysics(DeltaTime);
+
 		//!<irr::core::vector3d<float>& MyPlayerPos = MyPlayerPosX + MyPlayerPosY + MyPlayerPosZ;
 
 		if(receiver.IsKeyDown(irr::KEY_ESCAPE))
@@ -369,12 +354,18 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 			Camera_height_state = false;
 			camera_animator->setEllipsoidRadius(core::vector3df(10,40,10));
 		}
-		if(receiver.IsKeyDown(irr::KEY_DELETE)){
-			std::cout << "I'm Alive" << std::endl;
-		}
-		//!< A camera_animator->crouch does not seem to exist
-		//!< if(receiver.IsKeyDown(irr::KEY_CONTROL))
-		//!<  camera_animator->crouch(5);
+
+        if(receiver.IsKeyDown(irr::KEY_KEY_1))
+            CreateBox(btVector3(GetRandInt(10) - 5.0f, 7.0f, GetRandInt(10) - 5.0f), core::vector3df(GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f), 1.0f);
+
+        if(receiver.IsKeyDown(irr::KEY_KEY_2))
+            CreateSphere(btVector3(GetRandInt(10) - 5.0f, 7.0f, GetRandInt(10) - 5.0f), GetRandInt(5) / 5.0f + 0.2f, 1.0f);
+
+        if(receiver.IsKeyDown(irr::KEY_KEY_X)) {
+            CreateStartScene();
+            CreatePlayer(btVector3(1.0f, 1.0f, 1.0f), 1.0f, InPlayer);
+            CreatePlayer(btVector3(1.0f, 1.0f, 1.0f), 1.0f, ExPlayer);
+        }
 
 		//!<std::thread beginrender([&]{
 		//!<Begin Scene with a gray backdrop #rgb(125,125,125)
@@ -433,6 +424,179 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 		//!<fpsdetection.join();
 
 	}
+
+    ClearObjects();
+	delete World;
+	delete Solver;
+	delete Dispatcher;
+	delete BroadPhase;
+	delete CollisionConfiguration;
+
 	device->drop();
+
 	return 0;
+}
+
+// Runs the physics simulation.
+// - TDeltaTime tells the simulation how much time has passed since the last frame so the simulation can run independently of the frame rate.
+void UpdatePhysics(u32 TDeltaTime) {
+
+	World->stepSimulation(TDeltaTime * 0.001f, 60);
+
+	// Relay the object's orientation to irrlicht
+	for(list<btRigidBody *>::Iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
+
+		UpdateRender(*Iterator);
+	}
+}
+
+// Creates a base box
+void CreateStartScene() {
+
+	ClearObjects();
+	CreateBox(btVector3(0.0f, 0.0f, 0.0f), vector3df(10.0f, 0.5f, 10.0f), 0.0f);
+}
+
+// Create Player rigid body
+void CreatePlayer(const btVector3 &TPosition, btScalar TMass, scene::IAnimatedMeshSceneNode* Player) {
+        
+        // Set the initial position of the object
+	btTransform Transform;
+	Transform.setIdentity();
+	Transform.setOrigin(TPosition);
+        
+        btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+        
+        // Create the shape
+	btScalar HalfExtents(2.0);
+        btScalar HalfExtents1(10.0);
+	btCollisionShape *Shape = new btCapsuleShape(HalfExtents, HalfExtents1);
+        
+        	// Add mass
+	btVector3 LocalInertia;
+	Shape->calculateLocalInertia(TMass, LocalInertia);
+
+	// Create the rigid body object
+	btRigidBody *RigidBody = new btRigidBody(TMass, MotionState, Shape, LocalInertia);
+
+	// Store a pointer to the irrlicht node so we can update it later
+	RigidBody->setUserPointer((void *)(Player));
+
+	// Add it to the world
+	World->addRigidBody(RigidBody);
+	Objects.push_back(RigidBody);
+    
+}
+
+// Create a World rigid body
+void CreateWorld(const btVector3 &TPosition, const vector3df &TScale, btScalar TMass) {
+    
+}
+
+// Create a box rigid body
+void CreateBox(const btVector3 &TPosition, const vector3df &TScale, btScalar TMass) {
+
+    //!<!< Add a Cube to the Scene.
+	ISceneNode * n = smgr->addCubeSceneNode(1.0f);
+    n->setScale(TScale);
+	n->setMaterialFlag(EMF_LIGHTING, 1);
+	n->setMaterialFlag(EMF_NORMALIZE_NORMALS, true);
+    n->setMaterialTexture(0,driver->getTexture("Textures/dirty-metal-surface.jpg"));
+
+	// Set the initial position of the object
+	btTransform Transform;
+	Transform.setIdentity();
+	Transform.setOrigin(TPosition);
+
+	btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+
+	// Create the shape
+	btVector3 HalfExtents(TScale.X * 0.5f, TScale.Y * 0.5f, TScale.Z * 0.5f);
+	btCollisionShape *Shape = new btBoxShape(HalfExtents);
+
+	// Add mass
+	btVector3 LocalInertia;
+	Shape->calculateLocalInertia(TMass, LocalInertia);
+
+	// Create the rigid body object
+	btRigidBody *RigidBody = new btRigidBody(TMass, MotionState, Shape, LocalInertia);
+
+	// Store a pointer to the irrlicht node so we can update it later
+	RigidBody->setUserPointer((void *)(n));
+
+	// Add it to the world
+	World->addRigidBody(RigidBody);
+	Objects.push_back(RigidBody);
+}
+
+// Create a sphere rigid body
+void CreateSphere(const btVector3 &TPosition, btScalar TRadius, btScalar TMass) {
+
+	ISceneNode *Node = smgr->addSphereSceneNode(TRadius, 32);
+	Node->setMaterialFlag(EMF_LIGHTING, 1);
+	Node->setMaterialFlag(EMF_NORMALIZE_NORMALS, true);
+	Node->setMaterialTexture(0, driver->getTexture("Textures/ice0.jpg"));
+
+	// Set the initial position of the object
+	btTransform Transform;
+	Transform.setIdentity();
+	Transform.setOrigin(TPosition);
+
+	btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+
+	// Create the shape
+	btCollisionShape *Shape = new btSphereShape(TRadius);
+
+	// Add mass
+	btVector3 LocalInertia;
+	Shape->calculateLocalInertia(TMass, LocalInertia);
+
+	// Create the rigid body object
+	btRigidBody *RigidBody = new btRigidBody(TMass, MotionState, Shape, LocalInertia);
+
+	// Store a pointer to the irrlicht node so we can update it later
+	RigidBody->setUserPointer((void *)(Node));
+
+	// Add it to the world
+	World->addRigidBody(RigidBody);
+	Objects.push_back(RigidBody);
+}
+
+// Passes bullet's orientation to irrlicht
+void UpdateRender(btRigidBody *TObject) {
+	ISceneNode *Node = static_cast<ISceneNode *>(TObject->getUserPointer());
+
+	// Set position
+	btVector3 Point = TObject->getCenterOfMassPosition();
+	Node->setPosition(vector3df((f32)Point[0], (f32)Point[1], (f32)Point[2]));
+
+	// Set rotation
+	vector3df Euler;
+	const btQuaternion& TQuat = TObject->getOrientation();
+	quaternion q(TQuat.getX(), TQuat.getY(), TQuat.getZ(), TQuat.getW());
+	q.toEuler(Euler);
+	Euler *= RADTODEG;
+	Node->setRotation(Euler);
+}
+
+// Removes all objects from the world
+void ClearObjects() {
+
+	for(list<btRigidBody *>::Iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
+		btRigidBody *Object = *Iterator;
+
+		// Delete irrlicht node
+		ISceneNode *Node = static_cast<ISceneNode *>(Object->getUserPointer());
+		Node->remove();
+
+		// Remove the object from the world
+		World->removeRigidBody(Object);
+
+		// Free memory
+		delete Object->getMotionState();
+		delete Object->getCollisionShape();
+		delete Object;
+	}
+
+	Objects.clear();
 }
