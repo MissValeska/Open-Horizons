@@ -310,6 +310,8 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
     //irrScene->addLightSceneNode(0, core::vector3df(2, 5, -2), video::SColorf(4, 4, 4, 1));
 	CreateStartScene();
+        CreatePlayer(btVector3(1.0f, 1.0f, 1.0f), 1.0f, InPlayer);
+        CreatePlayer(btVector3(1.0f, 1.0f, 1.0f), 1.0f, ExPlayer);
 
     u32 TimeStamp = irrTimer->getTime(), DeltaTime = 0;
 
@@ -363,8 +365,6 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
         if(receiver.IsKeyDown(irr::KEY_KEY_X)) {
             CreateStartScene();
-            CreatePlayer(btVector3(1.0f, 1.0f, 1.0f), 1.0f, InPlayer);
-            CreatePlayer(btVector3(1.0f, 1.0f, 1.0f), 1.0f, ExPlayer);
         }
 
 		//!<std::thread beginrender([&]{
