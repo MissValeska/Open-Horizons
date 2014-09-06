@@ -12,6 +12,7 @@
 #include <bullet/btBulletCollisionCommon.h>
 #include <bullet/btBulletDynamicsCommon.h>
 #include <bullet/LinearMath/btQuaternion.h>
+#include <bullet/LinearMath/btGeometryUtil.h>
 #include <cstdlib>
 #include <string>
 #include <iostream>
@@ -25,6 +26,7 @@
 #include "PacketPack.hpp"
 #include "BulletInit.hpp"
 #include "BulletMotionStates.hpp"
+#include "BulletConversions.hpp"
 
 #endif	/* OPENHORIZONSINCLUDES_HPP */
 

@@ -281,7 +281,7 @@ void options_select(){
 		switch (choose_switch_stuff){
 			case '1': optional_config(); break;
 			case '2': display_software_select(); break;
-			case '3': fatal("...Quitting...", 0); break;
+			case '3': printf("...Quitting...\n"); exit(0);
 			default:
 				  std::cout << "\nYour selection is invalid, Please correct it.\n" << ">";
 				  std::cin >> choose_switch_stuff;

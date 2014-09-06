@@ -105,20 +105,6 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	  characternode->setPosition(core::vector3df(0,-7,0));
 	  characternode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);*/
 
-	//!<!< Add First PlayerNode
-	scene::IAnimatedMeshSceneNode* InPlayer =
-		smgr->addAnimatedMeshSceneNode(smgr->getMesh
-				("Models/Female_Model_BaseMesh.obj"));
-        InPlayer->setPosition(core::vector3df(50,50,-60));
-	InPlayer->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-
-	//!<!< Add Second PlayerNode
-	scene::IAnimatedMeshSceneNode* ExPlayer =
-		smgr->addAnimatedMeshSceneNode(smgr->getMesh
-				("Models/Female_Model_BaseMesh.obj"));
-        ExPlayer->setPosition(core::vector3df(50,50,-60));
-	ExPlayer->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-
 	//!<!< characternode->setMaterialTexture(0, driver->getTexture("../../media/sydney.bmp"))
 
 	//!<!< IAnimatedMesh* irr::scene::ISceneManager::addHillPlaneMesh(nodehill, 10.0f, 10.0f, "/home/missvaleska/Documents/Blender/textures/greenhillsmalljg0.jpg", 5.0f, 2.0f, 2.0f);
@@ -185,61 +171,24 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	keyMap[7].Action = EKA_STRAFE_RIGHT;
 	keyMap[7].KeyCode = KEY_KEY_D;
 
-	enum
-	{
-		//!< I use this ISceneNode ID to indicate a scene node that is
-		//!< not pickable by getSceneNodeAndCollisionPointFromRay()
-		ID_IsNotPickable = 0,
-
-		//!< I use this flag in ISceneNode IDs to indicate that the
-		//!< scene node can be picked by ray selection.
-		IDFlag_IsPickable = 1 << 0,
-
-		//!< I use this flag in ISceneNode IDs to indicate that the
-		//!< scene node can be highlighted.  In this example, the
-		//!< homonids can be highlighted, but the level mesh can't.
-		IDFlag_IsHighlightable = 1 << 1
-	};
-
-	device->getFileSystem()->addFileArchive("Structures/map-20kdm2.pk3");
-
-	scene::IAnimatedMesh* q3levelmesh = smgr->getMesh("20kdm2.bsp");
-	scene::IMeshSceneNode* q3node = 0;
-
-	//!< The Quake mesh is pickable, but doesn't get highlighted.
-	if (q3levelmesh)
-		q3node = smgr->addOctreeSceneNode(q3levelmesh->getMesh(0), 0, IDFlag_IsPickable);
-
-	scene::ITriangleSelector* selector = 0;
-
-	if (q3node)
-	{
-		q3node->setPosition(core::vector3df(-1350,-130,-1400));
-
-		selector = smgr->createOctreeTriangleSelector(
-				q3node->getMesh(), q3node, 128);
-		q3node->setTriangleSelector(selector);
-		//!< We're not done with this selector yet, so don't drop it.
-	}
-
 	//!< Set a jump speed of 3 units per second, which gives a fairly realistic jump
-	//!< when used with the gravity of (0, -10, 0) in the collision response animator.
+	//!< when used with the gravity of (0, -9.80665, 0) in the collision response animator.
 	scene::ICameraSceneNode* camera =
-		smgr->addCameraSceneNodeFPS(0, 100, 0.3, ID_IsNotPickable, keyMap, 8, true, 3);
+		smgr->addCameraSceneNodeFPS(0, 100, 0.3, 0, keyMap, 8, true, 3);
 	camera->setPosition(core::vector3df(50,50,-60));
 	camera->setTarget(core::vector3df(-70,30,-60));
 
-	scene::ISceneNodeAnimatorCollisionResponse* camera_animator;
+	/*scene::ISceneNodeAnimatorCollisionResponse* camera_animator;
 
 	camera_animator = smgr->createCollisionResponseAnimator(
 			selector, camera, core::vector3df(10,40,10),
-			core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
+			core::vector3df(0,-9.80665,0), core::vector3df(0,30,0), 0);
 	camera->addAnimator(camera_animator);
 
-	InPlayer->setPosition(core::vector3df(50,50,-60));
-	InPlayer->setParent(camera);
+	InPlayer->setPosition(core::vector3df(50,50,-60));*/
+	//InPlayer->setParent(camera);
 
-	scene::ISceneNodeAnimatorCollisionResponse* in_player_animator;
+	/*scene::ISceneNodeAnimatorCollisionResponse* in_player_animator;
 
 	in_player_animator = smgr->createCollisionResponseAnimator(
 			selector, InPlayer, core::vector3df(10,40,10),
@@ -253,9 +202,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	player_animator = smgr->createCollisionResponseAnimator(
 			selector, ExPlayer, core::vector3df(10,40,10),
 			core::vector3df(0,-10,0), core::vector3df(0,30,0), 0);
-	ExPlayer->addAnimator(player_animator);
-
-	selector->drop(); //!< As soon as we're done with the selector, drop it.
+	ExPlayer->addAnimator(player_animator);*/
 
 	//!<Add FPS Camera to allow movement using Keyboard and Mouse.
 	//!<smgr->addCameraSceneNodeFPS(0, 100, 0.07, -1, keyMap, 8);
@@ -279,12 +226,36 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
 	bool Camera_height_state = true;
 
+    // Initialize bullet
+	btDefaultCollisionConfiguration *CollisionConfiguration = new btDefaultCollisionConfiguration();
+	btBroadphaseInterface *BroadPhase = new btAxisSweep3(btVector3(-1000, -1000, -1000), btVector3(1000, 1000, 1000));
+	btCollisionDispatcher *Dispatcher = new btCollisionDispatcher(CollisionConfiguration);
+	btSequentialImpulseConstraintSolver *Solver = new btSequentialImpulseConstraintSolver();
+	World = new btDiscreteDynamicsWorld(Dispatcher, BroadPhase, Solver, CollisionConfiguration);
+
+    // Sets gravity to the exact force of gravity on earth on the Z axis
+        World->setGravity(btVector3(0, -9.80665f, 0));
+
+    //irrScene->addLightSceneNode(0, core::vector3df(2, 5, -2), video::SColorf(4, 4, 4, 1));
+	CreateStartScene();
+        
+        //CreateWorld(btVector3(0.0f, -10.0f, 0.0f), 100.0f);
+        
+        /*scene::IAnimatedMeshSceneNode* InPlayer = 
+                smgr->addAnimatedMeshSceneNode(smgr->getMesh
+				("Models/Female_Model_BaseMesh.obj"));
+        scene::IAnimatedMeshSceneNode* ExPlayer = 
+                smgr->addAnimatedMeshSceneNode(smgr->getMesh
+				("Models/Female_Model_BaseMesh.obj"));
+                    CreatePlayer(btVector3(0.0f, 5.0f, 0.0f), 1.0f, InPlayer);
+            CreatePlayer(btVector3(0.0f, 1.0f, 0.0f), 1.0f, ExPlayer);*/
+        
 	UDPSocket udpsocket(2000);
 	ServAddr peeraddr(ipaddress.c_str(), portnumber);
 
 	std::mutex ExPlayerMutex;
 	ExPlayerMutex.lock();
-    std::thread MultiplayerPos([&]{
+    /*std::thread MultiplayerPos([&]{
 			while(true)
 			{
 			core::vector3df pos;
@@ -299,19 +270,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 			}
 			});
 
-	MultiplayerPos.detach();
-
-    // Initialize bullet
-	btDefaultCollisionConfiguration *CollisionConfiguration = new btDefaultCollisionConfiguration();
-	btBroadphaseInterface *BroadPhase = new btAxisSweep3(btVector3(-1000, -1000, -1000), btVector3(1000, 1000, 1000));
-	btCollisionDispatcher *Dispatcher = new btCollisionDispatcher(CollisionConfiguration);
-	btSequentialImpulseConstraintSolver *Solver = new btSequentialImpulseConstraintSolver();
-	World = new btDiscreteDynamicsWorld(Dispatcher, BroadPhase, Solver, CollisionConfiguration);
-
-    //irrScene->addLightSceneNode(0, core::vector3df(2, 5, -2), video::SColorf(4, 4, 4, 1));
-	CreateStartScene();
-        CreatePlayer(btVector3(1.0f, 1.0f, 1.0f), 1.0f, InPlayer);
-        CreatePlayer(btVector3(1.0f, 1.0f, 1.0f), 1.0f, ExPlayer);
+	MultiplayerPos.detach();*/
 
     u32 TimeStamp = irrTimer->getTime(), DeltaTime = 0;
 
@@ -342,8 +301,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
 		if(receiver.IsKeyDown(irr::KEY_ESCAPE))
 			break;
-		//!<The operator ! is the C++ operator for the Boolean operation NOT.
-		if(receiver.IsKeyDown(irr::KEY_SPACE)) {
+		/*if(receiver.IsKeyDown(irr::KEY_SPACE)) {
 			if (!camera_animator->isFalling()) {
 				camera_animator->jump(3.8);
 			}
@@ -355,7 +313,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 		if(Camera_height_state && !receiver.IsKeyDown(irr::KEY_LCONTROL)) {
 			Camera_height_state = false;
 			camera_animator->setEllipsoidRadius(core::vector3df(10,40,10));
-		}
+		}*/
 
         if(receiver.IsKeyDown(irr::KEY_KEY_1))
             CreateBox(btVector3(GetRandInt(10) - 5.0f, 7.0f, GetRandInt(10) - 5.0f), core::vector3df(GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f), 1.0f);
@@ -365,6 +323,11 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
         if(receiver.IsKeyDown(irr::KEY_KEY_X)) {
             CreateStartScene();
+            scene::IAnimatedMeshSceneNode* InPlayer = 
+                smgr->addAnimatedMeshSceneNode(smgr->getMesh
+				("Models/Female_Model_BaseMesh.obj"));
+            CreatePlayer(btVector3(0.0f, 5.0f, 0.0f), 55.0f, InPlayer);
+            /*CreatePlayer(btVector3(0.0f, 1.0f, 0.0f), 1.0f, ExPlayer);*/
         }
 
 		//!<std::thread beginrender([&]{
@@ -404,7 +367,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
 		//!<std::thread fpsdetection([&](){
 		//!<Detects and displays FPS dynamically.
-		int fps = driver->getFPS();
+                int fps = (int)driver->getFPS();
 		if (lastFPS != fps)
 		{
 			//!<This defines a string of text to be the window caption, The Irrlicht engine apparently uses
@@ -454,12 +417,16 @@ void UpdatePhysics(u32 TDeltaTime) {
 void CreateStartScene() {
 
 	ClearObjects();
-	CreateBox(btVector3(0.0f, 0.0f, 0.0f), vector3df(10.0f, 0.5f, 10.0f), 0.0f);
+	CreateBox(btVector3(0.0f, 0.0f, 0.0f), vector3df(100.0f, 0.5f, 100.0f), 0.0f);
 }
 
 // Create Player rigid body
 void CreatePlayer(const btVector3 &TPosition, btScalar TMass, scene::IAnimatedMeshSceneNode* Player) {
-        
+        // The player will control the body which moves the camera
+    
+        // Creates the Irrlicht player node
+	Player->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+
         // Set the initial position of the object
 	btTransform Transform;
 	Transform.setIdentity();
@@ -468,11 +435,11 @@ void CreatePlayer(const btVector3 &TPosition, btScalar TMass, scene::IAnimatedMe
         btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
         
         // Create the shape
-	btScalar HalfExtents(2.0);
+	btScalar HalfExtents(3.0);
         btScalar HalfExtents1(10.0);
 	btCollisionShape *Shape = new btCapsuleShape(HalfExtents, HalfExtents1);
         
-        	// Add mass
+        // Add mass
 	btVector3 LocalInertia;
 	Shape->calculateLocalInertia(TMass, LocalInertia);
 
@@ -489,8 +456,56 @@ void CreatePlayer(const btVector3 &TPosition, btScalar TMass, scene::IAnimatedMe
 }
 
 // Create a World rigid body
-void CreateWorld(const btVector3 &TPosition, const vector3df &TScale, btScalar TMass) {
+void CreateWorld(const btVector3 &TPosition, btScalar TMass) {
     
+    	enum
+	{
+		//!< I use this ISceneNode ID to indicate a scene node that is
+		//!< not pickable by getSceneNodeAndCollisionPointFromRay()
+		ID_IsNotPickable = 0,
+
+		//!< I use this flag in ISceneNode IDs to indicate that the
+		//!< scene node can be picked by ray selection.
+		IDFlag_IsPickable = 1 << 0,
+
+		//!< I use this flag in ISceneNode IDs to indicate that the
+		//!< scene node can be highlighted.  In this example, the
+		//!< homonids can be highlighted, but the level mesh can't.
+		IDFlag_IsHighlightable = 1 << 1
+	};
+
+	device->getFileSystem()->addFileArchive("Structures/map-20kdm2.pk3");
+
+	scene::IAnimatedMesh* q3levelmesh = smgr->getMesh("20kdm2.bsp");
+	scene::IMeshSceneNode* q3node = 0;
+
+	//!< The Quake mesh is pickable, but doesn't get highlighted.
+	//if (q3levelmesh)
+		q3node = smgr->addOctreeSceneNode(q3levelmesh->getMesh(0), 0, IDFlag_IsPickable);
+        
+        // Set the initial position of the object
+	btTransform Transform;
+	Transform.setIdentity();
+	Transform.setOrigin(TPosition);
+        
+        btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+        
+        // Create the Collision Shape
+        btCollisionShape *Shape = new btConvexHullShape();
+        
+	// Add mass
+	btVector3 LocalInertia;
+	Shape->calculateLocalInertia(TMass, LocalInertia);
+        
+	// Create the rigid body object
+	btRigidBody *RigidBody = new btRigidBody(TMass, MotionState, Shape, LocalInertia);
+
+	// Store a pointer to the irrlicht node so we can update it later
+	RigidBody->setUserPointer((void *)(q3node));
+
+	// Add it to the world
+	World->addRigidBody(RigidBody);
+	Objects.push_back(RigidBody);
 }
 
 // Create a box rigid body
