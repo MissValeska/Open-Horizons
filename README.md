@@ -17,6 +17,14 @@ Open Horizons has very ambitons, Yet, I think, Obtainable goals, Such as a simul
 
 Please note: Open Horizons is currently in unbelievely early pre-alpha, If you are looking for examples of what I have explained above, You will have to wait for a little while longer. I'm sorry. :(
 
+##Dependencies
+
+    sudo apt-get install clang irrlicht libbullet-dev libbulletcollision2.81 libbulletdynamics2.81 libbulletfileloader2.81 libbulletsoftbody2.81 libbulletworldimporter2.81 libconvexdecomposition2.81 liblinearmath2.81 libbullet-extras-dev  libirrlicht-dev libirrlicht1.8 -y
+    
+##Additional Dev Dependencies
+
+    sudo apt-get install libirrlicht1.8-dbg libbullet2.81-dbg -y
+
 ##Build Instructions
 
     make
