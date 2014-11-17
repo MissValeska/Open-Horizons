@@ -11,12 +11,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	//!<!< http://!<collabedit.com/sab53 A friend explained here if it is still up next you check.
 {
 	options_select();
-
-    SAppContext context;
-
-	// Then create the event receiver, giving it that context structure.
-	EventReceiver receiver(context);
-
+        
 	//!<!< Exclamation means negation
 	if(!display_software)
 		fatal("Fatal Error: The Renderer was not correctly specified!", 1);
@@ -25,7 +20,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
 	//!<!< Create an Irrlicht Device.
 	device = irr::createDevice(display_software,dimension2d<u32>(screen_width,screen_height), colour_bits,
-			fullscreen_define, shadows_define, vsync_define, &receiver);
+			fullscreen_define, shadows_define, vsync_define);
 
 	if (!device ) fatal("Fatal Error: The Irrlicht Device could not be created!", 2);
 
@@ -33,50 +28,21 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	driver = device->getVideoDriver();
 	if (!driver) fatal("Fatal Error: Could not get the Video Driver from the Irrlicht Device.", 3);
 
+        std::cout << strerror(errno) << std::endl;
+        
 	//!<!< Get the Scene Manager from the device.
 	smgr = device->getSceneManager();
 	if (!smgr) fatal("Fatal Error: Could not get the Scene Manager from the Irrlicht Device.", 4);
         
         irrTimer = device->getTimer();
         if (!irrTimer) fatal("Fatal Error: Could not get the Irrlicht Timer from the Irrlicht Device.", 5);
-
-    /*device->setResizable(true);
-
-    IGUIEnvironment* env = device->getGUIEnvironment();
-
-    IGUISkin* skin = env->getSkin();
-    IGUIFont* font = env->getFont("Fonts/fonthaettenschweiler.bmp");
-    if (font)
-        skin->setFont(font);
-
-    skin->setFont(env->getBuiltInFont(), EGDF_TOOLTIP);
-
-    env->addButton(rect<s32>(10,240,110,240 + 32), 0, GUI_ID_QUIT_BUTTON,
-            L"Quit", L"Exits Program");
-    env->addButton(rect<s32>(10,280,110,280 + 32), 0, GUI_ID_NEW_WINDOW_BUTTON,
-            L"New Window", L"Launches a new Window");
-    env->addButton(rect<s32>(10,320,110,320 + 32), 0, GUI_ID_FILE_OPEN_BUTTON,
-            L"File Open", L"Opens a file");
-
-	    env->addStaticText(L"Transparent Control:", rect<s32>(150,20,350,40), true);
-    IGUIScrollBar* scrollbar = env->addScrollBar(true,
-            rect<s32>(150, 45, 350, 60), 0, GUI_ID_TRANSPARENCY_SCROLL_BAR);
-    scrollbar->setMax(255);
-    scrollbar->setPos(255);
-    setSkinTransparency( scrollbar->getPos(), env->getSkin());
-
-    // set scrollbar position to alpha value of an arbitrary element
-    scrollbar->setPos(env->getSkin()->getColor(EGDC_WINDOW).getAlpha());
-
-    env->addStaticText(L"Logging ListBox:", rect<s32>(50,110,250,130), true);
-    IGUIListBox * listbox = env->addListBox(rect<s32>(50, 140, 250, 210));
-    env->addEditBox(L"Editable Text", rect<s32>(350, 80, 550, 100));
-
-    // Store the appropriate data in a context structure.
-    context.device = device;
-    context.counter = 0;
-    context.listbox = listbox;*/
-
+        
+        if(fullscreen_define == false)
+            device->setResizable(true);
+        
+        env = device->getGUIEnvironment();
+        GUIOverlay();
+        
 	//!<!<  create light
 
 	scene::ISceneNode* node = 0;
@@ -274,6 +240,8 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
     u32 TimeStamp = irrTimer->getTime(), DeltaTime = 0;
 
+    int run_once = 0;
+    
 	//!<Run simulation
 	while(device->run())
 	{
@@ -329,11 +297,20 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
             CreatePlayer(btVector3(0.0f, 5.0f, 0.0f), 55.0f, InPlayer);
             /*CreatePlayer(btVector3(0.0f, 1.0f, 0.0f), 1.0f, ExPlayer);*/
         }
+            
+            
+        if(receiver.IsKeyDown((irr::KEY_TAB))) {
+            run_once++;
+        }    
 
 		//!<std::thread beginrender([&]{
 		//!<Begin Scene with a gray backdrop #rgb(125,125,125)
 		driver->beginScene(true,true,SColor(0,125,125,125));
-
+                
+                //!<Draw the GUI
+                //if(run_once >= 1)
+                    env->drawAll();
+                
 		//!<Render the scene at this instant.
 		smgr->drawAll();
 
@@ -396,6 +373,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	delete CollisionConfiguration;
 
 	device->drop();
+        device->closeDevice();
 
 	return 0;
 }
@@ -614,4 +592,49 @@ void ClearObjects() {
 	}
 
 	Objects.clear();
+}
+
+void GUIOverlay() {
+
+    std::cout << "Hello, GUIOverlay Here!\n";
+
+    IGUISkin* skin = env->getSkin();
+    IGUIFont* font = env->getFont("Fonts/fontcourier.bmp");
+    if (font)
+        skin->setFont(font);
+
+    skin->setFont(env->getBuiltInFont(), EGDF_TOOLTIP);
+
+    env->addButton(rect<s32>(10,240,110,240 + 32), 0, GUI_ID_QUIT_BUTTON,
+            L"Quit", L"Exits Program");
+    env->addButton(rect<s32>(10,280,110,280 + 32), 0, GUI_ID_NEW_WINDOW_BUTTON,
+            L"New Window", L"Launches a new Window");
+    env->addButton(rect<s32>(10,320,110,320 + 32), 0, GUI_ID_FILE_OPEN_BUTTON,
+            L"File Open", L"Opens a file");
+
+	    env->addStaticText(L"Transparent Control:", rect<s32>(150,20,350,40), true);
+    IGUIScrollBar* scrollbar = env->addScrollBar(true,
+            rect<s32>(150, 45, 350, 60), 0, GUI_ID_TRANSPARENCY_SCROLL_BAR);
+    scrollbar->setMax(255);
+    scrollbar->setPos(255);
+    setSkinTransparency( scrollbar->getPos(), env->getSkin());
+
+    // set scrollbar position to alpha value of an arbitrary element
+    scrollbar->setPos(env->getSkin()->getColor(EGDC_WINDOW).getAlpha());
+
+    env->addStaticText(L"Logging ListBox:", rect<s32>(50,110,250,130), true);
+    listbox = env->addListBox(rect<s32>(50, 140, 250, 210));
+    env->addEditBox(L"Editable Text", rect<s32>(350, 80, 550, 100));
+    
+    // Store the appropriate data in a context structure.
+    context.device = device;
+    context.counter = 0;
+    context.listbox = listbox;
+    
+    // Then create the event receiver, giving it that context structure.
+    EventReceiver receiver(context);
+
+    // And tell the device to use our custom event receiver.
+    device->setEventReceiver(&receiver);
+    
 }
