@@ -27,21 +27,60 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	//!<!< Get the Video Driver from the device.
 	driver = device->getVideoDriver();
 	if (!driver) fatal("Fatal Error: Could not get the Video Driver from the Irrlicht Device.", 3);
-
-        std::cout << strerror(errno) << std::endl;
+        
+        IGUIEnvironment* env = device->getGUIEnvironment();
+        if (!env) fatal("Fatal Error: Could not get the GUI Environment from the Irrlicht Device.", 4);
         
 	//!<!< Get the Scene Manager from the device.
 	smgr = device->getSceneManager();
-	if (!smgr) fatal("Fatal Error: Could not get the Scene Manager from the Irrlicht Device.", 4);
+	if (!smgr) fatal("Fatal Error: Could not get the Scene Manager from the Irrlicht Device.", 5);
         
         irrTimer = device->getTimer();
-        if (!irrTimer) fatal("Fatal Error: Could not get the Irrlicht Timer from the Irrlicht Device.", 5);
+        if (!irrTimer) fatal("Fatal Error: Could not get the Irrlicht Timer from the Irrlicht Device.", 6);
         
         if(fullscreen_define == false)
             device->setResizable(true);
         
-        env = device->getGUIEnvironment();
-        GUIOverlay();
+        //GUIOverlay(env);
+    
+    IGUISkin* skin = env->getSkin();
+    IGUIFont* font = env->getFont("Fonts/fonthaettenschweiler.bmp");
+    if (font)
+        skin->setFont(font);
+    
+    skin->setFont(env->getBuiltInFont(), EGDF_TOOLTIP);
+
+    env->addButton(rect<s32>(10,240,110,240 + 32), 0, GUI_ID_QUIT_BUTTON,
+            L"Quit", L"Exits Program");
+    env->addButton(rect<s32>(10,280,110,280 + 32), 0, GUI_ID_NEW_WINDOW_BUTTON,
+            L"New Window", L"Launches a new Window");
+    env->addButton(rect<s32>(10,320,110,320 + 32), 0, GUI_ID_FILE_OPEN_BUTTON,
+            L"File Open", L"Opens a file");
+
+	    env->addStaticText(L"Transparent Control:", rect<s32>(150,20,350,40), true);
+    IGUIScrollBar* scrollbar = env->addScrollBar(true,
+            rect<s32>(150, 45, 350, 60), 0, GUI_ID_TRANSPARENCY_SCROLL_BAR);
+    scrollbar->setMax(255);
+    scrollbar->setPos(255);
+    setSkinTransparency( scrollbar->getPos(), env->getSkin());
+
+    // set scrollbar position to alpha value of an arbitrary element
+    scrollbar->setPos(env->getSkin()->getColor(EGDC_WINDOW).getAlpha());
+
+    env->addStaticText(L"Logging ListBox:", rect<s32>(50,110,250,130), true);
+    listbox = env->addListBox(rect<s32>(50, 140, 250, 210));
+    env->addEditBox(L"Editable Text", rect<s32>(350, 80, 550, 100));
+    
+    // Store the appropriate data in a context structure.
+    context.device = device;
+    context.counter = 0;
+    context.listbox = listbox;
+    
+    // Then create the event receiver, giving it that context structure.
+    EventReceiver receiver(context);
+
+    // And tell the device to use our custom event receiver.
+    device->setEventReceiver(&receiver);
         
 	//!<!<  create light
 
@@ -301,18 +340,27 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
             
         if(receiver.IsKeyDown((irr::KEY_TAB))) {
             run_once++;
+            usleep(100000);
+            if(run_once == 1) {
+               device->getCursorControl()->setVisible(true);
+               camera->setInputReceiverEnabled(false);
+            }
+            if(run_once >= 2) {
+                run_once = 0;
+                camera->setInputReceiverEnabled(true);
+            }
         }    
 
 		//!<std::thread beginrender([&]{
 		//!<Begin Scene with a gray backdrop #rgb(125,125,125)
 		driver->beginScene(true,true,SColor(0,125,125,125));
                 
-                //!<Draw the GUI
-                //if(run_once >= 1)
-                    env->drawAll();
-                
-		//!<Render the scene at this instant.
+                //!<Render the scene at this instant.
 		smgr->drawAll();
+                
+                //!<Draw the GUI
+                if(run_once == 1 && run_once != 2)
+                    env->drawAll();
 
 		//!<End the scene
 		driver->endScene();
@@ -373,7 +421,6 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	delete CollisionConfiguration;
 
 	device->drop();
-        device->closeDevice();
 
 	return 0;
 }
@@ -594,15 +641,19 @@ void ClearObjects() {
 	Objects.clear();
 }
 
-void GUIOverlay() {
+void GUIOverlay(IGUIEnvironment* env) {
 
     std::cout << "Hello, GUIOverlay Here!\n";
-
+    
+    std::cout << strerror(errno) << std::endl;
+    
     IGUISkin* skin = env->getSkin();
-    IGUIFont* font = env->getFont("Fonts/fontcourier.bmp");
+    IGUIFont* font = env->getFont("Fonts/fonthaettenschweiler.bmp");
     if (font)
         skin->setFont(font);
 
+    std::cout << strerror(errno) << std::endl;
+    
     skin->setFont(env->getBuiltInFont(), EGDF_TOOLTIP);
 
     env->addButton(rect<s32>(10,240,110,240 + 32), 0, GUI_ID_QUIT_BUTTON,

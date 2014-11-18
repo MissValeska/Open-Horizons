@@ -18,12 +18,11 @@ static void UpdatePhysics(u32 TDeltaTime);
 static void UpdateRender(btRigidBody *TObject);
 static void ClearObjects();
 static int GetRandInt(int TMax) { return rand() % TMax; }
-static void GUIOverlay();
+static void GUIOverlay(IGUIEnvironment* env);
 
 // Globals
 static btDiscreteDynamicsWorld *World;
 static IrrlichtDevice * device;
-static IGUIEnvironment* env;
 static EventReceiver receiver;
 static SAppContext context;
 static IGUIListBox * listbox;
