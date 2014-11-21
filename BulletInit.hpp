@@ -79,7 +79,7 @@ L"7680x4800",
 
 L"2048x1080"};
 
-static char* AllResolutionsUse[72]{"720x480",
+static std::string AllResolutionsUse[72]{"720x480",
 
 "1152x768",
 "1280x854",

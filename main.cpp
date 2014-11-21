@@ -735,8 +735,8 @@ void DeviceSetup() {
 		fatal("Fatal Error: The Renderer was not correctly specified!", 1);
     
     	//!<!< Create an Irrlicht Device.
-	IrrlichtDevice* device1 = irr::createDevice(display_software,dimension2d<u32>(screen_width,screen_height), colour_bits,
-			fullscreen_define, shadows_define, vsync_define);
+	IrrlichtDevice* device1 = irr::createDevice(video::EDT_OPENGL,dimension2d<u32>(800,600), 32,
+			false, true, true);
 
 	if (!device1 ) fatal("Fatal Error: The Irrlicht Device could not be created!", 2);
         
@@ -746,8 +746,6 @@ void DeviceSetup() {
         
         IGUIEnvironment* env1 = device1->getGUIEnvironment();
         if (!env1) fatal("Fatal Error: Could not get the GUI Environment from the Irrlicht Device.", 4);
-        
-        std::cout << "AFTER HERRO ";// << skin->getDebugName() << std::endl;
         
 	//!<!< Get the Scene Manager from the device.
 	ISceneManager* smgr1 = device1->getSceneManager();
@@ -768,8 +766,14 @@ void DeviceSetup() {
         skin->setFont(font);
     
     skin->setFont(env1->getBuiltInFont(), EGDF_TOOLTIP);
-    env1->addButton(rect<s32>(10,280,110,240 + 32), 0, GUI_ID_START_BUTTON,
+    
+    rect<s32> StartButton = rect<s32>(300,440,450,440 + 32);
+    
+    env1->addButton(StartButton, 0, GUI_ID_START_BUTTON,
             L"Start Open-Horizons", L"Closes this window and opens the game");
+    
+    env1->addStaticText(L"Screen Resolution", 
+            rect<s32>(10,255,110,255 + 32));
     
     IGUIComboBox* cmbbox = 
             env1->addComboBox(rect<s32>(10,280,110,280 + 32), 0, -1);
@@ -795,7 +799,8 @@ void DeviceSetup() {
 
     env1->addStaticText(L"Logging ListBox:", rect<s32>(50,110,250,130), true);
     listbox = env1->addListBox(rect<s32>(50, 140, 250, 210));
-    env1->addEditBox(L"Editable Text", rect<s32>(350, 80, 550, 100));
+    IGUIEditBox* IPAddrEditBox = env1->addEditBox
+            (L"Editable Text", rect<s32>(350, 80, 550, 100), 110);
     
     // Store the appropriate data in a context structure.
     context.device = device1;
@@ -815,14 +820,26 @@ void DeviceSetup() {
 
         env1->drawAll();
     
+        if(receiver.IsKeyDown((irr::KEY_KEY_Q))) {
+        
+            std::wstring RawrRawr;
+            
+        for(int d=0; d<10; d++) {
+            RawrRawr.append(IPAddrEditBox->getText());
+        }
+            std::cout << RawrRawr.c_str() << "\n";
+    }
+        
         if(receiver.IsKeyDown((irr::KEY_ESCAPE)))
             fatal("Closing the GUI and not starting the Game", 0);
         
         if(cmbbox->getSelected() >= 0) {
             for(int i=0; i<72; i++) {
                 //FIX ME! Problem with strrchr here! Segfault on the next line!
-                //screen_width = atoi(std::strrchr(AllResolutionsUse[i], 'x'));
-                //screen_height = atoi(std::strchr(AllResolutionsUse[i], 'x'));
+                screen_width = atoi(std::strrchr(AllResolutionsUse[i], 'x'));
+                screen_height = atoi(std::strchr(AllResolutionsUse[i], 'x'));
+                
+                std::cout << screen_width << " " << screen_height << "\n";
             }
         }
         
