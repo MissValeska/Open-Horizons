@@ -823,24 +823,29 @@ void DeviceSetup() {
         if(receiver.IsKeyDown((irr::KEY_KEY_Q))) {
         
             std::wstring RawrRawr;
-            
         for(int d=0; d<10; d++) {
             RawrRawr.append(IPAddrEditBox->getText());
         }
-            std::cout << RawrRawr.c_str() << "\n";
+            const wchar_t* CRawrRawr = RawrRawr.c_str();
+            std::cout << CRawrRawr << "\n";
     }
         
         if(receiver.IsKeyDown((irr::KEY_ESCAPE)))
             fatal("Closing the GUI and not starting the Game", 0);
         
-        if(cmbbox->getSelected() >= 0) {
-            for(int i=0; i<72; i++) {
+        if(int i = cmbbox->getSelected() >= 0) {
                 //FIX ME! Problem with strrchr here! Segfault on the next line!
-                screen_width = atoi(std::strrchr(AllResolutionsUse[i], 'x'));
-                screen_height = atoi(std::strchr(AllResolutionsUse[i], 'x'));
+            const char* char_screen_width = std::strrchr(AllResolutionsUse[5].c_str(), 'x');
+            const char* char_screen_height = std::strchr(AllResolutionsUse[5].c_str(), 'x');
+                screen_width = atoi(char_screen_width+1);
+                screen_height = atoi(char_screen_height+1);
                 
                 std::cout << screen_width << " " << screen_height << "\n";
-            }
+                std::cout << AllResolutionsUse[i].c_str() << " " << 
+                        std::strrchr(AllResolutionsUse[i].c_str(), 'x') 
+                            << "\n";
+                
+                cmbbox->setSelected(-1);
         }
         
         driver1->endScene();
