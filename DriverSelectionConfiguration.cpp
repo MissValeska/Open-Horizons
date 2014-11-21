@@ -31,7 +31,22 @@ std::string display_software_string;
 
 void fatal(const char * error, int exit_code) {
 
-	std::cerr << error << " errno " << errno << std::endl; exit(exit_code);
+    if(exit_code == NULL) {
+        std::cerr << error << std::endl;
+        exit(0);
+    }
+    
+    if(exit_code == 0) {
+        
+        std::cerr << error << std::endl;
+        exit(exit_code);
+        
+    }
+    
+    if(exit_code != NULL) {
+        std::cerr << error << " errno " << errno << std::endl; 
+        exit(exit_code);
+    }
 
 }
 

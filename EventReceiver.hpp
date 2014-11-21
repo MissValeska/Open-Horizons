@@ -2,6 +2,7 @@
 #define EVENTRECEIVER_HPP_INCLUDED
 
 #include <irrlicht/irrlicht.h>
+#include "DriverSelectionConfiguration.hpp"
 
 using namespace irr;
 
@@ -20,7 +21,8 @@ enum
    		 GUI_ID_QUIT_BUTTON = 101,
    		GUI_ID_NEW_WINDOW_BUTTON,
    		 GUI_ID_FILE_OPEN_BUTTON,
-    		GUI_ID_TRANSPARENCY_SCROLL_BAR
+    		GUI_ID_TRANSPARENCY_SCROLL_BAR,
+                GUI_ID_START_BUTTON
 		};
 
 void setSkinTransparency(s32 alpha, irr::gui::IGUISkin * skin)
@@ -93,6 +95,11 @@ class EventReceiver : public IEventReceiver
                 switch(id)
                 {
                 case GUI_ID_QUIT_BUTTON:
+                    Context.device->closeDevice();
+                    fatal("Quit Button Pressed, Quitting.", 0);
+                    return true;
+                    
+                case GUI_ID_START_BUTTON:
                     Context.device->closeDevice();
                     return true;
 

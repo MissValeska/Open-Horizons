@@ -12,6 +12,8 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 {
 	options_select();
         
+        DeviceSetup();
+        
 	//!<!< Exclamation means negation
 	if(!display_software)
 		fatal("Fatal Error: The Renderer was not correctly specified!", 1);
@@ -49,14 +51,17 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
         skin->setFont(font);
     
     skin->setFont(env->getBuiltInFont(), EGDF_TOOLTIP);
-
     env->addButton(rect<s32>(10,240,110,240 + 32), 0, GUI_ID_QUIT_BUTTON,
             L"Quit", L"Exits Program");
-    env->addButton(rect<s32>(10,280,110,280 + 32), 0, GUI_ID_NEW_WINDOW_BUTTON,
-            L"New Window", L"Launches a new Window");
-    env->addButton(rect<s32>(10,320,110,320 + 32), 0, GUI_ID_FILE_OPEN_BUTTON,
-            L"File Open", L"Opens a file");
-
+    
+    IGUIComboBox* cmbbox = 
+            env->addComboBox(rect<s32>(10,280,110,280 + 32), 0, -1);
+    
+    cmbbox->setSelected(-1);
+    
+    cmbbox->addItem(L"Rawr And Such! ^_^");
+    cmbbox->addItem(L"Rawr And Such: Second Edition!");
+    
 	    env->addStaticText(L"Transparent Control:", rect<s32>(150,20,350,40), true);
     IGUIScrollBar* scrollbar = env->addScrollBar(true,
             rect<s32>(150, 45, 350, 60), 0, GUI_ID_TRANSPARENCY_SCROLL_BAR);
@@ -223,7 +228,8 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	//!< In order to do framerate independent movement, we have to know
 	//!< how long it was since the last frame
 	u32 then = device->getTimer()->getTime();
-
+        u32 then1;
+        
 	//!< This is the movement speed in units per second.
 	const f32 MOVEMENT_SPEED = 70.f;
 
@@ -278,7 +284,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	MultiplayerPos.detach();*/
 
     u32 TimeStamp = irrTimer->getTime(), DeltaTime = 0;
-
+    
     int run_once = 0;
     
 	//!<Run simulation
@@ -336,20 +342,37 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
             CreatePlayer(btVector3(0.0f, 5.0f, 0.0f), 55.0f, InPlayer);
             /*CreatePlayer(btVector3(0.0f, 1.0f, 0.0f), 1.0f, ExPlayer);*/
         }
-            
-            
+        
+        const u32 now1 = device->getTimer()->getTime();
+        const f32 frameDeltaTime1 = (f32)(now1 - then1) / 1000.f;
+        
         if(receiver.IsKeyDown((irr::KEY_TAB))) {
-            run_once++;
-            usleep(100000);
+            if(frameDeltaTime1 >= 0.05)
+                run_once++;
+            then1 = device->getTimer()->getTime();
             if(run_once == 1) {
                device->getCursorControl()->setVisible(true);
                camera->setInputReceiverEnabled(false);
             }
             if(run_once >= 2) {
                 run_once = 0;
+                device->getCursorControl()->setVisible(false);
                 camera->setInputReceiverEnabled(true);
             }
-        }    
+        }
+        
+        if(receiver.IsKeyDown((irr::KEY_KEY_Z))) {
+            irr::core::position2d<s32> Mouse_Coords = 
+                    device->getCursorControl()->getPosition();
+            std::cout << Mouse_Coords.X << " " << Mouse_Coords.Y << std::endl;
+            GUIOverlay(env, Mouse_Coords, cmbbox);
+        }
+        
+        if(cmbbox->getSelected() == 1) {
+            
+            
+            
+        }
 
 		//!<std::thread beginrender([&]{
 		//!<Begin Scene with a gray backdrop #rgb(125,125,125)
@@ -359,8 +382,11 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 		smgr->drawAll();
                 
                 //!<Draw the GUI
-                if(run_once == 1 && run_once != 2)
+                if(run_once == 1 && run_once != 2) {
                     env->drawAll();
+                    // Use to modify the resolution of the irrlicht device
+                    //std::cout << cmbbox->getSelected() << std::endl;
+                }
 
 		//!<End the scene
 		driver->endScene();
@@ -405,6 +431,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 			device->setWindowCaption(str.c_str());
 			lastFPS = fps;
 		}
+                
 		//!<});
 
 		//!<beginrender.join();
@@ -641,11 +668,14 @@ void ClearObjects() {
 	Objects.clear();
 }
 
-void GUIOverlay(IGUIEnvironment* env) {
+void GUIOverlay(IGUIEnvironment* env, 
+        irr::core::vector2d<s32> Mouse_Coords, IGUIComboBox* cmbbox) {
 
     std::cout << "Hello, GUIOverlay Here!\n";
     
-    std::cout << strerror(errno) << std::endl;
+    cmbbox->move(Mouse_Coords);
+    
+    /*std::cout << strerror(errno) << std::endl;
     
     IGUISkin* skin = env->getSkin();
     IGUIFont* font = env->getFont("Fonts/fonthaettenschweiler.bmp");
@@ -686,6 +716,118 @@ void GUIOverlay(IGUIEnvironment* env) {
     EventReceiver receiver(context);
 
     // And tell the device to use our custom event receiver.
-    device->setEventReceiver(&receiver);
+    device->setEventReceiver(&receiver);*/
     
+}
+
+std::wstring StringToWString(const std::string &s)
+{
+    std::wstring wsTmp(s.begin(), s.end());
+
+    return wsTmp;
+}
+
+void DeviceSetup() {
+        
+    	if(!display_software)
+		fatal("Fatal Error: The Renderer was not correctly specified!", 1);
+	else if(display_software == 0)
+		fatal("Fatal Error: The Renderer was not correctly specified!", 1);
+    
+    	//!<!< Create an Irrlicht Device.
+	IrrlichtDevice* device1 = irr::createDevice(display_software,dimension2d<u32>(screen_width,screen_height), colour_bits,
+			fullscreen_define, shadows_define, vsync_define);
+
+	if (!device1 ) fatal("Fatal Error: The Irrlicht Device could not be created!", 2);
+        
+	//!<!< Get the Video Driver from the device.
+	IVideoDriver* driver1 = device1->getVideoDriver();
+	if (!driver1) fatal("Fatal Error: Could not get the Video Driver from the Irrlicht Device.", 3);
+        
+        IGUIEnvironment* env1 = device1->getGUIEnvironment();
+        if (!env1) fatal("Fatal Error: Could not get the GUI Environment from the Irrlicht Device.", 4);
+        
+        std::cout << "AFTER HERRO ";// << skin->getDebugName() << std::endl;
+        
+	//!<!< Get the Scene Manager from the device.
+	ISceneManager* smgr1 = device1->getSceneManager();
+	if (!smgr1) fatal("Fatal Error: Could not get the Scene Manager from the Irrlicht Device.", 5);
+        
+        ITimer* irrTimer1 = device1->getTimer();
+        if (!irrTimer1) fatal("Fatal Error: Could not get the Irrlicht Timer from the Irrlicht Device.", 6);
+        
+        if(fullscreen_define == false)
+            device1->setResizable(true);
+        
+            device1->setWindowCaption
+            (L"Open Horizons Setup");
+            
+    IGUISkin* skin = env1->getSkin();
+    IGUIFont* font = env1->getFont("Fonts/fonthaettenschweiler.bmp");
+    if (font)
+        skin->setFont(font);
+    
+    skin->setFont(env1->getBuiltInFont(), EGDF_TOOLTIP);
+    env1->addButton(rect<s32>(10,280,110,240 + 32), 0, GUI_ID_START_BUTTON,
+            L"Start Open-Horizons", L"Closes this window and opens the game");
+    
+    IGUIComboBox* cmbbox = 
+            env1->addComboBox(rect<s32>(10,280,110,280 + 32), 0, -1);
+    
+    cmbbox->setSelected(-1);
+    
+    for(int i=0; i<72; i++){
+    const std::basic_string<wchar_t> * cmbboxargument1 = 
+        &AllResolutionsPrint[i];
+    const wchar_t* cmbboxargument =
+        (wchar_t*)cmbboxargument1->c_str();
+    cmbbox->addItem(cmbboxargument);
+    }
+	    env1->addStaticText(L"Transparent Control:", rect<s32>(150,20,350,40), true);
+    IGUIScrollBar* scrollbar = env1->addScrollBar(true,
+            rect<s32>(150, 45, 350, 60), 0, GUI_ID_TRANSPARENCY_SCROLL_BAR);
+    scrollbar->setMax(255);
+    scrollbar->setPos(255);
+    setSkinTransparency( scrollbar->getPos(), env1->getSkin());
+
+    // set scrollbar position to alpha value of an arbitrary element
+    scrollbar->setPos(env1->getSkin()->getColor(EGDC_WINDOW).getAlpha());
+
+    env1->addStaticText(L"Logging ListBox:", rect<s32>(50,110,250,130), true);
+    listbox = env1->addListBox(rect<s32>(50, 140, 250, 210));
+    env1->addEditBox(L"Editable Text", rect<s32>(350, 80, 550, 100));
+    
+    // Store the appropriate data in a context structure.
+    context.device = device1;
+    context.counter = 0;
+    context.listbox = listbox;
+    
+    // Then create the event receiver, giving it that context structure.
+    EventReceiver receiver(context);
+
+    // And tell the device to use our custom event receiver.
+    device1->setEventReceiver(&receiver);
+            
+        
+    while(device1->run() && driver1)
+    {
+        driver1->beginScene(true, true, SColor(0,200,200,200));
+
+        env1->drawAll();
+    
+        if(receiver.IsKeyDown((irr::KEY_ESCAPE)))
+            fatal("Closing the GUI and not starting the Game", 0);
+        
+        if(cmbbox->getSelected() >= 0) {
+            for(int i=0; i<72; i++) {
+                //FIX ME! Problem with strrchr here! Segfault on the next line!
+                //screen_width = atoi(std::strrchr(AllResolutionsUse[i], 'x'));
+                //screen_height = atoi(std::strchr(AllResolutionsUse[i], 'x'));
+            }
+        }
+        
+        driver1->endScene();
+    }
+
+    device1->drop();
 }
