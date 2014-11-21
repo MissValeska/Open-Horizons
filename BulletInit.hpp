@@ -10,7 +10,7 @@ using namespace gui;
 
 // Functions
 static void CreateStartScene();
-static void CreatePlayer(const btVector3 &TPosition, btScalar TMass, scene::IAnimatedMeshSceneNode* Player);
+static scene::IAnimatedMeshSceneNode* CreatePlayer(const btVector3 &TPosition, btScalar TMass, scene::IAnimatedMeshSceneNode* Player);
 static void CreateWorld(const btVector3 &TPosition, btScalar TMass);
 static void CreateBox(const btVector3 &TPosition, const vector3df &TScale, btScalar TMass);
 static void CreateSphere(const btVector3 &TPosition, btScalar TRadius, btScalar TMass);

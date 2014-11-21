@@ -21,7 +21,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 		fatal("Fatal Error: The Renderer was not correctly specified!", 1);
 
 	//!<!< Create an Irrlicht Device.
-	device = irr::createDevice(display_software,dimension2d<u32>(screen_width,screen_height), colour_bits,
+	device = irr::createDevice(display_software,dimension2d<u32>(800,600), colour_bits,
 			fullscreen_define, shadows_define, vsync_define);
 
 	if (!device ) fatal("Fatal Error: The Irrlicht Device could not be created!", 2);
@@ -261,12 +261,16 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
                     CreatePlayer(btVector3(0.0f, 5.0f, 0.0f), 1.0f, InPlayer);
             CreatePlayer(btVector3(0.0f, 1.0f, 0.0f), 1.0f, ExPlayer);*/
         
+        scene::IAnimatedMeshSceneNode* ExPlayer = 
+                smgr->addAnimatedMeshSceneNode(smgr->getMesh
+				("Models/Female_Model_BaseMesh.obj"));
+        
 	UDPSocket udpsocket(2000);
 	ServAddr peeraddr(ipaddress.c_str(), portnumber);
 
 	std::mutex ExPlayerMutex;
 	ExPlayerMutex.lock();
-    /*std::thread MultiplayerPos([&]{
+    std::thread MultiplayerPos([&]{
 			while(true)
 			{
 			core::vector3df pos;
@@ -281,7 +285,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 			}
 			});
 
-	MultiplayerPos.detach();*/
+	MultiplayerPos.detach();
 
     u32 TimeStamp = irrTimer->getTime(), DeltaTime = 0;
     
@@ -337,10 +341,8 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
         if(receiver.IsKeyDown(irr::KEY_KEY_X)) {
             CreateStartScene();
             scene::IAnimatedMeshSceneNode* InPlayer = 
-                smgr->addAnimatedMeshSceneNode(smgr->getMesh
-				("Models/Female_Model_BaseMesh.obj"));
-            CreatePlayer(btVector3(0.0f, 5.0f, 0.0f), 55.0f, InPlayer);
-            /*CreatePlayer(btVector3(0.0f, 1.0f, 0.0f), 1.0f, ExPlayer);*/
+                    CreatePlayer(btVector3(0.0f, 5.0f, 0.0f), 55.0f, InPlayer);
+            CreatePlayer(btVector3(0.0f, 1.0f, 0.0f), 1.0f, ExPlayer);
         }
         
         const u32 now1 = device->getTimer()->getTime();
@@ -473,8 +475,11 @@ void CreateStartScene() {
 }
 
 // Create Player rigid body
-void CreatePlayer(const btVector3 &TPosition, btScalar TMass, scene::IAnimatedMeshSceneNode* Player) {
+scene::IAnimatedMeshSceneNode* CreatePlayer(const btVector3 &TPosition, btScalar TMass, scene::IAnimatedMeshSceneNode* Player) {
         // The player will control the body which moves the camera
+    
+        Player = smgr->addAnimatedMeshSceneNode(smgr->getMesh
+				("Models/Female_Model_BaseMesh.obj"));
     
         // Creates the Irrlicht player node
 	Player->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
@@ -504,6 +509,8 @@ void CreatePlayer(const btVector3 &TPosition, btScalar TMass, scene::IAnimatedMe
 	// Add it to the world
 	World->addRigidBody(RigidBody);
 	Objects.push_back(RigidBody);
+        
+        return Player;
     
 }
 
