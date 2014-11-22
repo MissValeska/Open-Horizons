@@ -21,6 +21,8 @@ static int GetRandInt(int TMax) { return rand() % TMax; }
 static void GUIOverlay(IGUIEnvironment* env, 
         irr::core::vector2d<s32> Mouse_Coords, IGUIComboBox* cmbbox);
 static void DeviceSetup();
+static int UDPSocketRecv();
+static int UDPSocketSend(scene::ICameraSceneNode* camera);
 
 // Globals
 static btDiscreteDynamicsWorld *World;

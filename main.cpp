@@ -261,32 +261,12 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
                     CreatePlayer(btVector3(0.0f, 5.0f, 0.0f), 1.0f, InPlayer);
             CreatePlayer(btVector3(0.0f, 1.0f, 0.0f), 1.0f, ExPlayer);*/
         
-        scene::IAnimatedMeshSceneNode* ExPlayer = 
+        /*scene::IAnimatedMeshSceneNode* ExPlayer = 
                 smgr->addAnimatedMeshSceneNode(smgr->getMesh
-				("Models/Female_Model_BaseMesh.obj"));
+				("Models/Female_Model_BaseMesh.obj"));*/
         
-	UDPSocket udpsocket(2000);
-	ServAddr peeraddr(ipaddress.c_str(), portnumber);
-
-	std::mutex ExPlayerMutex;
-	ExPlayerMutex.lock();
-    std::thread MultiplayerPos([&]{
-			while(true)
-			{
-			core::vector3df pos;
-			PacketUnpack(udpsocket.recv_string()) >> pos;
-            core::vector3df rot;
-			PacketUnpack(udpsocket.recv_string()) >> rot;
-			{
-			std::lock_guard<std::mutex> l(ExPlayerMutex);
-			ExPlayer->setPosition(pos);
-			ExPlayer->setRotation(rot);
-			}
-			}
-			});
-
-	MultiplayerPos.detach();
-
+        UDPSocketRecv();
+        
     u32 TimeStamp = irrTimer->getTime(), DeltaTime = 0;
     
     int run_once = 0;
@@ -295,19 +275,7 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	while(device->run())
 	{
 
-		{
-			// Send our player position
-			PacketPack p;
-			PacketPack r;
-			p << camera->getAbsolutePosition();
-			r << camera->getRotation();
-			udpsocket.sendto(p.str().c_str(), p.str().length(), peeraddr);
-            udpsocket.sendto(r.str().c_str(), r.str().length(), peeraddr);
-
-			// Allow the ExPlayer position to be updated
-			ExPlayerMutex.unlock();
-			ExPlayerMutex.lock();
-		}
+            UDPSocketSend(camera);
 
             DeltaTime = irrTimer->getTime() - TimeStamp;
             TimeStamp = irrTimer->getTime();
@@ -342,9 +310,13 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
             CreateStartScene();
             scene::IAnimatedMeshSceneNode* InPlayer = 
                     CreatePlayer(btVector3(0.0f, 5.0f, 0.0f), 55.0f, InPlayer);
-            CreatePlayer(btVector3(0.0f, 1.0f, 0.0f), 1.0f, ExPlayer);
+            //CreatePlayer(btVector3(0.0f, 5.0f, 0.0f), 1.0f, ExPlayer);
         }
         
+        if(true) {
+            camera->getAbsolutePosition();
+        }
+            
         const u32 now1 = device->getTimer()->getTime();
         const f32 frameDeltaTime1 = (f32)(now1 - then1) / 1000.f;
         
@@ -859,4 +831,120 @@ void DeviceSetup() {
     }
 
     device1->drop();
+}
+
+UDPSocket* UDPSocketGen() {
+    
+    static int i;
+    static UDPSocket* udpsocket;
+    
+    i++;
+    if(i == 1) {
+        udpsocket = new UDPSocket(2000);
+        return udpsocket;
+    }
+    
+    if(i == 2) {
+        UDPSocket* udpsocket1 = udpsocket;
+        delete udpsocket;
+        i = 0;
+        return udpsocket1;
+    }
+    
+}
+
+std::mutex* MutexGen() {
+
+    static int i;
+    static std::mutex* ExPlayerMutex;
+    
+    i++;
+    if(i == 1) {
+        ExPlayerMutex = new std::mutex;
+        return ExPlayerMutex;
+    }
+    
+    if(i == 2) {
+        std::mutex* ExPlayerMutex1 = ExPlayerMutex;
+        delete ExPlayerMutex;
+        i = 0;
+        return ExPlayerMutex1;
+    }
+}
+
+ServAddr* PeerAddrGen() {
+    
+    static int i;
+    static ServAddr* peeraddr;
+    
+    i++;
+    if(i == 1) {
+        peeraddr = new ServAddr(ipaddress.c_str(), portnumber);
+        return peeraddr;
+    }
+    
+    if(i == 2) {
+        ServAddr* peeraddr1 = peeraddr;
+        delete peeraddr;
+        i = 0;
+        return peeraddr1;
+    }
+}
+
+int UDPSocketRecv() {
+    
+        UDPSocket* udpsocket1 = UDPSocketGen();
+        UDPSocket udpsocket = *udpsocket1;
+        
+	ServAddr* peeraddr1 = PeerAddrGen();
+        ServAddr peeraddr = *peeraddr1;
+        
+        scene::IAnimatedMeshSceneNode* ExPlayer; 
+        ExPlayer =
+            CreatePlayer(btVector3(0.0f, 5.0f, 0.0f), 1.0f, ExPlayer);
+        
+        std::mutex* ExPlayerMutex = MutexGen();
+        
+	ExPlayerMutex->lock();
+    std::thread MultiplayerPos([&]{
+			while(true)
+			{
+			core::vector3df pos;
+			PacketUnpack(udpsocket.recv_string()) >> pos;
+            core::vector3df rot;
+			PacketUnpack(udpsocket.recv_string()) >> rot;
+			{
+			std::lock_guard<std::mutex> l(*ExPlayerMutex);
+			ExPlayer->setPosition(pos);
+			ExPlayer->setRotation(rot);
+			}
+			}
+			});
+
+	MultiplayerPos.detach();
+}
+
+int UDPSocketSend(scene::ICameraSceneNode* camera) {
+                
+        UDPSocket* udpsocket1 = UDPSocketGen();
+        UDPSocket udpsocket = *udpsocket1;
+        
+        ServAddr* peeraddr1 = PeerAddrGen();
+        ServAddr peeraddr = *peeraddr1;
+        
+                std::mutex* ExPlayerMutex = MutexGen();
+    
+    		{
+			// Send our player position
+			PacketPack p;
+			PacketPack r;
+			p << camera->getAbsolutePosition();
+			r << camera->getRotation();
+			udpsocket.sendto(p.str().c_str(), p.str().length(), peeraddr);
+                        udpsocket.sendto(r.str().c_str(), r.str().length(), peeraddr);
+
+			// Allow the ExPlayer position to be updated
+			ExPlayerMutex->unlock();
+			ExPlayerMutex->lock();
+		}
 }
