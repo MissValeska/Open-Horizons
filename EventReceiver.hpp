@@ -13,6 +13,8 @@ struct SAppContext
 		    IrrlichtDevice *device;
 		    s32             counter;
 		    irr::gui::IGUIListBox*    listbox;
+                    irr::gui::IGUIEditBox *editbox;
+                    void (*PeerIPSave) ();
 		};
 
         // Define some values that we'll use to identify individual GUI controls.
@@ -100,6 +102,7 @@ class EventReceiver : public IEventReceiver
                     return true;
                     
                 case GUI_ID_START_BUTTON:
+                    Context.PeerIPSave();
                     Context.device->closeDevice();
                     return true;
 

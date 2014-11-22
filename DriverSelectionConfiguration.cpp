@@ -255,6 +255,30 @@ void display_software_select() {
 
 }
 
+void save_all() {
+    
+    	//!< Save the standard configuration.
+	inisetup::IniSetup ini("config.ini");
+	ini.set_number("screen_width", screen_width);
+	ini.set_number("screen_height", screen_height);
+	ini.set_bool("fullscreen", fullscreen_define);
+
+	IrrDriversBimap drivers;
+	display_software_string = drivers.to[display_software];
+
+	ini.set_string("displayrender", display_software_string);
+    
+        //!< Save the advanced configuration.
+	ini.set_number("colour_bits", colour_bits);
+	ini.set_bool("shadows", shadows_define);
+	ini.set_bool("vsync", vsync_define);
+        
+        //!< Save the Multiplayer Information
+        ini.set_string("Last_Multiplayer_IP_Address", ipaddress);
+        ini.set_number("Last_Port_Number", portnumber);
+        
+}
+
 void optional_config() {
 
 	inisetup::IniSetup ini("config.ini");
