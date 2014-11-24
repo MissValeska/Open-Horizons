@@ -78,8 +78,12 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 
     env->addStaticText(L"Logging ListBox:", rect<s32>(50,110,250,130), true);
     listbox = env->addListBox(rect<s32>(50, 140, 250, 210));
-    env->addEditBox(L"Editable Text", rect<s32>(350, 80, 550, 100));
-    
+    env->addStaticText(L"New player's IP address",
+            rect<s32>(350, 55, 550, 55), true);
+    IGUIEditBox* IPAddrEditBox = env->addEditBox
+            (L"Editable Text", rect<s32>(350, 80, 550, 100), 110);
+    IPAddrEditBox->setToolTipText(L"Add new player");
+            
     // Store the appropriate data in a context structure.
     context.device = device;
     context.counter = 0;
@@ -269,7 +273,8 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
                 smgr->addAnimatedMeshSceneNode(smgr->getMesh
 				("Models/Female_Model_BaseMesh.obj"));*/
         
-        //UDPSocketRecv();
+        UDPSocketRecv();
+        UDPSocketSend(camera);
         
     u32 TimeStamp = irrTimer->getTime(), DeltaTime = 0;
     
@@ -278,8 +283,6 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
 	//!<Run simulation
 	while(device->run())
 	{
-
-            //UDPSocketSend(camera);
 
             DeltaTime = irrTimer->getTime() - TimeStamp;
             TimeStamp = irrTimer->getTime();
@@ -349,6 +352,18 @@ int main(int argc, char ** argv) //!<!<  The options here define an argument cou
         if(cmbbox->getSelected() == 1) {
             
             
+            
+        }
+        
+        if(receiver.IsKeyDown((irr::KEY_RETURN))) {
+            
+            std::wstring CRawrRawr(IPAddrEditBox->getText());
+            std::string editstr(CRawrRawr.begin(), CRawrRawr.end());
+            ipaddress = editstr;
+            std::cout << ipaddress << "\n";
+            
+            UDPSocketRecv();
+            UDPSocketSend(camera);
             
         }
 
@@ -714,6 +729,10 @@ void PeerIPSave() {
     
     std::wstring CRawrRawr(context.editbox->getText());
     std::string editstr(CRawrRawr.begin(), CRawrRawr.end());
+    if(editstr == "Editable Text") {
+        std::cout << "IP address not entered in settings GUI" << "\n";
+        return;
+    }
     ipaddress = editstr;
     std::cout << ipaddress << "\n";
     
@@ -843,7 +862,7 @@ UDPSocket UDPSocketGen() {
     
     i++;
     if(i == 1) {
-        udpsocket = new UDPSocket(2000);
+        udpsocket = new UDPSocket(portnumber);
         return *udpsocket;
     }
     
@@ -856,7 +875,7 @@ UDPSocket UDPSocketGen() {
     
 }
 
-std::mutex* MutexGen() {
+/*std::mutex* MutexGen() {
 
     static int i;
     static std::mutex* ExPlayerMutex;
@@ -876,7 +895,7 @@ std::mutex* MutexGen() {
         i = 0;
         return ExPlayerMutex2;
     }
-}
+}*/
 
 ServAddr PeerAddrGen() {
     
@@ -899,48 +918,47 @@ ServAddr PeerAddrGen() {
 
 int UDPSocketRecv() {
     
-        UDPSocket udpsocket1 = UDPSocketGen();
-        //UDPSocket udpsocket = *udpsocket1;
+        //UDPSocket udpsocket = UDPSocketGen();
         
-	ServAddr peeraddr1 = PeerAddrGen();
-        //ServAddr peeraddr = *peeraddr1;
+	ServAddr peeraddr = PeerAddrGen();
         
         scene::IAnimatedMeshSceneNode* ExPlayer; 
         ExPlayer =
             CreatePlayer(btVector3(0.0f, 5.0f, 0.0f), 1.0f, ExPlayer);
         
-        std::mutex* ExPlayerMutex = MutexGen();
+        //std::mutex* ExPlayerMutex = MutexGen();
         
-	ExPlayerMutex->lock();
-    std::thread MultiplayerPos([=]{
+	//ExPlayerMutex->lock();
+    std::thread MultiplayerPosRecv([=]{
+        UDPSocket udpsocket = UDPSocketGen();
 			while(true)
 			{
 			core::vector3df pos;
 			PacketUnpack(udpsocket.recv_string()) >> pos;
-            core::vector3df rot;
+                        core::vector3df rot;
 			PacketUnpack(udpsocket.recv_string()) >> rot;
 			{
-			std::lock_guard<std::mutex> l(*ExPlayerMutex);
+			//std::lock_guard<std::mutex> l(*ExPlayerMutex);
 			ExPlayer->setPosition(pos);
 			ExPlayer->setRotation(rot);
 			}
 			}
 			});
 
-	MultiplayerPos.detach();
+	MultiplayerPosRecv.detach();
 }
 
 int UDPSocketSend(scene::ICameraSceneNode* camera) {
                 
-        UDPSocket udpsocket1 = UDPSocketGen();
-        //UDPSocket udpsocket = *udpsocket1;
+        //UDPSocket udpsocket = UDPSocketGen();
         
-        ServAddr peeraddr1 = PeerAddrGen();
-        //ServAddr peeraddr = *peeraddr1;
+        ServAddr peeraddr = PeerAddrGen();
         
-                std::mutex* ExPlayerMutex = MutexGen();
-    
-    		{
+                //std::mutex* ExPlayerMutex = MutexGen();
+            std::thread MultiplayerPosSend([=]{
+                UDPSocket udpsocket = UDPSocketGen();
+                    while(true)
+                    {
 			// Send our player position
 			PacketPack p;
 			PacketPack r;
@@ -950,7 +968,10 @@ int UDPSocketSend(scene::ICameraSceneNode* camera) {
                         udpsocket.sendto(r.str().c_str(), r.str().length(), peeraddr);
 
 			// Allow the ExPlayer position to be updated
-			ExPlayerMutex->unlock();
-			ExPlayerMutex->lock();
-		}
+			//ExPlayerMutex->unlock();
+			//ExPlayerMutex->lock();
+                    }
+                    });
+                    
+                    MultiplayerPosSend.detach();
 }
