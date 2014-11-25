@@ -19,4 +19,5 @@ void MulitplayerInfo();
 void display_software_select();
 void optional_config();
 void options_select();
+void save_all();
 #endif //!< DRIVERCHOICE_HPP_INCLUDED
