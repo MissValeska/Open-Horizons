@@ -9,7 +9,7 @@ GAMEBIN=OpenHorizons
 all: ${GAMEBIN}
 
 ${GAMEBIN}: main.o DriverSelectionConfiguration.o
-	${CXX} ${LDFLAGS} ${LIBS} $^ -o $@
+	${CXX} ${LDFLAGS} ${LIBS} $^ -pthread -o $@
 
 .PHONY: clean
 
