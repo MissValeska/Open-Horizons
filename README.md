@@ -1,6 +1,11 @@
 Open-Horizons
 ===============
 
+<a href="https://scan.coverity.com/projects/4740">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/4740/badge.svg"/>
+</a>
+
 From Stones to Stars!
 
 A game of realism and simulation!
